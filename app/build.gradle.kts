@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.make_your_skill"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.make_your_skill"
@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.material.navigation)
+    implementation(libs.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
