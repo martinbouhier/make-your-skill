@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens.mainScreen
+package com.make_your_skill.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -14,24 +14,26 @@ import com.make_your_skill.R
 import com.make_your_skill.ui.components.CustomButton
 
 @Composable
-fun MainScreen( navController: NavHostController) {
+fun MatchSearchScreen( navController: NavHostController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val separation = 16.dp
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(separation),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))  // Add space to position the image
+        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
         Image(
             painter = painterResource(id = R.drawable.logo_purple),
             contentDescription = "App Logo",
-            modifier = Modifier.size(128.dp)  // Adjust size as needed
+            modifier = Modifier.size(128.dp)
         )
-        Spacer(modifier = Modifier.height(160.dp))  // Add some space between elements
-        CustomButton(onClick = { /* TODO: Add action */ }, text = "MATCH")
+        Spacer(modifier = Modifier.height(160.dp))
+        CustomButton(onClick = { navController.navigate("match") }, text = "MATCH")
+        Spacer(modifier = Modifier.height(separation))
         Text(text = "OR")
-        Spacer(modifier = Modifier.height(16.dp))  // Add some space between elements
+        Spacer(modifier = Modifier.height(separation))
         CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
     }
 }
