@@ -6,31 +6,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.make_your_skill.R
+import com.make_your_skill.ui.theme.*
 
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val spacerSeparation = 16.dp
-    val styleTitle = TextStyle(
-        fontFamily =  FontFamily.SansSerif,
-        fontSize = 30.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xF55451DC)
-    )
-    val styleSubtitle = TextStyle(
-        fontSize = 19.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xF55451DC)
-    )
 
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),

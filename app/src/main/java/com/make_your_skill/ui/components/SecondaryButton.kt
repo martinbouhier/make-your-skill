@@ -12,7 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CustomButton(onClick: () -> Unit, text: String, modifier: Modifier = Modifier) {
+fun SecondaryButton(onClick: () -> Unit, text: String, modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp),

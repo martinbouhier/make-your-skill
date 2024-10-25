@@ -11,7 +11,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
-import com.make_your_skill.ui.components.CustomButton
+import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.theme.*
 
 @Composable
 fun MainScreen( navController: NavHostController) {
@@ -30,9 +31,12 @@ fun MainScreen( navController: NavHostController) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(160.dp))
-        CustomButton(onClick = { navController.navigate("match") }, text = "MATCH")
+        CustomButton(onClick = { navController.navigate("MatchSearch") }, text = "MATCH")
         Spacer(modifier = Modifier.height(separation))
-        Text(text = "OR")
+        Text(
+            text = "OR",
+            style = styleNormalText
+            )
         Spacer(modifier = Modifier.height(separation))
         CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
     }

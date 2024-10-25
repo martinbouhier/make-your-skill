@@ -1,39 +1,49 @@
 package com.make_your_skill.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.make_your_skill.R
-import com.make_your_skill.ui.components.CustomButton
+import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.theme.*
 
 @Composable
 fun MatchSearchScreen( navController: NavHostController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val separation = 16.dp
+    val separation = 25.dp
 
     Column(
         modifier = Modifier.fillMaxSize().padding(separation),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.SpaceBetween
+    )
+    {
         Spacer(modifier = Modifier.height(screenHeight * 0.1f))
-        Image(
-            painter = painterResource(id = R.drawable.logo_purple),
-            contentDescription = "App Logo",
-            modifier = Modifier.size(128.dp)
+
+        Text(
+            text = "Learn",
+            style = styleTitle,
+            modifier = Modifier.padding(start = separation)
         )
-        Spacer(modifier = Modifier.height(160.dp))
-        CustomButton(onClick = { navController.navigate("match") }, text = "MATCH")
-        Spacer(modifier = Modifier.height(separation))
-        Text(text = "OR")
-        Spacer(modifier = Modifier.height(separation))
-        CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
+        Spacer(modifier = Modifier.height(400.dp))
+
+        RangeSlider()
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Column(
+            modifier = Modifier.padding(bottom = 150.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CustomButton(
+                onClick = { /* TODO: redireccionar a ProfileMatchScreen */ },
+                text = "Match",
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
