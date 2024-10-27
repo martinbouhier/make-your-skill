@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens
+package com.make_your_skill.ui.screens.MatchSearchScreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text

@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens
+package com.make_your_skill.ui.screens.MainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.*
 
 @Composable
@@ -31,7 +32,7 @@ fun MainScreen( navController: NavHostController) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(160.dp))
-        CustomButton(onClick = { navController.navigate("MatchSearch") }, text = "MATCH")
+        CustomButton(onClick = { navController.navigate(AppRoutes.MatchSearchScreen) }, text = "MATCH")
         Spacer(modifier = Modifier.height(separation))
         Text(
             text = "OR",

@@ -7,5 +7,5 @@ object AppRoutes {
     val FIRST_SCREEN = "first_screen"
     val LOGIN_SCREEN = "login_screen"
     val REGISTER_SCREEN = "register_screen"
-
+    val MatchSearchScreen = "MatchSearchScreen"
 }
