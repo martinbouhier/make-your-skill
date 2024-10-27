@@ -22,16 +22,16 @@ fun MainScreen( navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))  // Add space to position the image
+        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
         Image(
             painter = painterResource(id = R.drawable.logo_purple),
             contentDescription = "App Logo",
-            modifier = Modifier.size(128.dp)  // Adjust size as needed
+            modifier = Modifier.size(128.dp)
         )
-        Spacer(modifier = Modifier.height(160.dp))  // Add some space between elements
-        CustomButton(onClick = { /* TODO: Add action */ }, text = "MATCH")
+        Spacer(modifier = Modifier.height(160.dp))
+        CustomButton(onClick = { /* TODO */ }, text = "MATCH")
         Text(text = "OR")
-        Spacer(modifier = Modifier.height(16.dp))  // Add some space between elements
-        CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
+        Spacer(modifier = Modifier.height(16.dp))
+        CustomButton(onClick = { /* TODO */ }, text = "SEARCH FOR PAID CLASSES")
     }
 }
