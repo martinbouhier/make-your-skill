@@ -20,8 +20,8 @@ fun CustomButton(onClick: () -> Unit, text: String, modifier: Modifier = Modifie
         onClick = onClick,
         modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,  // Button background color
-            contentColor = MaterialTheme.colorScheme.onPrimary    // Text color on the button
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         contentPadding = PaddingValues(20.dp)
 
