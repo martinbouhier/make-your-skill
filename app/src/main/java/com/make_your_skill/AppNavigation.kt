@@ -12,10 +12,10 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.BottomAppBarContent
-import com.make_your_skill.ui.screens.FirstScreen.FirstScreenRoutes
-import com.make_your_skill.ui.screens.MainScreen.MainScreenRoutes
-import com.make_your_skill.ui.screens.MatchSearchScreen.MatchSearchRoutes
-import com.make_your_skill.ui.screens.Profile.ProfileRoutes
+import com.make_your_skill.ui.screens.firstScreen.FirstScreenRoutes
+import com.make_your_skill.ui.screens.mainScreen.MainScreenRoutes
+import com.make_your_skill.ui.screens.matchSearch.MatchSearchRoutes
+import com.make_your_skill.ui.screens.profile.ProfileRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
 import com.make_your_skill.viewModel.AuthViewModel

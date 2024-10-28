@@ -1,13 +1,15 @@
-package com.make_your_skill.ui.screens.Profile
+package com.make_your_skill.ui.screens.matchSearch
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
 
+
 @Composable
-fun ProfileRoutes(
+fun MatchSearchRoutes(
     navController: NavHostController,
-    viewModel: ProfileViewModel = viewModel()
+    viewModel: MatchSearchViewModel = viewModel()
 ) {
-    ProfileScreen(navController = navController)
+    MatchSearchScreen(navController = navController)
 }
+    

@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens.MainScreen
+package com.make_your_skill.ui.screens.mainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

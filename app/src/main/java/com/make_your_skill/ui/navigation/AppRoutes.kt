@@ -8,4 +8,11 @@ object AppRoutes {
     val LOGIN_SCREEN = "login_screen"
     val REGISTER_SCREEN = "register_screen"
     val MatchSearchScreen = "MatchSearchScreen"
+    val PROFILE_MATCH_SCREEN = "ProfileMatchScreen"
+    val PROFILE_SEARCH_SCREEN = "ProfileSearchScreen"
+    val SEARCH_FOR_PAID_CLASSES_SCREEN = "SearchForPaidClassesScreen"
+    val SKILL_SCREEN = "SkillScreen"
+    val SKILL_SEARCH_SCREEN = "SkillSearchScreen"
+    val INTERESTS_SCREEN = "interests_screen"
+
 }

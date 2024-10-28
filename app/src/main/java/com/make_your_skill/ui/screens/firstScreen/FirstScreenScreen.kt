@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens.FirstScreen
+package com.make_your_skill.ui.screens.firstScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,17 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
-import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.CustomButtonTransparent
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.BackgroundColor2
-import com.make_your_skill.ui.theme.Purple
 
 @Composable
 fun FirstScreenScreen(navController: NavHostController) {

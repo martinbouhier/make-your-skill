@@ -1,14 +1,13 @@
-package com.make_your_skill.ui.screens.FirstScreen
+package com.make_your_skill.ui.screens.profile
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-
 @Composable
-fun FirstScreenRoutes(
+fun ProfileRoutes(
     navController: NavHostController,
-    viewModel: FirstScreenViewModel = viewModel()
-){
-    FirstScreenScreen(navController = navController)
+    viewModel: ProfileViewModel = viewModel()
+) {
+    ProfileScreen(navController = navController)
 }
