@@ -1,4 +1,6 @@
 package com.make_your_skill.ui.screens.firstName
 
-class FirstNameViewModel {
+import androidx.lifecycle.ViewModel
+
+class FirstNameViewModel: ViewModel() {
 }
