@@ -20,3 +20,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun Test() {
+    val navController = rememberNavController()
+    FirstNameScreen(navController)
+}

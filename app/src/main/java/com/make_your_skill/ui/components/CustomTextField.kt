@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.TextField
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
-import com.make_your_skill.ui.theme.Purple
+import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun CustomTextField(
@@ -26,7 +26,7 @@ fun CustomTextField(
             value = text,
             onValueChange = { onTextChange(text) },
             label = { Text("Name...") },
-            textStyle = TextStyle(color = Purple, fontSize = 16.sp), // Color de texto violeta
+            textStyle = TextStyle(color = DarkPurple, fontSize = 16.sp), // Color de texto violeta
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White) // Fondo blanco del TextField
@@ -36,7 +36,7 @@ fun CustomTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp) // Grosor de la línea
-                .background(Purple) // Color de la línea
+                .background(DarkPurple) // Color de la línea
         )
     }
 }

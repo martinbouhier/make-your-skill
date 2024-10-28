@@ -22,12 +22,16 @@ import androidx.navigation.NavHostController
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.CustomTextField
+import com.make_your_skill.ui.components.customText
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun FirstNameScreen(navController: NavHostController) {
     var text by remember { mutableStateOf("") }
     val separation = 25.dp
+    val BUTTON_TEXT = "CONTINUE 1/4"
+    val FIRST_TEXT = "My first"
+    val SECOND_TEXT = "name is..."
 
     val onTextChange: (String) -> Unit = { newText ->
         text = newText
@@ -49,24 +53,18 @@ fun FirstNameScreen(navController: NavHostController) {
             BackButton(navController,Color.Gray)
         }
         Row {
-            Column {
-                Text(
-                    text = "My first",
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = DarkPurple
-                )
-                Text(
-                    text = "name is...",
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = DarkPurple
-                )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                customText(FIRST_TEXT)
+                customText(SECOND_TEXT)
                 CustomTextField(text,onTextChange)
             }
         }
         Row {
-            CustomButton(onClick,"Texto de boton")
+            CustomButton(onClick,BUTTON_TEXT)
         }
     }
 }
