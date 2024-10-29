@@ -20,6 +20,7 @@ import com.make_your_skill.ui.screens.profile.ProfileRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
+import com.make_your_skill.ui.screens.skill.SkillsScreen
 import com.make_your_skill.viewModel.AuthViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -81,6 +82,10 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
             composable(AppRoutes.BIRTHDAY_SCREEN){
                 authViewModel.logout()
                 BirthdayScreen(navController)
+            }
+            composable(AppRoutes.SKILLS_SCREEN){
+                authViewModel.logout()
+                SkillsScreen(navController)
             }
         }
     }
