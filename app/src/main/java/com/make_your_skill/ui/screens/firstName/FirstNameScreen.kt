@@ -1,5 +1,6 @@
 package com.make_your_skill.ui.screens.firstName
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ fun FirstNameScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(separation),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween

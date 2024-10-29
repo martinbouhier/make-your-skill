@@ -74,7 +74,7 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
                 MatchSearchRoutes(navController)
             }
             composable(AppRoutes.FIRST_NAME_SCREEN){
-                authViewModel.login()
+                authViewModel.logout()
                 FirstNameScreen(navController)
             }
         }

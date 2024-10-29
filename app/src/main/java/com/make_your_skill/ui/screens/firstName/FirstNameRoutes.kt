@@ -10,6 +10,6 @@ fun firstNameRoute(
     navController: NavHostController,
     viewModel: FirstNameViewModel = viewModel()
 ){
-    FirstNameScreen()
+    FirstNameScreen(navController)
 }
 
