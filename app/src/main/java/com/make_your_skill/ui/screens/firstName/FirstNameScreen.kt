@@ -40,7 +40,9 @@ fun FirstNameScreen(navController: NavHostController) {
     }
 
     val onClick = {
-        navController.navigate(AppRoutes.BIRTHDAY_SCREEN)
+        if (text != ""){
+            navController.navigate(AppRoutes.BIRTHDAY_SCREEN)
+        }
     }
 
     Column(
