@@ -24,6 +24,7 @@ import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.CustomTextField
 import com.make_your_skill.ui.components.customText
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
@@ -38,7 +39,9 @@ fun FirstNameScreen(navController: NavHostController) {
         text = newText
     }
 
-    val onClick = {}
+    val onClick = {
+        navController.navigate(AppRoutes.BIRTHDAY_SCREEN)
+    }
 
     Column(
         modifier = Modifier

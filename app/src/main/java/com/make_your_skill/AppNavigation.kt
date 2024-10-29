@@ -12,6 +12,7 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.BottomAppBarContent
+import com.make_your_skill.ui.screens.birthday.BirthdayScreen
 import com.make_your_skill.ui.screens.firstScreen.FirstScreenRoutes
 import com.make_your_skill.ui.screens.mainScreen.MainScreenRoutes
 import com.make_your_skill.ui.screens.matchSearch.MatchSearchRoutes
@@ -76,6 +77,10 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
             composable(AppRoutes.FIRST_NAME_SCREEN){
                 authViewModel.logout()
                 FirstNameScreen(navController)
+            }
+            composable(AppRoutes.BIRTHDAY_SCREEN){
+                authViewModel.logout()
+                BirthdayScreen(navController)
             }
         }
     }
