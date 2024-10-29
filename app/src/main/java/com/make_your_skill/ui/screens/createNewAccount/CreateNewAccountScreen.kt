@@ -76,7 +76,7 @@ fun CreateNewAccountScreen(navController: NavHostController) {
 
 
             Column(
-                modifier = Modifier.padding(bottom = 60.dp),
+                modifier = Modifier.padding(bottom = 50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CustomButton(
