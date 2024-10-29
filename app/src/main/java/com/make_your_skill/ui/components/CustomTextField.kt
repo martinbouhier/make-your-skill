@@ -24,7 +24,7 @@ fun CustomTextField(
     Column(modifier = Modifier.padding(8.dp)) {
         TextField(
             value = text,
-            onValueChange = { onTextChange(text) },
+            onValueChange = { newText -> onTextChange(newText) },
             label = { Text("Name...") },
             textStyle = TextStyle(color = DarkPurple, fontSize = 16.sp), // Color de texto violeta
             modifier = Modifier

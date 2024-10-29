@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.make_your_skill.ui.screens.firstName.FirstNameScreen
+import com.make_your_skill.ui.screens.birthday.BirthdayScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -26,5 +26,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Test() {
     val navController = rememberNavController()
-    FirstNameScreen(navController)
+    BirthdayScreen(navController)
 }
