@@ -20,6 +20,7 @@ import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.DatePickerDocked
 import com.make_your_skill.ui.components.convertMillisToDate
 import com.make_your_skill.ui.components.customText
+import com.make_your_skill.ui.navigation.AppRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +36,11 @@ fun BirthdayScreen(navController: NavHostController){
     } ?: ""
 
 
-    val onClick = {}
+    val onClick = {
+        if (selectedDate != ""){
+            navController.navigate(AppRoutes.SKILLS_SCREEN)
+        }
+    }
 
     Column(
         modifier = Modifier
