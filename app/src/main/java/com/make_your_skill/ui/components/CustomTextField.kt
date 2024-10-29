@@ -19,13 +19,14 @@ import com.make_your_skill.ui.theme.DarkPurple
 @Composable
 fun CustomTextField(
     text: String,
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit,
+    label: String
 ) {
     Column(modifier = Modifier.padding(8.dp)) {
         TextField(
             value = text,
             onValueChange = { newText -> onTextChange(newText) },
-            label = { Text("Name...") },
+            label = { Text(text = label) },
             textStyle = TextStyle(color = DarkPurple, fontSize = 16.sp), // Color de texto violeta
             modifier = Modifier
                 .fillMaxWidth()

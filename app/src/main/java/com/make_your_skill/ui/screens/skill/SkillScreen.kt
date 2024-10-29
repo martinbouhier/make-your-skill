@@ -32,20 +32,23 @@ import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun SkillsScreen(navController: NavHostController) {
+    val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues
+        skillDataClass(id =1,selected = true, skill = "Kotlin", price = 450f),
+        skillDataClass(id =2,selected = false, skill = "Java", price = 400f),
+        skillDataClass(id =3,selected = false, skill = "Python", price = 10f)
+    )
+
     var showAddPopUp by remember { mutableStateOf(false) } //Si muestro el popup o no
     var skills by remember {// Lista de skills
-        mutableStateOf(
-            listOf( //Hay que borrarlos despues
-                skillDataClass(id =1,selected = true, skill = "Kotlin", price = 450f),
-                skillDataClass(id =2,selected = false, skill = "Java", price = 400f),
-                skillDataClass(id =3,selected = false, skill = "Python", price = 10f)
-            )
-        )
+        mutableStateOf(listOfSkills)
     }
+    var addedSkill by remember { mutableStateOf<skillDataClass?>(null) }//Skill a agregar
+    var addedPrice by remember { mutableStateOf(0.0f) }
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 3/4"
     val FIRST_TEXT = "Skills"
     val DIALOG_TITLE = "Add skill"
+    val PRICE_LABEL = "Price..."
 
     val onClick = {
         if (!skills.isEmpty()){
@@ -77,6 +80,10 @@ fun SkillsScreen(navController: NavHostController) {
 
     }
 
+    val onPriceAddChange: (String) -> Unit = { price ->
+        addedPrice = price.toFloat()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +96,10 @@ fun SkillsScreen(navController: NavHostController) {
             addSkillPopUp(
                 onDismissRequest,
                 onConfirmation,
-                DIALOG_TITLE
+                DIALOG_TITLE,
+                onPriceAddChange,
+                PRICE_LABEL,
+                addedPrice.toString()
             )
         }
         Row (

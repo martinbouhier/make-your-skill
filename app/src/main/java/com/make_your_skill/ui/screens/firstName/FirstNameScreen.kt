@@ -34,6 +34,7 @@ fun FirstNameScreen(navController: NavHostController) {
     val BUTTON_TEXT = "CONTINUE 1/4"
     val FIRST_TEXT = "My first"
     val SECOND_TEXT = "name is..."
+    val LABEL = "Name..."
 
     val onTextChange: (String) -> Unit = { newText ->
         text = newText
@@ -67,7 +68,7 @@ fun FirstNameScreen(navController: NavHostController) {
             ) {
                 customText(FIRST_TEXT)
                 customText(SECOND_TEXT)
-                CustomTextField(text,onTextChange)
+                CustomTextField(text,onTextChange,LABEL)
             }
         }
         Row {
