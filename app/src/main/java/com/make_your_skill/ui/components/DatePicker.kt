@@ -1,6 +1,7 @@
 package com.make_your_skill.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,7 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -69,6 +73,16 @@ fun DatePickerDocked(datePickerState: DatePickerState, selectedDate: String) {
                     DatePicker(
                         state = datePickerState,
                         showModeToggle = false
+                    )
+                    Text(
+                        text = "X",
+                        modifier = Modifier
+                            .clickable(onClick = {
+                                showDatePicker = false
+                                println("Texto X fue clickeado")
+                            })
+                            .padding(8.dp), // Puedes agregar padding o cualquier otro modificador que desees
+                        style = TextStyle(color = Color.Black, fontSize = 20.sp) // Estilo opcional
                     )
                 }
             }
