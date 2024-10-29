@@ -80,9 +80,8 @@ fun CreateNewAccountScreen(navController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CustomButton(
-                    onClick = { navController.navigate(AppRoutes.MAIN_SCREEN) },
-                    text = "SIGN IN",
-
+                    onClick = { navController.navigate(AppRoutes.FIRST_NAME_SCREEN) },
+                    text = "CREATE ACCOUNT",
                 )
             }
         }

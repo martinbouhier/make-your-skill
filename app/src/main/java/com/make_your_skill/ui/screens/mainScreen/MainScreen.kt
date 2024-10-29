@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens
+package com.make_your_skill.ui.screens.mainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -9,16 +9,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.make_your_skill.R
+import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.*
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun MainScreen( navController: NavHostController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val spacerSeparation = 16.dp
+    val separation = 16.dp
 
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(separation),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -28,26 +31,14 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             contentDescription = "App Logo",
             modifier = Modifier.size(128.dp)
         )
-        Spacer(modifier = Modifier.height(spacerSeparation))
+        Spacer(modifier = Modifier.height(160.dp))
+        CustomButton(onClick = { navController.navigate(AppRoutes.MatchSearchScreen) }, text = "MATCH")
+        Spacer(modifier = Modifier.height(separation))
         Text(
-            text = "Persona Random",
-            style = styleTitle
-        )
-        Spacer(modifier = Modifier.height(spacerSeparation))
-        Image(
-            painter = painterResource(id = R.drawable.user_profile_icon),
-            contentDescription = "User Profile Foto",
-            modifier = Modifier.size(144.dp)
-        )
-        Spacer(modifier = Modifier.height(spacerSeparation))
-        Text(
-            text = "Age",
-            style = styleSubtitle
-        )
-        Spacer(modifier = Modifier.height(spacerSeparation))
-        Text(
-            text = "Skills",
-            style = styleSubtitle
-        )
+            text = "OR",
+            style = styleNormalText
+            )
+        Spacer(modifier = Modifier.height(separation))
+        CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
     }
 }

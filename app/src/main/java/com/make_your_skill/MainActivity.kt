@@ -4,12 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.make_your_skill.ui.screens.MainScreen
-import com.make_your_skill.ui.screens.ProfileScreen
-import com.make_your_skill.ui.screens.MatchSearchScreen
+import com.make_your_skill.ui.screens.firstName.FirstNameScreen
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,12 +16,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "home") {
-                composable("Home") { MainScreen(navController) }
-                composable("MatchSearch") { MatchSearchScreen(navController) }
-                composable("Profile") { ProfileScreen() }
-            }
+            AppNavigation(navController)
         }
     }
 }
 
+
+@Preview(showBackground = true)
+@Composable
+fun Test() {
+    val navController = rememberNavController()
+    FirstNameScreen(navController)
+}

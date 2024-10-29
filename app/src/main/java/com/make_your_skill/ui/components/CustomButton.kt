@@ -24,12 +24,6 @@ fun CustomButton(onClick: () -> Unit, text: String, modifier: Modifier = Modifie
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         contentPadding = PaddingValues(20.dp)
-
-
-        contentPadding = PaddingValues(16.dp),
-        modifier = Modifier
-            .width(331.53.dp)
-            .height(50.25.dp)
     ) {
         Text(text = text)
     }

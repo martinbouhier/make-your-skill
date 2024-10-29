@@ -1,9 +1,9 @@
-package com.make_your_skill.ui.screens.Profile
+package com.make_your_skill.ui.screens.birthday
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
 @Composable
-fun ProfileScreen(navController: NavHostController){
+fun BirthdayScreen(navController: NavHostController){
 
 }

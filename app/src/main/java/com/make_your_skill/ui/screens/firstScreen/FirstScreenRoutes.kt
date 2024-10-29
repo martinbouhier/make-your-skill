@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens.FirstScreen
+package com.make_your_skill.ui.screens.firstScreen
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
