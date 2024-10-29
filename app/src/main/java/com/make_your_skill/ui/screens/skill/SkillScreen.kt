@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
+import com.make_your_skill.ui.components.addSkillPopUp
 import com.make_your_skill.ui.components.customText
 import com.make_your_skill.ui.components.skill
 import com.make_your_skill.ui.navigation.AppRoutes
@@ -31,7 +32,8 @@ import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun SkillsScreen(navController: NavHostController) {
-    var skills by remember {
+    var showAddPopUp by remember { mutableStateOf(false) } //Si muestro el popup o no
+    var skills by remember {// Lista de skills
         mutableStateOf(
             listOf( //Hay que borrarlos despues
                 skillDataClass(id =1,selected = true, skill = "Kotlin", price = 450f),
@@ -43,6 +45,7 @@ fun SkillsScreen(navController: NavHostController) {
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 3/4"
     val FIRST_TEXT = "Skills"
+    val DIALOG_TITLE = "Add skill"
 
     val onClick = {
         if (!skills.isEmpty()){
@@ -57,11 +60,21 @@ fun SkillsScreen(navController: NavHostController) {
         skills = skills.map { if (it.id == updatedSkill.id) updatedSkill else it }
     }
 
-    val onAdd = {}
+    val onAdd = {
+        showAddPopUp = true
+    }
 
     val onDelete = {
         val unSelectedSkills = skills.filter { !it.selected } //Filtramos los skills tickeated
         skills = unSelectedSkills
+    }
+
+    val onDismissRequest = {
+        showAddPopUp = false
+    }
+
+    val onConfirmation = {
+
     }
 
     Column(
@@ -72,6 +85,13 @@ fun SkillsScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        if (showAddPopUp == true){
+            addSkillPopUp(
+                onDismissRequest,
+                onConfirmation,
+                DIALOG_TITLE
+            )
+        }
         Row (
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,7 +118,10 @@ fun SkillsScreen(navController: NavHostController) {
                     Text(
                         text = "Add",
                         modifier = Modifier
-                            .padding(16.dp), // Aplica un margen de 16dp
+                            .padding(16.dp)
+                            .clickable {
+                                onAdd()
+                            }, // Aplica un margen de 16dp
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
                         color = DarkPurple
