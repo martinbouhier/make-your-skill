@@ -1,4 +1,6 @@
 package com.make_your_skill.ui.screens.interests
 
-class InterestsViewModel {
+import androidx.lifecycle.ViewModel
+
+class InterestsViewModel: ViewModel() {
 }

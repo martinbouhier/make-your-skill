@@ -17,4 +17,5 @@ object AppRoutes {
     val FIRST_NAME_SCREEN = "first_name_screen"
     val BIRTHDAY_SCREEN = "birthday_screen"
     val SKILLS_SCREEN = "skills_screen"
+    val INTERESTED_SKILLS_SCREEN = "interestes_skills_screen"
 }

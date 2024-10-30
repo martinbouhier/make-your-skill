@@ -12,14 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.make_your_skill.ui.screens.interests.interestAddedDataClass
 import com.make_your_skill.ui.screens.skill.skillAddedDataClass
 import com.make_your_skill.ui.screens.skill.skillDataClass
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
-fun skill(
-    skill: skillAddedDataClass,
-    onSkillChange: (skillAddedDataClass) -> Unit){
+fun interest(
+    skill: interestAddedDataClass,
+    onSkillChange: (interestAddedDataClass) -> Unit){
     Column {
         Row (
             verticalAlignment = Alignment.CenterVertically,
@@ -39,9 +40,6 @@ fun skill(
                 Text(
                     skill.skill
                 )
-            }
-            Row {
-                Text(text = (skill.price).toString() + "$")
             }
         }
         Box (

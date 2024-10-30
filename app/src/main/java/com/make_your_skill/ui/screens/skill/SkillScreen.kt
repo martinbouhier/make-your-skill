@@ -54,7 +54,7 @@ fun SkillsScreen(navController: NavHostController) {
         if (!skills.isEmpty()){
             val selectedSkills = skills.filter { it.selected } //Filtramos los skills tickeated
             if (!selectedSkills.isEmpty()){
-                navController.navigate(AppRoutes.BIRTHDAY_SCREEN)
+                navController.navigate(AppRoutes.INTERESTS_SCREEN)
             }
         }
     }
@@ -82,7 +82,6 @@ fun SkillsScreen(navController: NavHostController) {
 
     //Confirmo que agrego skill en el popup
     val onConfirmation = {
-        Log.d("addedSkil", addedSkill.toString());
         if (addedSkill != null){
             val newSkill: skillAddedDataClass = skillAddedDataClass(
                 id = addedSkill!!.id,
