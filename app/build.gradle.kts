@@ -69,6 +69,8 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.okhttp)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

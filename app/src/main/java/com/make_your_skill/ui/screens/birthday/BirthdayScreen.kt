@@ -13,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.DatePickerDocked
@@ -64,6 +66,7 @@ fun BirthdayScreen(navController: NavHostController){
             ) {
                 ScreenTitleText(FIRST_TEXT)
                 ScreenTitleText(SECOND_TEXT)
+
                 DatePickerDocked(datePickerState,selectedDate)
             }
         }
@@ -71,4 +74,11 @@ fun BirthdayScreen(navController: NavHostController){
             CustomButton(onClick,BUTTON_TEXT)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBirthdayScreen() {
+    val navController = rememberNavController()
+    BirthdayScreen(navController)
 }
