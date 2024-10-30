@@ -41,4 +41,4 @@ fun MainScreen( navController: NavHostController) {
         Spacer(modifier = Modifier.height(separation))
         CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
     }
-
+}
