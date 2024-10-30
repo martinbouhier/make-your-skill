@@ -90,9 +90,10 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
                 authViewModel.logout()
                 SkillsScreen(navController)
             }
-            composable(AppRoutes.INTERESTS_SCREEN){
+            composable(AppRoutes.INTERESTS_SCREEN) {
                 authViewModel.logout()
                 InterestedSkillsScreen(navController)
+            }
             composable(AppRoutes.SETTINGS_SCREEN){
                 authViewModel.login()
                 ProfileSettingsRoutes(navController = navController)
