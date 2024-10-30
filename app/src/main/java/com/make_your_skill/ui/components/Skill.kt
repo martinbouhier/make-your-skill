@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.make_your_skill.ui.screens.skill.skillAddedDataClass
 import com.make_your_skill.ui.screens.skill.skillDataClass
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
-fun skill(skill: skillDataClass, onSkillChange: (skillDataClass) -> Unit){
+fun skill(skill: skillAddedDataClass, onSkillChange: (skillAddedDataClass) -> Unit){
     Column {
         Row (
             verticalAlignment = Alignment.CenterVertically,

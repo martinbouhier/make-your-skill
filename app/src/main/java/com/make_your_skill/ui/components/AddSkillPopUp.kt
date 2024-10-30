@@ -5,24 +5,30 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.make_your_skill.ui.screens.skill.skillDataClass
 
 @Composable
 fun addSkillPopUp(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogTitle: String,
-    onPriceAddChange: (String) -> Unit,
-    label: String,
-    text: String
+    onDismissRequest: () -> Unit,//Cerramos popup
+    onConfirmation: () -> Unit,//Confirmamos el popup
+    dialogTitle: String,//Titulo del popup
+    onPriceAddChange: (String) -> Unit,//Cuando cambio el input del precio
+    priceLabel: String,//Label del precio
+    priceText: String,
+    skillsList: List<skillDataClass>,
+    onSkillAddChange: (Int) -> Unit
 ) {
-    val TITLE = "Title..."
     AlertDialog(
         title = {
             Text(text = dialogTitle)
         },
         text = {
-          Column {
-              CustomTextField(text,onPriceAddChange,label)
+          Column (
+              modifier = Modifier
+          ) {
+              skillsDropDown(skillsList, onSkillAddChange)
+              CustomTextField(priceText,onPriceAddChange,priceLabel)
           }
         },
         onDismissRequest = {
