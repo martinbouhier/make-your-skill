@@ -11,6 +11,8 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.make_your_skill.R
+import com.make_your_skill.ui.theme.DarkPurple
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -50,7 +53,11 @@ fun DatePickerDocked(datePickerState: DatePickerState, selectedDate: String) {
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = !showDatePicker }) {
-                    Icon(painter = painterResource(id = R.drawable.calendar), contentDescription = "calendar")
+                    Icon(
+                        imageVector = Icons.Filled.CalendarToday,
+                        contentDescription = "Calendar Icon",
+                        tint = Color.Gray
+                    )
                 }
             },
             modifier = Modifier
