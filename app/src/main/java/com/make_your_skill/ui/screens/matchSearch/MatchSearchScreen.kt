@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.ui.components.*
 import com.make_your_skill.ui.theme.*
 
@@ -17,7 +19,9 @@ fun MatchSearchScreen( navController: NavHostController) {
     val separation = 25.dp
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(separation),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(separation),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceBetween
     )
@@ -34,16 +38,19 @@ fun MatchSearchScreen( navController: NavHostController) {
         RangeSlider()
 
         Spacer(modifier = Modifier.weight(1f))
-
-        Column(
-            modifier = Modifier.padding(bottom = 150.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CustomButton(
-                onClick = { navController.navigate("ProfileMatchList") },
-                text = "Match",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+        CustomButton(
+            onClick = { navController.navigate("ProfileMatchList") },
+            text = "Match",
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(80.dp))
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMatchSearchScreen() {
+    val navController = rememberNavController()
+    MatchSearchScreen(navController)
+}
+
