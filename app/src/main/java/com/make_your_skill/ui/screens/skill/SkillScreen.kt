@@ -1,6 +1,5 @@
 package com.make_your_skill.ui.screens.skill
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +24,7 @@ import androidx.navigation.NavHostController
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.addSkillPopUp
-import com.make_your_skill.ui.components.customText
+import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.components.skill
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.DarkPurple
@@ -137,7 +136,7 @@ fun SkillsScreen(navController: NavHostController) {
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                customText(FIRST_TEXT)
+                ScreenTitleText(FIRST_TEXT)
                 Column {
                     for (skillItem in skills) {
                         skill(skillItem, onSkillChange) // Llama al composable SkillItem para cada habilidad
