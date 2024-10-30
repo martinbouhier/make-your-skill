@@ -7,11 +7,11 @@ import androidx.compose.ui.unit.sp
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
-fun customText(text: String){
+fun ScreenContentText(text: String){
     Text(
         text = text,
-        fontSize = 40.sp,
-        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Normal,
         color = DarkPurple
     )
 }

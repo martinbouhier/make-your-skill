@@ -19,7 +19,7 @@ import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.DatePickerDocked
 import com.make_your_skill.ui.components.convertMillisToDate
-import com.make_your_skill.ui.components.customText
+import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.navigation.AppRoutes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,8 +62,8 @@ fun BirthdayScreen(navController: NavHostController){
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                customText(FIRST_TEXT)
-                customText(SECOND_TEXT)
+                ScreenTitleText(FIRST_TEXT)
+                ScreenTitleText(SECOND_TEXT)
                 DatePickerDocked(datePickerState,selectedDate)
             }
         }
