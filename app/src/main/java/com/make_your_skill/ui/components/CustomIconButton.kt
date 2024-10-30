@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.dp
 fun CustomIconButton(
     iconResId: Int,
     onClick: () -> Unit,
-    color: Color
+    color: Color,
+    modifier: Modifier = Modifier
 ) {
     IconButton(
-        onClick = onClick
+        onClick = onClick,
+        modifier = modifier
     ) {
 
         val iconPainter: Painter = painterResource(id = iconResId)
