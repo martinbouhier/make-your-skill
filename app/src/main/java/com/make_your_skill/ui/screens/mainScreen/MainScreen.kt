@@ -16,11 +16,7 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.*
 
 @Composable
-<<<<<<<< HEAD:app/src/main/java/com/make_your_skill/ui/screens/MyProfileScreen.kt
 fun MyProfileScreen(modifier: Modifier = Modifier) {
-========
-fun MainScreen( navController: NavHostController) {
->>>>>>>> 960c1edd06e7053cf1d17ba0e81fb6f31984222a:app/src/main/java/com/make_your_skill/ui/screens/mainScreen/MainScreen.kt
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 16.dp
 
