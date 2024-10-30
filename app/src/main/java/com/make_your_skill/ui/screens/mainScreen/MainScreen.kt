@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens
+package com.make_your_skill.ui.screens.mainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -12,10 +12,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.*
 
 @Composable
+<<<<<<<< HEAD:app/src/main/java/com/make_your_skill/ui/screens/MyProfileScreen.kt
+fun MyProfileScreen(modifier: Modifier = Modifier) {
+========
 fun MainScreen( navController: NavHostController) {
+>>>>>>>> 960c1edd06e7053cf1d17ba0e81fb6f31984222a:app/src/main/java/com/make_your_skill/ui/screens/mainScreen/MainScreen.kt
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 16.dp
 
@@ -31,7 +36,7 @@ fun MainScreen( navController: NavHostController) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(160.dp))
-        CustomButton(onClick = { navController.navigate("MatchSearch") }, text = "MATCH")
+        CustomButton(onClick = { navController.navigate(AppRoutes.MatchSearchScreen) }, text = "MATCH")
         Spacer(modifier = Modifier.height(separation))
         Text(
             text = "OR",
