@@ -8,8 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.*
 import com.make_your_skill.ui.navigation.AppRoutes
@@ -42,3 +44,13 @@ fun MainScreen( navController: NavHostController) {
         CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
     }
 }
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMainScreen() {
+    val navController = rememberNavController()
+    MainScreen(navController)
+}
+
