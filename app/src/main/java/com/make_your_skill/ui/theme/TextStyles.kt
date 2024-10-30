@@ -29,3 +29,25 @@ val styleSliderLimits = TextStyle(
     fontWeight = FontWeight.Light,
     color = Color(0x774E40EA)
 )
+
+val cardTitle = TextStyle(
+    fontFamily =  FontFamily.SansSerif,
+    fontSize = 15.sp,
+    fontWeight = FontWeight.Bold,
+    color = Color(0xF55451DC)
+)
+
+val cardInfo = TextStyle(
+    fontFamily =  FontFamily.SansSerif,
+    fontSize = 15.sp,
+    fontWeight = FontWeight.Normal,
+    color = Color(0x4D4E40EA)
+)
+
+val cardRate = TextStyle(
+    fontFamily =  FontFamily.SansSerif,
+    fontSize = 14.sp,
+    fontWeight = FontWeight.Medium,
+    color = Color(0x4D4E40EA)
+)
+

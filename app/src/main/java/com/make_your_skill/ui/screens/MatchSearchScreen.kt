@@ -40,7 +40,7 @@ fun MatchSearchScreen( navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomButton(
-                onClick = { /* TODO: redireccionar a ProfileMatchScreen */ },
+                onClick = { navController.navigate("ProfileMatchList") },
                 text = "Match",
                 modifier = Modifier.fillMaxWidth()
             )

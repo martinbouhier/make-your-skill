@@ -13,7 +13,7 @@ import com.make_your_skill.R
 import com.make_your_skill.ui.theme.*
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun MyProfileScreen(modifier: Modifier = Modifier) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val spacerSeparation = 16.dp
 
