@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens
+package com.make_your_skill.ui.screens.results
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,11 +10,20 @@ import androidx.compose.ui.unit.dp
 import com.make_your_skill.ui.components.*
 import com.make_your_skill.ui.theme.*
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import java.sql.Date
 
 @Composable
-fun ResultsScreen(profiles: List<Profile>) {
+fun ResultsScreen(navController: NavHostController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 10.dp
+
+    val profiles = listOf(
+        Profile("John", "Doe", "1.34",
+            Date(1990, 1, 1) // TODO: Cambiar Package
+        ))
 
     Column(
         modifier = Modifier
@@ -40,4 +49,12 @@ fun ResultsScreen(profiles: List<Profile>) {
             }
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewResultsScreen() {
+    val navController = rememberNavController()
+    ResultsScreen(navController)
 }
