@@ -1,5 +1,6 @@
 package com.make_your_skill.ui.screens.skill
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,56 +33,76 @@ import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun SkillsScreen(navController: NavHostController) {
-    val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues
-        skillDataClass(id =1,selected = true, skill = "Kotlin", price = 450f),
-        skillDataClass(id =2,selected = false, skill = "Java", price = 400f),
-        skillDataClass(id =3,selected = false, skill = "Python", price = 10f)
+    val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues. Mock Data
+        skillDataClass(id =1, skill = "Kotlin"),
+        skillDataClass(id =2, skill = "Java"),
+        skillDataClass(id =3, skill = "Python")
     )
 
     var showAddPopUp by remember { mutableStateOf(false) } //Si muestro el popup o no
-    var skills by remember {// Lista de skills
-        mutableStateOf(listOfSkills)
-    }
-    var addedSkill by remember { mutableStateOf<skillDataClass?>(null) }//Skill a agregar
-    var addedPrice by remember { mutableStateOf(0.0f) }
+    var skills by remember { mutableStateOf<List<skillAddedDataClass>>(emptyList()) } //Lista de skills que va a agregar el usuario
+    var addedSkill by remember { mutableStateOf<skillDataClass?>(listOfSkills[0]) }//Skill a agregar
+    var addedPrice by remember { mutableStateOf<Float>(0.0f) } //Precio del skill a agregar
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 3/4"
     val FIRST_TEXT = "Skills"
     val DIALOG_TITLE = "Add skill"
     val PRICE_LABEL = "Price..."
 
+    //Funcion para cuando hago click en continue
     val onClick = {
         if (!skills.isEmpty()){
             val selectedSkills = skills.filter { it.selected } //Filtramos los skills tickeated
             if (!selectedSkills.isEmpty()){
-                navController.navigate(AppRoutes.BIRTHDAY_SCREEN)
+                navController.navigate(AppRoutes.INTERESTS_SCREEN)
             }
         }
     }
 
-    val onSkillChange: (skillDataClass) -> Unit = { updatedSkill ->
+    //Para cuando se hace un cambio en el objeto skill (principalmente si esta selected o no)
+    val onSkillChange: (skillAddedDataClass) -> Unit = { updatedSkill ->
         skills = skills.map { if (it.id == updatedSkill.id) updatedSkill else it }
     }
 
+    //Cuando click en add skill
     val onAdd = {
         showAddPopUp = true
     }
 
+    //Cuando hago click en delete y borro un skill
     val onDelete = {
         val unSelectedSkills = skills.filter { !it.selected } //Filtramos los skills tickeated
         skills = unSelectedSkills
     }
 
+    //Cerramos popup
     val onDismissRequest = {
         showAddPopUp = false
     }
 
+    //Confirmo que agrego skill en el popup
     val onConfirmation = {
-
+        if (addedSkill != null){
+            val newSkill: skillAddedDataClass = skillAddedDataClass(
+                id = addedSkill!!.id,
+                skill = addedSkill!!.skill,
+                selected = true,
+                price = addedPrice
+            )
+            skills = skills + newSkill
+        }
+        showAddPopUp = false
     }
 
+    //Cuando cambia de precio el skill que voy a agregar
     val onPriceAddChange: (String) -> Unit = { price ->
         addedPrice = price.toFloat()
+    }
+
+    //Cuando cambia el skill que voy a agregar
+    val onSkillAddChange: (Int) -> Unit = { skillId ->
+        val skillFound: skillDataClass? = listOfSkills.find { it.id == skillId }
+        addedSkill = skillFound ?: null
     }
 
     Column(
@@ -99,7 +120,9 @@ fun SkillsScreen(navController: NavHostController) {
                 DIALOG_TITLE,
                 onPriceAddChange,
                 PRICE_LABEL,
-                addedPrice.toString()
+                addedPrice.toString(),
+                listOfSkills,
+                onSkillAddChange
             )
         }
         Row (

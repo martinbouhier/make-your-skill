@@ -9,13 +9,10 @@ import androidx.compose.ui.Modifier
 import com.make_your_skill.ui.screens.skill.skillDataClass
 
 @Composable
-fun addSkillPopUp(
+fun addInterestsPopUp(
     onDismissRequest: () -> Unit,//Cerramos popup
     onConfirmation: () -> Unit,//Confirmamos el popup
     dialogTitle: String,//Titulo del popup
-    onPriceAddChange: (String) -> Unit,//Cuando cambio el input del precio
-    priceLabel: String,//Label del precio
-    priceText: String,
     skillsList: List<skillDataClass>,
     onSkillAddChange: (Int) -> Unit
 ) {
@@ -28,7 +25,6 @@ fun addSkillPopUp(
               modifier = Modifier
           ) {
               skillsDropDown(skillsList, onSkillAddChange)
-              CustomTextField(priceText,onPriceAddChange,priceLabel)
           }
         },
         onDismissRequest = {
