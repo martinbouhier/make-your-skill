@@ -1,23 +1,21 @@
 package com.make_your_skill.viewModel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.make_your_skill.shared.MakeYourSkillService
-import com.make_your_skill.model.MakeYourSkillApiModel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import androidx.lifecycle.liveData
+import com.make_your_skill.model.RegisterRequest
+import com.make_your_skill.shared.ApiServiceManager
+import kotlinx.coroutines.Dispatchers
 
-class MakeYourSkillViewModel : ViewModel() {
 
-    private val service = MakeYourSkillService()
+class MyViewModel : ViewModel() {
+    private val apiServiceManager = ApiServiceManager()
 
-    private val _skills = MutableStateFlow<List<MakeYourSkillApiModel>?>(null)
-    val skills: StateFlow<List<MakeYourSkillApiModel>?> get() = _skills
-
-    fun loadSkills() {
-        viewModelScope.launch {
-            _skills.value = service.getSkills()
+    fun registerUser(request: RegisterRequest) = liveData(Dispatchers.IO) {
+        val response = apiServiceManager.registerUser(request).execute()
+        if (response.isSuccessful) {
+            emit("Registration successful")
+        } else {
+            emit("Registration failed")
         }
     }
 }

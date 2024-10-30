@@ -20,10 +20,6 @@ class MakeYourSkillRetrofit {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getClient(): OkHttpClient {
-        return client
-    }
-
     fun getRetrofit(): Retrofit {
         return retrofit
     }

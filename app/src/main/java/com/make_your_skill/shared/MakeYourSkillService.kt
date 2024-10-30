@@ -1,20 +1,14 @@
 package com.make_your_skill.shared
 
-import com.make_your_skill.model.MakeYourSkillApiModel
 import com.make_your_skill.helpers.MakeYourSkillRetrofit
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.make_your_skill.model.RegisterRequest
+import retrofit2.Call
 
-class MakeYourSkillService {
+class ApiServiceManager {
+    private val retrofit = MakeYourSkillRetrofit().getRetrofit()
+    private val apiService = retrofit.create(ApiService::class.java)
 
-    private val api = MakeYourSkillRetrofit().getRetrofit().create(ApiService::class.java)
-
-    suspend fun getSkills(): List<MakeYourSkillApiModel>? = withContext(Dispatchers.IO) {
-        val response = api.getSkills() // Suponiendo que `getSkills` es un método definido en `MakeYourSkillApi`
-        if (response.isSuccessful) {
-            response.body()
-        } else {
-            null
-        }
+    fun registerUser(request: RegisterRequest): Call<Void> {
+        return apiService.registerUser(request)
     }
 }
