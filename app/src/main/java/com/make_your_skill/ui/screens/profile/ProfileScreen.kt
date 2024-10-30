@@ -3,6 +3,8 @@ package com.make_your_skill.ui.screens.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
@@ -10,10 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -42,7 +47,9 @@ fun ProfileScreen(navController: NavHostController) {
             Image(
                 painter = painterResource(id = R.drawable.logo_purple),
                 contentDescription = "App Logo",
-                modifier = Modifier.height(79.dp).width(78.dp),
+                modifier = Modifier
+                    .height(79.dp)
+                    .width(78.dp),
             )
             Spacer(modifier = Modifier.height(spacerSeparation))
             Text(
@@ -54,39 +61,12 @@ fun ProfileScreen(navController: NavHostController) {
                 painter = painterResource(id = R.drawable.user_profile_icon),
                 contentDescription = "User Profile Foto",
                 modifier = Modifier
-                    .height(79.dp)
-                    .width(78.dp),
+                    .height(142.dp)
+                    .width(142.dp),
             )
             Spacer(modifier = Modifier.height(spacerSeparation))
+            ContentProfile(spacerSeparation)
 
-           Row{
-               Text(
-                   text = "Age: ", // Cambia esto por el número real
-                   style = styleSubtitle,
-               )
-               Text(
-                   text = "25", // Cambia esto por el número real
-                   style = styleSubtitle,
-                   fontSize = 30.sp,
-
-               )
-           }
-
-
-            HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-
-            Spacer(modifier = Modifier.height(spacerSeparation))
-
-            Row (
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Text(
-                    text = "Skills",
-                    style = styleSubtitle,
-
-                )
-                SkillsChips(skills = listOf("Kotlin", "Compose", "Jetpack"))
-            }
 
         }
 
@@ -95,37 +75,74 @@ fun ProfileScreen(navController: NavHostController) {
             onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) },
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(16.dp)
         ) {
 
             val iconPainter: Painter = painterResource(id = R.drawable.settings_icon)
 
+                Image(
+                    painter = iconPainter,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(64.dp)
+                        .scale(2f),
+                )
 
-            Image(
-                painter = iconPainter,
-                contentDescription = null,
-                modifier = Modifier.size(300.dp),
-            )
+
         }
     }
 }
-
 @Composable
-fun SkillsChips(skills: List<String>) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
+fun ContentProfile(spacerSeparation : Dp) {
+    Column(
+        modifier = Modifier.padding(16.dp) 
     ) {
-        skills.forEach { skill ->
+        
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Age: ",
+                style = styleSubtitle,
+                modifier = Modifier.weight(1f) 
+            )
+            Text(
+                text = "25", 
+                style = styleSubtitle,
+                fontSize = 30.sp,
+                modifier = Modifier.weight(1f), 
+                textAlign = TextAlign.Center 
+            )
+        }
+        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+        Spacer(modifier = Modifier.height(spacerSeparation))
+   
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text = "Skills",
+                style = styleSubtitle,
+                modifier = Modifier.padding(end = 8.dp)
+            )
 
-            Box(
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .background(Color.LightGray, shape = CircleShape)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+           
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = skill, color = Color.White)
+                items(listOf("Kotlin", "Compose", "Jetpack", "Java", "Android")) { skill ->
+                    Box(
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .background(Color.LightGray, shape = CircleShape)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        Text(text = skill, color = Color.White)
+                    }
+                }
             }
         }
     }
