@@ -26,6 +26,7 @@ import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
+import com.make_your_skill.ui.screens.results.ResultsRoutes
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
 import com.make_your_skill.ui.screens.skill.SkillsScreen
 import com.make_your_skill.viewModel.AuthViewModel
@@ -103,8 +104,12 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
             composable(AppRoutes.SETTINGS_SCREEN){
                 authViewModel.login()
                 ProfileSettingsRoutes(navController = navController)
-
             }
+            composable(AppRoutes.RESULTS_SCREEN){
+                authViewModel.logout()
+                ResultsRoutes(navController)
+            }
+
         }
     }
 }
