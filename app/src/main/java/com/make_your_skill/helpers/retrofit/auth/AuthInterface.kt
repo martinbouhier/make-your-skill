@@ -1,6 +1,6 @@
 package com.make_your_skill.helpers.retrofit.auth
 
-import com.make_your_skill.models.auth.LoginResponse
+import com.make_your_skill.models.auth.Auth
 import com.make_your_skill.models.user.FindByIdResponse
 import com.make_your_skill.models.user.FindOneResponse
 import com.make_your_skill.models.user.GetAllResponse
@@ -13,5 +13,5 @@ import retrofit2.http.Path
 
 interface AuthInterface {
     @GET("/auth/login")
-    suspend fun login(): Response<LoginResponse>
+    suspend fun login(): Response<Auth>
 }
