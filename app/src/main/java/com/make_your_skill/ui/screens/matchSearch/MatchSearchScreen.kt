@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.*
 
 @Composable
@@ -99,7 +100,7 @@ fun MatchSearchScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(separation))
         CustomButton(
-            onClick = { navController.navigate("ResultsScreen") },
+            onClick = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
             text = BUTTON_TEXT,
         )
         Spacer(modifier = Modifier.height(100.dp))

@@ -22,6 +22,10 @@ fun MainScreen( navController: NavHostController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 16.dp
 
+    val FIRST_BUTTON = "MATCH"
+    val SECOND_BUTTON = "SEARCH FOR PAID CLASSES"
+    val SCREEN_TEXT = "OR"
+
     Column(
         modifier = Modifier.fillMaxSize().padding(separation),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,14 +38,16 @@ fun MainScreen( navController: NavHostController) {
             modifier = Modifier.size(128.dp)
         )
         Spacer(modifier = Modifier.height(160.dp))
-        CustomButton(onClick = { navController.navigate(AppRoutes.MatchSearchScreen) }, text = "MATCH")
+        CustomButton(onClick = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
+            text = FIRST_BUTTON)
         Spacer(modifier = Modifier.height(separation))
         Text(
-            text = "OR",
+            text = SCREEN_TEXT,
             style = styleNormalText
             )
         Spacer(modifier = Modifier.height(separation))
-        CustomButton(onClick = { /* TODO: Add action */ }, text = "SEARCH FOR PAID CLASSES")
+        CustomButton(onClick = { navController.navigate(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) },
+            text = SECOND_BUTTON)
     }
 }
 

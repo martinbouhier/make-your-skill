@@ -27,6 +27,8 @@ import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
 import com.make_your_skill.ui.screens.results.ResultsRoutes
+import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesScreen
+import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesViewModel
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
 import com.make_your_skill.ui.screens.skill.SkillsScreen
 import com.make_your_skill.viewModel.AuthViewModel
@@ -81,7 +83,7 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
                 authViewModel.login()
                 ProfileRoutes(navController)
             }
-            composable(AppRoutes.MatchSearchScreen){
+            composable(AppRoutes.MATCH_SEARCH_SCREEN){
                 authViewModel.login()
                 MatchSearchRoutes(navController)
             }
@@ -109,7 +111,10 @@ fun AppNavigation(navController: NavHostController, authViewModel: AuthViewModel
                 authViewModel.logout()
                 ResultsRoutes(navController)
             }
-
+            composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN){
+                authViewModel.logout()
+                SearchForPaidClassesScreen(navController)
+            }
         }
     }
 }
