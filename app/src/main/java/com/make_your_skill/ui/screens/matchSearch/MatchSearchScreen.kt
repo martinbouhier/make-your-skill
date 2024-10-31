@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -21,41 +22,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.ui.components.*
-import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.*
 
-var skillsList = mutableListOf<String>()
-val sampleList= listOf(
-    "Kotlin",
-    "Compose",
-    "Jetpack",
-    "Java",
-    "Android",
-    "Flutter",
-    "Compose",
-    "Jetpack",
-    "Java",
-    "Android",
-    "Flutter",
-    "Compose",
-    "Jetpack",
-    "Java",
-    "Android",
-    "Flutter",
-    "iOS")
-
 @Composable
-fun MatchSearchScreen( navController: NavHostController) {
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+fun MatchSearchScreen(navController: NavHostController) {
     val separation = 25.dp
     val TITLE_TEXT = "Learn"
-    val LABEL = "Bask..."
+    val LABEL = "Add skills..."
     val BUTTON_TEXT = "MATCH"
 
     var text by remember { mutableStateOf("") }
-    val onTextChange: (String) -> Unit = { newText ->
-        text = newText
-    }
+    val skillsList = remember { mutableStateListOf<String>() } // Mantener la lista como mutableStateList
+
+    val onTextChange: (String) -> Unit = { newText -> text = newText }
 
     Column(
         modifier = Modifier
@@ -63,16 +42,26 @@ fun MatchSearchScreen( navController: NavHostController) {
             .padding(separation),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceBetween
-    )
-    {
+    ) {
         Spacer(modifier = Modifier.height(separation * 2))
         Text(
             text = TITLE_TEXT,
             style = styleTitle,
             modifier = Modifier.padding(start = separation)
         )
-        CustomTextField(text,onTextChange,LABEL)
-        Box( // Utilizamos una Box para contener la Matriz y permitir que haya un scroll.
+        CustomTextField(
+            text = text,
+            onTextChange = onTextChange,
+            label = LABEL,
+            onSubmit = {
+                if (text.isNotBlank()) { // Verifica que el texto no esté vacío
+                    skillsList.add(text) // Agrega el texto a la lista
+                    text = "" // Limpia el campo de texto
+                }
+            },
+            isSubmitEnabled = true // Habilita el submit
+        )
+        Box(
             modifier = Modifier
                 .height(180.dp) // Altura fija para la lista
                 .padding(8.dp)
@@ -85,7 +74,7 @@ fun MatchSearchScreen( navController: NavHostController) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(sampleList) { skill ->
+                items(skillsList) { skill -> // Ahora usa skillsList directamente
                     Box(
                         modifier = Modifier
                             .border(
@@ -110,15 +99,11 @@ fun MatchSearchScreen( navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(separation))
         CustomButton(
-            onClick = { navController.navigate("ProfileMatchList") },
+            onClick = { navController.navigate("ResultsScreen") },
             text = BUTTON_TEXT,
         )
         Spacer(modifier = Modifier.height(100.dp))
     }
-}
-
-private fun addSkill(skill: String) {
-    skillsList.add(skill)
 }
 
 @Preview(showBackground = true)

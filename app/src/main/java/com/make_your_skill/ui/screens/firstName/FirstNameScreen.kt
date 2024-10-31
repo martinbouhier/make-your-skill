@@ -64,7 +64,7 @@ fun FirstNameScreen(navController: NavHostController) {
             ) {
                 ScreenTitleText(FIRST_TEXT)
                 ScreenTitleText(SECOND_TEXT)
-                CustomTextField(text,onTextChange,LABEL)
+                CustomTextField(text,onTextChange,LABEL, onSubmit = {}, false)
             }
         }
         Row {
