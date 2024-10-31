@@ -3,7 +3,7 @@ package com.make_your_skill.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.make_your_skill.shared.MakeYourSkillService
-import com.make_your_skill.model.MakeYourSkillApiModel
+import com.make_your_skill.models.MakeYourSkillApiModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
