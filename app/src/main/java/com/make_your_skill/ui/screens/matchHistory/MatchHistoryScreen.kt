@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.make_your_skill.models.UserModel
+import com.make_your_skill.models.user.User
 import com.make_your_skill.ui.components.ItemMatchHistory
 import com.make_your_skill.ui.theme.BackgroundColor2
 
@@ -26,10 +26,10 @@ fun PantallaHistorial() {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     val listaPersonas = listOf(
-        UserModel("juan", 3000.00),
-        UserModel("pedro", 2500.00),
-        UserModel("nestor", 2500.00),
-        UserModel("jose", 2500.00)
+        User(1,"Juan","Perez","juan@mail.com",true,5,"01/01/2000","01/01/2000","01/01/2000"),
+        User(2,"Juan","Perez","juan@mail.com",true,5,"01/01/2000","01/01/2000","01/01/2000"),
+        User(3,"Juan","Perez","juan@mail.com",true,5,"01/01/2000","01/01/2000","01/01/2000"),
+
     )
     Column(
         modifier = Modifier

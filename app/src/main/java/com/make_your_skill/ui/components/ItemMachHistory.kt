@@ -22,13 +22,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.make_your_skill.R
-import com.make_your_skill.models.UserModel
-
+import com.make_your_skill.models.user.User
 
 @Composable
-fun ItemMatchHistory(persona: UserModel) {
+fun ItemMatchHistory(persona: User) {
     val iconPainter: Painter = painterResource(id = R.drawable.user_profile_icon)
-    val textPrice = persona.price
+    val textPrice = 5
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,7 +43,7 @@ fun ItemMatchHistory(persona: UserModel) {
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = persona.name,
+                text = persona.firstname,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF7B61FF)
