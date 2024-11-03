@@ -23,13 +23,13 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 fun TextInputLogin(
     label: String,
     isPassword: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    text: String,
+    onChange: (String) -> Unit
 ) {
-    val inputText = remember { mutableStateOf("") }
-
     OutlinedTextField(
-        value = inputText.value,
-        onValueChange = { inputText.value = it },
+        value = text,
+        onValueChange = { newText -> onChange(newText) },
         label = { Text(text = label, fontSize = 16.sp, color = Color.White) },
         shape = RoundedCornerShape(50.dp),
         modifier = modifier
