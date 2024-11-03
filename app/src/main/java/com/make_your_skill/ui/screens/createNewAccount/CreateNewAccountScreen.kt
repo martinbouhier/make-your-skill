@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +34,22 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 fun CreateNewAccountScreen(navController: NavHostController) {
     val separation = 25.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+
+    val email = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+    val reWritepassword = remember { mutableStateOf("") }
+
+    val onEmailChange: (String) -> Unit = { newEmail ->
+        email.value = newEmail
+    }
+
+    val onPasswordChange: (String) -> Unit = { newPassword ->
+        password.value = newPassword
+    }
+
+    val onReWritePasswordChange: (String) -> Unit = { newPassword ->
+        password.value = newPassword
+    }
 
     Column(
         modifier = Modifier
@@ -67,11 +85,11 @@ fun CreateNewAccountScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email")
+            TextInputLogin(label = "Email", text = email.value, onChange = onEmailChange)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Password", isPassword = true)
+            TextInputLogin(label = "Password", isPassword = true, text = password.value, onChange = onPasswordChange)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Rewrite Password", isPassword = true)
+            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritepassword.value, onChange = onReWritePasswordChange)
             Spacer(modifier = Modifier.height(10.dp))
 
 
