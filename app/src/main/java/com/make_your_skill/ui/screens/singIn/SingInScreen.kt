@@ -41,6 +41,10 @@ fun SignInScreen(navController: NavHostController) {
     val signInInfo by viewModel.signInInfo.collectAsState()
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    val separation = 25.dp
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     // Navegar a la pantalla principal cuando signInInfo no sea nulo
     LaunchedEffect(signInInfo) {
@@ -48,9 +52,6 @@ fun SignInScreen(navController: NavHostController) {
             navController.navigate(AppRoutes.MAIN_SCREEN)
         }
     }
-
-    val separation = 25.dp
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     Column(
         modifier = Modifier
