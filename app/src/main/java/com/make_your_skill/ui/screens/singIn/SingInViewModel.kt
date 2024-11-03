@@ -23,7 +23,30 @@ class SingInViewModel : ViewModel() {
     private val _signInInfo = MutableStateFlow<SignInDto?>(null)
     val signInInfo: StateFlow<SignInDto?> get() = _signInInfo
 
+    private val _email = MutableStateFlow<String>("")
+    val email: StateFlow<String> get() = _email
+    fun setEmail(newEmail: String) { _email.value = newEmail }
+
+    private val _password = MutableStateFlow<String>("")
+    val password: StateFlow<String> get() = _password
+    fun setPassword(newPassword: String) { _password.value = newPassword }
+
     val authService: AuthService = RetrofitServiceFactory.makeRetrofitService<AuthService>()
+
+    val onEmailChange: (String) -> Unit = { newEmail ->
+        setEmail(newEmail)
+    }
+
+    val onPasswordChange: (String) -> Unit = { newPassword ->
+        setPassword(newPassword)
+    }
+
+    val onClick = {
+        if (email.value != "" && password.value != ""){
+            val signInBody = SignInBody(email.value, password.value)
+            signIn(signInBody)
+        }
+    }
 
     fun signIn(signInBody: SignInBody) {
         viewModelScope.launch {

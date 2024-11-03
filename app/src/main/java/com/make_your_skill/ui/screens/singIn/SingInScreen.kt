@@ -39,22 +39,8 @@ fun SignInScreen(navController: NavHostController) {
     val viewModel: SingInViewModel = viewModel()
     val isLoading by viewModel.loading.collectAsState()
     val signInInfo by viewModel.signInInfo.collectAsState()
-
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-
-    val onEmailChange: (String) -> Unit = { newEmail ->
-        email.value = newEmail
-    }
-
-    val onPasswordChange: (String) -> Unit = { newPassword ->
-        password.value = newPassword
-    }
-
-    val onClick = {
-        val signInBody = SignInBody(email.value, password.value)
-        viewModel.signIn(signInBody)
-    }
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
 
     // Navegar a la pantalla principal cuando signInInfo no sea nulo
     LaunchedEffect(signInInfo) {
@@ -99,9 +85,9 @@ fun SignInScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email.value, onChange = onEmailChange)
+            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange)
             Spacer(modifier = Modifier.height(11.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password.value, onChange = onPasswordChange)
+            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange)
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
@@ -125,7 +111,7 @@ fun SignInScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomButton(
-                onClick = { onClick() },
+                onClick = { viewModel.onClick() },
                 text = if (isLoading) "Loading..." else "SIGN IN",
             )
         }
