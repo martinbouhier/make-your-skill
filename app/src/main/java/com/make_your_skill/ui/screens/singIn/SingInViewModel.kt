@@ -36,11 +36,17 @@ class SingInViewModel : ViewModel() {
     fun setPassword(newPassword: String) { _password.value = newPassword }
 
     val onEmailChange: (String) -> Unit = { newEmail ->
+        clearError()
         setEmail(newEmail)
     }
 
     val onPasswordChange: (String) -> Unit = { newPassword ->
+        clearError()
         setPassword(newPassword)
+    }
+
+    fun clearError() {
+        _error.value = null
     }
 
     val onClick = {

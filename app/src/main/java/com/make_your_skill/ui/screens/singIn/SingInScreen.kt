@@ -86,9 +86,9 @@ fun SignInScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange)
+            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange, error = error)
             Spacer(modifier = Modifier.height(11.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange)
+            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = error)
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
