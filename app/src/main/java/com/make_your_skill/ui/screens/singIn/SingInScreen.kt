@@ -90,6 +90,13 @@ fun SignInScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(11.dp))
             TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = error)
             Spacer(modifier = Modifier.height(16.dp))
+            if (error != null){
+                Text(
+                    text = error.toString(),
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
             Text(
                 text = "Forgot password",

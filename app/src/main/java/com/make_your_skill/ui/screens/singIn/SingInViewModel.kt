@@ -17,12 +17,15 @@ class SingInViewModel : ViewModel() {
     private val authModel = AuthModel(authService)
 
     private val ERROR_LOGIN_IN = "Error logging in"
+    private val MUST_COMPLETE_INPUTS = "Must complete inputs"
+    private val INVALID_EMAIL = "Email is not valid"
 
     private val _loading = MutableStateFlow<Boolean>(false)
     val loading: StateFlow<Boolean> get() = _loading
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
+    fun setError(newError: String) { _error.value = newError }
 
     private val _signInInfo = MutableStateFlow<SignInDto?>(null)
     val signInInfo: StateFlow<SignInDto?> get() = _signInInfo
@@ -49,8 +52,19 @@ class SingInViewModel : ViewModel() {
         _error.value = null
     }
 
+    fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})$"
+        return email.matches(emailRegex.toRegex())
+    }
+
     val onClick = {
-        if (email.value != "" && password.value != ""){
+        if (email.value == "" && password.value == ""){
+            setError(MUST_COMPLETE_INPUTS)
+        }
+        else if (!isValidEmail(email.value)){
+            setError(INVALID_EMAIL)
+        }
+        else {
             val signInBody = SignInBody(email.value, password.value)
             authModel.signIn(
                 scope = viewModelScope,
