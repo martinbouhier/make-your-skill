@@ -85,11 +85,11 @@ fun CreateNewAccountScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email.value, onChange = onEmailChange)
+            TextInputLogin(label = "Email", text = email.value, onChange = onEmailChange, error = null)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password.value, onChange = onPasswordChange)
+            TextInputLogin(label = "Password", isPassword = true, text = password.value, onChange = onPasswordChange,error = null)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritepassword.value, onChange = onReWritePasswordChange)
+            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritepassword.value, onChange = onReWritePasswordChange,error = null)
             Spacer(modifier = Modifier.height(10.dp))
 
 
