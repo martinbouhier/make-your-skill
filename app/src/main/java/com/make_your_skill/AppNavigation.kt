@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -30,6 +31,7 @@ import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
 import com.make_your_skill.ui.screens.results.ResultsRoutes
 import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesScreen
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.screens.skill.SkillsScreen
 import com.make_your_skill.viewModel.MakeYourSkillViewModel
 
@@ -37,9 +39,10 @@ import com.make_your_skill.viewModel.MakeYourSkillViewModel
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    makeYourSkillViewModel: MakeYourSkillViewModel = viewModel()
+    makeYourSkillViewModel: MakeYourSkillViewModel = viewModel(),
+    singInViewModel: SingInViewModel = viewModel()
 ) {
-    val isLoggedIn by makeYourSkillViewModel.isLoggedIn
+    val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
 
     Scaffold(
         modifier = Modifier

@@ -15,14 +15,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-
-class SingInViewModel: ViewModel() {
+@HiltViewModel
+class SingInViewModel @Inject constructor(): ViewModel() {
     val authService: AuthService = RetrofitServiceFactory.makeRetrofitService<AuthService>()
     private val authModel = AuthModel(authService)
 
     private val ERROR_LOGIN_IN = "Error logging in"
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
     private val INVALID_EMAIL = "Email is not valid"
+
+    private val _isLoggedIn = MutableStateFlow<Boolean>(false)
+    val isLoggedIn: StateFlow<Boolean> get() = _isLoggedIn
+    fun setIsLoggedIn(newState: Boolean) { _isLoggedIn.value = newState }
 
     private val _loading = MutableStateFlow<Boolean>(false)
     val loading: StateFlow<Boolean> get() = _loading
@@ -70,7 +74,8 @@ class SingInViewModel: ViewModel() {
                 signInBody = signInBody,
                 loading = _loading,
                 error = _error,
-                signInInfo = _signInInfo
+                signInInfo = _signInInfo,
+                isLoggedIn = _isLoggedIn
             )
         }
     }

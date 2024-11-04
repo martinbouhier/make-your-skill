@@ -19,7 +19,8 @@ class AuthModel(private val authService: AuthService) {
         signInBody: SignInBody,
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
-        signInInfo: MutableStateFlow<SignInDto?>
+        signInInfo: MutableStateFlow<SignInDto?>,
+        isLoggedIn: MutableStateFlow<Boolean>
     ) {
         scope.launch {
             loading.value = true
@@ -28,6 +29,7 @@ class AuthModel(private val authService: AuthService) {
                 if (response.isSuccessful){
                     signInInfo.value = response.body()
                     error.value = null
+                    isLoggedIn.value = true
                 }
                 else {
                     val errorBody = response.errorBody()?.string()
