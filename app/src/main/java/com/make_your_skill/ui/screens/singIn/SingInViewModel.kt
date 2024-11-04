@@ -9,11 +9,14 @@ import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
 import com.make_your_skill.helpers.validations.isValidEmail
 import com.make_your_skill.models.auth.AuthModel
+import com.make_your_skill.viewModel.MakeYourSkillViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
 
-class SingInViewModel : ViewModel() {
+class SingInViewModel: ViewModel() {
     val authService: AuthService = RetrofitServiceFactory.makeRetrofitService<AuthService>()
     private val authModel = AuthModel(authService)
 
