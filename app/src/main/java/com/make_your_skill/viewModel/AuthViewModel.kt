@@ -16,10 +16,10 @@ class AuthViewModel : ViewModel() {
     fun setUserInfo(newUserInfo: SignInDto) { _userInfo.value = newUserInfo }
 
     fun login() {
-        _isLoggedIn.value = true
+        setIsLoggedIn(true)
     }
     fun logout() {
-        _isLoggedIn.value = false
+        setIsLoggedIn(false)
     }
 
     fun register(){}

@@ -2,6 +2,7 @@ package com.make_your_skill.ui.screens.singIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
