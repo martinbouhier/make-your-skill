@@ -6,10 +6,10 @@ import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
+import com.make_your_skill.helpers.validations.isValidEmail
 import com.make_your_skill.models.auth.AuthModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 
 class SingInViewModel : ViewModel() {
@@ -52,13 +52,8 @@ class SingInViewModel : ViewModel() {
         _error.value = null
     }
 
-    fun isValidEmail(email: String): Boolean {
-        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})$"
-        return email.matches(emailRegex.toRegex())
-    }
-
     val onClick = {
-        if (email.value == "" && password.value == ""){
+        if (email.value == "" || password.value == ""){
             setError(MUST_COMPLETE_INPUTS)
         }
         else if (!isValidEmail(email.value)){

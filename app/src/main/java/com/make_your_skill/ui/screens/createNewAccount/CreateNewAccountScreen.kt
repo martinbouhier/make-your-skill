@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,34 +25,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.TextInputLogin
 import com.make_your_skill.ui.navigation.AppRoutes
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.BackgroundColor2
 
 
 @Composable
 fun CreateNewAccountScreen(navController: NavHostController) {
+    val viewModel: CreateNewAcoountViewModel = viewModel()
+    val isLoading by viewModel.loading.collectAsState()
+    val registerInfo by viewModel.registerInfo.collectAsState()
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val reWritePassword by viewModel.reWritePassword.collectAsState()
+    val error by viewModel.error.collectAsState()
+
     val separation = 25.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val reWritepassword = remember { mutableStateOf("") }
-
-    val onEmailChange: (String) -> Unit = { newEmail ->
-        email.value = newEmail
-    }
-
-    val onPasswordChange: (String) -> Unit = { newPassword ->
-        password.value = newPassword
-    }
-
-    val onReWritePasswordChange: (String) -> Unit = { newPassword ->
-        password.value = newPassword
-    }
 
     Column(
         modifier = Modifier
@@ -85,21 +82,29 @@ fun CreateNewAccountScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email.value, onChange = onEmailChange, error = null)
+            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange, error = error)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password.value, onChange = onPasswordChange,error = null)
+            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = error)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritepassword.value, onChange = onReWritePasswordChange,error = null)
+            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritePassword, onChange = viewModel.onReWritePasswordChange,error = error)
             Spacer(modifier = Modifier.height(10.dp))
 
+            if (error != null){
+                Text(
+                    text = error.toString(),
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
             Column(
                 modifier = Modifier.padding(bottom = 50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CustomButton(
-                    onClick = { navController.navigate(AppRoutes.FIRST_NAME_SCREEN) },
-                    text = "CREATE ACCOUNT",
+                    onClick = {
+                        viewModel.onClick(navController)},
+                    text = if (isLoading) "Loading..." else "CONTINUE",
                 )
             }
         }
