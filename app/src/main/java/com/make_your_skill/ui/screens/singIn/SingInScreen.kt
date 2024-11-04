@@ -2,6 +2,7 @@ package com.make_your_skill.ui.screens.singIn
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -99,7 +100,7 @@ fun SignInScreen(navController: NavHostController) {
                 text = "Forgot password",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.White
+                color = Color.White,
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -107,7 +108,9 @@ fun SignInScreen(navController: NavHostController) {
                 text = "Create new account",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier
+                    .clickable { navController.navigate(AppRoutes.REGISTER_SCREEN) }
             )
         }
 

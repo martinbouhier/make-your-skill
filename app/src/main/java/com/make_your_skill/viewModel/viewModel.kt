@@ -15,12 +15,5 @@ class MakeYourSkillViewModel : ViewModel() {
     val userInfo: State<SignInDto?> = _userInfo
     fun setUserInfo(newUserInfo: SignInDto) { _userInfo.value = newUserInfo }
 
-    fun login() {
-        setIsLoggedIn(true)
-    }
-    fun logout() {
-        setIsLoggedIn(false)
-    }
-
     fun register(){}
 }

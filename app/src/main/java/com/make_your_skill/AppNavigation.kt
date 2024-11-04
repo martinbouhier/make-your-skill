@@ -45,7 +45,7 @@ fun AppNavigation(
         modifier = Modifier
             .padding(WindowInsets.statusBars.asPaddingValues()),
         topBar = {
-            if(isLoggedIn){
+            if(true){
                 BackButton(navController, Color.Gray)
             }
 
@@ -66,55 +66,42 @@ fun AppNavigation(
             startDestination = AppRoutes.FIRST_SCREEN
         ) {
             composable(AppRoutes.FIRST_SCREEN){
-                makeYourSkillViewModel.logout()
                 FirstScreenRoutes(navController)
             }
             composable(AppRoutes.LOGIN_SCREEN){
-                makeYourSkillViewModel.logout()
                 SingInRoutes(navController)
             }
             composable(AppRoutes.REGISTER_SCREEN){
-                makeYourSkillViewModel.logout()
                 CreateNewAccountRoutes(navController)
             }
             composable(AppRoutes.MAIN_SCREEN) {
-                makeYourSkillViewModel.login()
                 MainScreenRoutes(navController)
             }
             composable(AppRoutes.PROFILE_SCREEN) {
-                makeYourSkillViewModel.login()
                 ProfileRoutes(navController)
             }
             composable(AppRoutes.MATCH_SEARCH_SCREEN){
-                makeYourSkillViewModel.login()
                 MatchSearchRoutes(navController)
             }
             composable(AppRoutes.FIRST_NAME_SCREEN){
-                makeYourSkillViewModel.logout()
                 FirstNameScreen(navController)
             }
             composable(AppRoutes.BIRTHDAY_SCREEN){
-                makeYourSkillViewModel.logout()
                 BirthdayScreen(navController)
             }
             composable(AppRoutes.SKILLS_SCREEN){
-                makeYourSkillViewModel.logout()
                 SkillsScreen(navController)
             }
             composable(AppRoutes.INTERESTS_SCREEN) {
-                makeYourSkillViewModel.logout()
                 InterestedSkillsScreen(navController)
             }
             composable(AppRoutes.SETTINGS_SCREEN){
-                makeYourSkillViewModel.login()
                 ProfileSettingsRoutes(navController = navController)
             }
             composable(AppRoutes.RESULTS_SCREEN){
-                makeYourSkillViewModel.logout()
                 ResultsRoutes(navController)
             }
             composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN){
-                makeYourSkillViewModel.logout()
                 SearchForPaidClassesScreen(navController)
             }
         }
