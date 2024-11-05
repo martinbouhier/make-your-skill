@@ -12,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.make_your_skill.ui.screens.skill.skillAddedDataClass
-import com.make_your_skill.ui.screens.skill.skillDataClass
+import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable

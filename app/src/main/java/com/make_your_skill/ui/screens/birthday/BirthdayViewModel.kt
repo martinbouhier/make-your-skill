@@ -16,8 +16,6 @@ class BirthdayViewModel : ViewModel(){
     fun onClick(
         date: String,
         registerFunc: () -> Unit,
-        error: String?,
-        navController: NavHostController
     ) {
         if (date == ""){
             setError(MUST_COMPLETE_INPUTS)
@@ -25,9 +23,6 @@ class BirthdayViewModel : ViewModel(){
         else {
             _error.value = null
             registerFunc()
-            if (error == null){
-                navController.navigate(AppRoutes.SKILLS_SCREEN)
-            }
         }
     }
 }

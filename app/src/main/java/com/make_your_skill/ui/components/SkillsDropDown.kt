@@ -17,7 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.make_your_skill.ui.screens.skill.skillDataClass
+import com.make_your_skill.dataClasses.skills.skillDataClass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

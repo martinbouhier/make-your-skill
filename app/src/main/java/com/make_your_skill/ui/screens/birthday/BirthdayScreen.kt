@@ -43,8 +43,10 @@ fun BirthdayScreen(
     val viewModel: BirthdayViewModel = viewModel()
     val dateOfBirth by createNewAcoountViewModel.dateOfBirth.collectAsState()
     val error by viewModel.error.collectAsState()
-    val registerError by createNewAcoountViewModel.error.collectAsState()
+    val defaultDate by createNewAcoountViewModel.defaultDate.collectAsState()
+    val registerError by createNewAcoountViewModel.registerError.collectAsState()
     val loading by createNewAcoountViewModel.loading.collectAsState()
+    val registerInfo by createNewAcoountViewModel.registerInfo.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 2/4"
@@ -55,11 +57,18 @@ fun BirthdayScreen(
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
-    } ?: ""
+    } ?: defaultDate
 
     LaunchedEffect(selectedDate) {
         if (selectedDate != "") {
             createNewAcoountViewModel.setDateOfBirth(selectedDate)
+            createNewAcoountViewModel.setDefaultDate(selectedDate)
+        }
+    }
+
+    LaunchedEffect(registerError) {
+        if (registerError == null && loading.not() && registerInfo != null) {
+            navController.navigate(AppRoutes.SKILLS_SCREEN)
         }
     }
 
@@ -92,9 +101,8 @@ fun BirthdayScreen(
         Row {
             CustomButton({viewModel.onClick(
                 dateOfBirth,
-                {createNewAcoountViewModel.register()},
-                error,
-                navController)},
+                {createNewAcoountViewModel.register()}
+            )},
                 if (loading) REGISTERING_USER else BUTTON_TEXT
             )
         }

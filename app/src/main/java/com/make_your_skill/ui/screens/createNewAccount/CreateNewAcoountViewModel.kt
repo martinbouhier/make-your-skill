@@ -35,9 +35,9 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     private val _createNewAccountScreenLoading = MutableStateFlow<Boolean>(false)
     val createNewAccountScreenLoading: StateFlow<Boolean> get() = _createNewAccountScreenLoading
 
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> get() = _error
-    fun setError(newError: String) { _error.value = newError }
+    private val _registerError = MutableStateFlow<String?>(null)
+    val registerError: StateFlow<String?> get() = _registerError
+    fun setRegisterError(newError: String) { _registerError.value = newError }
 
     private val _createNewAccountScreenError = MutableStateFlow<String?>(null)
     val createNewAccountScreenError: StateFlow<String?> get() = _createNewAccountScreenError
@@ -99,6 +99,10 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
         _createNewAccountScreenError.value = null
     }
 
+    private val _defaultDate = MutableStateFlow<String>("")
+    val defaultDate: StateFlow<String> get() = _defaultDate
+    fun setDefaultDate(newDate: String) { _defaultDate.value = newDate }
+
     //Para la pagina de register (mail y contra)
     val onClick: (NavHostController) -> Unit = {navController ->
         if (email.value == "" || password.value == "" || reWritePassword.value == ""){
@@ -138,7 +142,7 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
             scope = viewModelScope,
             registerBody = registerBody,
             loading = _loading,
-            error = _error,
+            error = _registerError,
             registerInfo = _registerInfo
         )
     }
