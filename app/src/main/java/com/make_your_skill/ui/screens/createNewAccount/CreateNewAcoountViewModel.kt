@@ -3,6 +3,7 @@ package com.make_your_skill.ui.screens.createNewAccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.make_your_skill.dataClasses.auth.body.RegisterBody
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
@@ -29,9 +30,16 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     private val _loading = MutableStateFlow<Boolean>(false)
     val loading: StateFlow<Boolean> get() = _loading
 
+    private val _createNewAccountScreenLoading = MutableStateFlow<Boolean>(false)
+    val createNewAccountScreenLoading: StateFlow<Boolean> get() = _createNewAccountScreenLoading
+
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
     fun setError(newError: String) { _error.value = newError }
+
+    private val _createNewAccountScreenError = MutableStateFlow<String?>(null)
+    val createNewAccountScreenError: StateFlow<String?> get() = _createNewAccountScreenError
+    fun setCreateNewAccountScreenError(newError: String) { _createNewAccountScreenError.value = newError }
 
     private val _registerInfo = MutableStateFlow<Any?>(null)
     val registerInfo: StateFlow<Any?> get() = _registerInfo
@@ -55,6 +63,10 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     private val _lastname = MutableStateFlow<String>("")
     val lastname: StateFlow<String> get() = _lastname
     fun setLastname(newLastname: String) { _lastname.value = newLastname }
+
+    private val _dateOfBirth = MutableStateFlow<String>("")
+    val dateOfBirth: StateFlow<String> get() = _dateOfBirth
+    fun setDateOfBirth(newDate: String) { _dateOfBirth.value = newDate }
 
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
@@ -82,25 +94,43 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     }
 
     fun clearError() {
-        _error.value = null
+        _createNewAccountScreenError.value = null
     }
 
     //Para la pagina de register (mail y contra)
     val onClick: (NavHostController) -> Unit = {navController ->
         if (email.value == "" || password.value == "" || reWritePassword.value == ""){
-            setError(MUST_COMPLETE_INPUTS)
+            setCreateNewAccountScreenError(MUST_COMPLETE_INPUTS)
         }
         else if (!isValidEmail(email.value)){
-            setError(INVALID_EMAIL)
+            setCreateNewAccountScreenError(INVALID_EMAIL)
         }
         else if (!isValidPassword(password.value)){
-            setError(INVALID_PASSWORD)
+            setCreateNewAccountScreenError(INVALID_PASSWORD)
         }
         else if (password.value != reWritePassword.value){
-            setError(PASSWORDS_MUST_MATCH)
+            setCreateNewAccountScreenError(PASSWORDS_MUST_MATCH)
         }
         else {
             navController.navigate(AppRoutes.FIRST_NAME_SCREEN)
         }
+    }
+
+    fun register(){
+        val registerBody = RegisterBody(
+            firstname.value,
+            lastname.value,
+            email.value,
+            dateOfBirth.value,
+            password.value,
+            true
+        )
+        authModel.register(
+            scope = viewModelScope,
+            registerBody = registerBody,
+            loading = _loading,
+            error = _error,
+            registerInfo = _registerInfo
+        )
     }
 }
