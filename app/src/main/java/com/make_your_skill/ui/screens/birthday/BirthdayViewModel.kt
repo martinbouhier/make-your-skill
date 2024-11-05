@@ -2,6 +2,7 @@ package com.make_your_skill.ui.screens.birthday
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.make_your_skill.ui.navigation.AppRoutes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -25,7 +26,7 @@ class BirthdayViewModel : ViewModel(){
             _error.value = null
             registerFunc()
             if (error == null){
-                //navController.navigate(AppRoutes.SKILLS_SCREEN)
+                navController.navigate(AppRoutes.SKILLS_SCREEN)
             }
         }
     }

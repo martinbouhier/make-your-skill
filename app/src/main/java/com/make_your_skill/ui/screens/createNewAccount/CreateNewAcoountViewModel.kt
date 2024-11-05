@@ -15,6 +15,8 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -66,7 +68,7 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
 
     private val _dateOfBirth = MutableStateFlow<String>("")
     val dateOfBirth: StateFlow<String> get() = _dateOfBirth
-    fun setDateOfBirth(newDate: String) { _dateOfBirth.value = newDate }
+    fun setDateOfBirth(newDate: String) { _dateOfBirth.value = convertStringDateToISO8601(newDate) }
 
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
@@ -114,6 +116,13 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
         else {
             navController.navigate(AppRoutes.FIRST_NAME_SCREEN)
         }
+    }
+
+    fun convertStringDateToISO8601(dateString: String): String {
+        val inputFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = inputFormat.parse(dateString)
+        return date.let { outputFormat.format(it) }
     }
 
     fun register(){

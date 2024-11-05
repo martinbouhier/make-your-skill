@@ -1,5 +1,6 @@
 package com.make_your_skill.models.auth
 
+import android.util.Log
 import com.google.gson.Gson
 import com.make_your_skill.dataClasses.ErrorResponse
 import com.make_your_skill.dataClasses.auth.body.RegisterBody

@@ -29,8 +29,10 @@ import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 
 @Composable
-fun FirstNameScreen(navController: NavHostController) {
-    val createNewAcoountViewModel: CreateNewAcoountViewModel = hiltViewModel()
+fun FirstNameScreen(
+    navController: NavHostController,
+    createNewAcoountViewModel: CreateNewAcoountViewModel
+) {
     val viewModel: FirstNameViewModel = viewModel()
     val firstname by createNewAcoountViewModel.firstname.collectAsState()
     val lastname by createNewAcoountViewModel.lastname.collectAsState()
@@ -61,8 +63,20 @@ fun FirstNameScreen(navController: NavHostController) {
             ) {
                 ScreenTitleText(FIRST_TEXT)
                 ScreenTitleText(SECOND_TEXT)
-                CustomTextField(firstname,createNewAcoountViewModel.onFirstNameChange,FIRSTNAME_LABEL, onSubmit = {}, false)
-                CustomTextField(lastname,createNewAcoountViewModel.onLastNameChange,LASTNAME_LABEL, onSubmit = {}, false)
+                CustomTextField(
+                    firstname,
+                    createNewAcoountViewModel.onFirstNameChange,
+                    FIRSTNAME_LABEL,
+                    onSubmit = {},
+                    false)
+
+                CustomTextField(
+                    lastname,
+                    createNewAcoountViewModel.onLastNameChange,
+                    LASTNAME_LABEL,
+                    onSubmit = {},
+                    false
+                )
                 if (error != null){
                     Text(
                         text = error.toString(),
