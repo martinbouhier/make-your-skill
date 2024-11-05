@@ -2,6 +2,7 @@ package com.make_your_skill.ui.screens.singIn
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,17 +24,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
-import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.TextInputLogin
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.BackgroundColor2
+import com.make_your_skill.viewModel.MakeYourSkillViewModel
 
 @Composable
-fun SignInScreen(navController: NavHostController) {
+fun SignInScreen(
+    navController: NavHostController,
+    makeYourSkillViewModel: MakeYourSkillViewModel = hiltViewModel()
+) {
     val viewModel: SingInViewModel = viewModel()
     val isLoading by viewModel.loading.collectAsState()
     val signInInfo by viewModel.signInInfo.collectAsState()
@@ -102,7 +105,7 @@ fun SignInScreen(navController: NavHostController) {
                 text = "Forgot password",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.White
+                color = Color.White,
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -110,7 +113,9 @@ fun SignInScreen(navController: NavHostController) {
                 text = "Create new account",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier
+                    .clickable { navController.navigate(AppRoutes.REGISTER_SCREEN) }
             )
         }
 

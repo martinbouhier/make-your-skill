@@ -2,23 +2,31 @@ package com.make_your_skill.ui.screens.singIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
+import com.make_your_skill.helpers.validations.isValidEmail
 import com.make_your_skill.models.auth.AuthModel
+import com.make_your_skill.viewModel.MakeYourSkillViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class SingInViewModel : ViewModel() {
+@HiltViewModel
+class SingInViewModel @Inject constructor(): ViewModel() {
     val authService: AuthService = RetrofitServiceFactory.makeRetrofitService<AuthService>()
     private val authModel = AuthModel(authService)
 
     private val ERROR_LOGIN_IN = "Error logging in"
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
     private val INVALID_EMAIL = "Email is not valid"
+
+    private val _isLoggedIn = MutableStateFlow<Boolean>(false)
+    val isLoggedIn: StateFlow<Boolean> get() = _isLoggedIn
+    fun setIsLoggedIn(newState: Boolean) { _isLoggedIn.value = newState }
 
     private val _loading = MutableStateFlow<Boolean>(false)
     val loading: StateFlow<Boolean> get() = _loading
@@ -52,13 +60,8 @@ class SingInViewModel : ViewModel() {
         _error.value = null
     }
 
-    fun isValidEmail(email: String): Boolean {
-        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})$"
-        return email.matches(emailRegex.toRegex())
-    }
-
     val onClick = {
-        if (email.value == "" && password.value == ""){
+        if (email.value == "" || password.value == ""){
             setError(MUST_COMPLETE_INPUTS)
         }
         else if (!isValidEmail(email.value)){
@@ -71,7 +74,8 @@ class SingInViewModel : ViewModel() {
                 signInBody = signInBody,
                 loading = _loading,
                 error = _error,
-                signInInfo = _signInInfo
+                signInInfo = _signInInfo,
+                isLoggedIn = _isLoggedIn
             )
         }
     }
