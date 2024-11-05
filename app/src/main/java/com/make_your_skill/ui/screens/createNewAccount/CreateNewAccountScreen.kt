@@ -38,12 +38,11 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 @Composable
 fun CreateNewAccountScreen(navController: NavHostController) {
     val viewModel: CreateNewAcoountViewModel = viewModel()
-    val isLoading by viewModel.loading.collectAsState()
-    val registerInfo by viewModel.registerInfo.collectAsState()
+    val isLoading by viewModel.createNewAccountScreenLoading.collectAsState()
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     val reWritePassword by viewModel.reWritePassword.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val createNewAccountScreenError by viewModel.createNewAccountScreenError.collectAsState()
 
     val separation = 25.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -82,16 +81,16 @@ fun CreateNewAccountScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange, error = error)
+            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange, error = createNewAccountScreenError)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = error)
+            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = createNewAccountScreenError)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritePassword, onChange = viewModel.onReWritePasswordChange,error = error)
+            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritePassword, onChange = viewModel.onReWritePasswordChange,error = createNewAccountScreenError)
             Spacer(modifier = Modifier.height(10.dp))
 
-            if (error != null){
+            if (createNewAccountScreenError != null){
                 Text(
-                    text = error.toString(),
+                    text = createNewAccountScreenError.toString(),
                     color = Color.Red,
                     fontWeight = FontWeight.Bold
                 )

@@ -9,5 +9,4 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MakeYourSkillViewModel @Inject constructor(): ViewModel() {
-    fun register(){}
 }
