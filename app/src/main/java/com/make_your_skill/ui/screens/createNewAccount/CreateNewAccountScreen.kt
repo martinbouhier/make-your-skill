@@ -36,13 +36,15 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 
 
 @Composable
-fun CreateNewAccountScreen(navController: NavHostController) {
-    val viewModel: CreateNewAcoountViewModel = viewModel()
-    val isLoading by viewModel.createNewAccountScreenLoading.collectAsState()
-    val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
-    val reWritePassword by viewModel.reWritePassword.collectAsState()
-    val createNewAccountScreenError by viewModel.createNewAccountScreenError.collectAsState()
+fun CreateNewAccountScreen(
+    navController: NavHostController,
+    createNewAcoountViewModel: CreateNewAcoountViewModel
+) {
+    val isLoading by createNewAcoountViewModel.createNewAccountScreenLoading.collectAsState()
+    val email by createNewAcoountViewModel.email.collectAsState()
+    val password by createNewAcoountViewModel.password.collectAsState()
+    val reWritePassword by createNewAcoountViewModel.reWritePassword.collectAsState()
+    val createNewAccountScreenError by createNewAcoountViewModel.createNewAccountScreenError.collectAsState()
 
     val separation = 25.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -81,11 +83,11 @@ fun CreateNewAccountScreen(navController: NavHostController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange, error = createNewAccountScreenError)
+            TextInputLogin(label = "Email", text = email, onChange = createNewAcoountViewModel.onEmailChange, error = createNewAccountScreenError)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = createNewAccountScreenError)
+            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = createNewAcoountViewModel.onPasswordChange,error = createNewAccountScreenError)
             Spacer(modifier = Modifier.height(10.dp))
-            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritePassword, onChange = viewModel.onReWritePasswordChange,error = createNewAccountScreenError)
+            TextInputLogin(label = "Re-Write password", isPassword = true, text = reWritePassword, onChange = createNewAcoountViewModel.onReWritePasswordChange,error = createNewAccountScreenError)
             Spacer(modifier = Modifier.height(10.dp))
 
             if (createNewAccountScreenError != null){
@@ -102,7 +104,7 @@ fun CreateNewAccountScreen(navController: NavHostController) {
             ) {
                 CustomButton(
                     onClick = {
-                        viewModel.onClick(navController)},
+                        createNewAcoountViewModel.onClick(navController)},
                     text = if (isLoading) "Loading..." else "CONTINUE",
                 )
             }

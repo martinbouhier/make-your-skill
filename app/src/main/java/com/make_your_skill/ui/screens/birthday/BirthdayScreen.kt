@@ -36,8 +36,10 @@ import com.make_your_skill.ui.screens.firstName.FirstNameViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BirthdayScreen(navController: NavHostController){
-    val createNewAcoountViewModel: CreateNewAcoountViewModel = hiltViewModel()
+fun BirthdayScreen(
+    navController: NavHostController,
+    createNewAcoountViewModel: CreateNewAcoountViewModel
+){
     val viewModel: BirthdayViewModel = viewModel()
     val dateOfBirth by createNewAcoountViewModel.dateOfBirth.collectAsState()
     val error by viewModel.error.collectAsState()

@@ -25,6 +25,7 @@ import com.make_your_skill.ui.screens.mainScreen.MainScreenRoutes
 import com.make_your_skill.ui.screens.matchSearch.MatchSearchRoutes
 import com.make_your_skill.ui.screens.profile.ProfileRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
+import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
@@ -40,7 +41,8 @@ import com.make_your_skill.viewModel.MakeYourSkillViewModel
 fun AppNavigation(
     navController: NavHostController,
     makeYourSkillViewModel: MakeYourSkillViewModel = viewModel(),
-    singInViewModel: SingInViewModel = viewModel()
+    singInViewModel: SingInViewModel = viewModel(),
+    createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel()
 ) {
     val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
 
@@ -75,7 +77,7 @@ fun AppNavigation(
                 SingInRoutes(navController)
             }
             composable(AppRoutes.REGISTER_SCREEN){
-                CreateNewAccountRoutes(navController)
+                CreateNewAccountRoutes(navController, createNewAcoountViewModel)
             }
             composable(AppRoutes.MAIN_SCREEN) {
                 MainScreenRoutes(navController)
@@ -87,10 +89,10 @@ fun AppNavigation(
                 MatchSearchRoutes(navController)
             }
             composable(AppRoutes.FIRST_NAME_SCREEN){
-                FirstNameScreen(navController)
+                FirstNameScreen(navController, createNewAcoountViewModel)
             }
             composable(AppRoutes.BIRTHDAY_SCREEN){
-                BirthdayScreen(navController)
+                BirthdayScreen(navController, createNewAcoountViewModel)
             }
             composable(AppRoutes.SKILLS_SCREEN){
                 SkillsScreen(navController)

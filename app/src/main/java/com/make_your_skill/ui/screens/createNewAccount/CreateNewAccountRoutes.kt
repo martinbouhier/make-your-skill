@@ -8,7 +8,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun CreateNewAccountRoutes(
     navController:NavHostController,
-    viewModel: CreateNewAcoountViewModel = viewModel()
+    createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel()
 ){
-    CreateNewAccountScreen(navController = navController)
+    CreateNewAccountScreen(
+        navController = navController,
+        createNewAcoountViewModel = createNewAcoountViewModel
+    )
 }
