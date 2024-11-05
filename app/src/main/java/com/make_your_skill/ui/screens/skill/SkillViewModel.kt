@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 class SkillsViewModel : ViewModel() {
-
     val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues. Mock Data
         skillDataClass(id =1, skill = "Kotlin", createdAt = "", updatedAt = ""),
         skillDataClass(id =2, skill = "Java", createdAt = "", updatedAt = ""),
@@ -24,7 +23,9 @@ class SkillsViewModel : ViewModel() {
 
     private val _skills = MutableStateFlow<List<skillAddedDataClass>>(emptyList())
     val skills: StateFlow<List<skillAddedDataClass>> get() = _skills
-    fun addSkill(newSkill: skillAddedDataClass) { _skills.value + newSkill }
+    fun addSkill(newSkill: skillAddedDataClass) {
+        _skills.value = _skills.value + newSkill // Asignar la nueva lista
+    }
 
     private val _addedSkill = MutableStateFlow<skillDataClass>(listOfSkills[0])
     val addedSkill: StateFlow<skillDataClass> get() = _addedSkill
@@ -79,15 +80,13 @@ class SkillsViewModel : ViewModel() {
 
     //Confirmo que agrego skill en el popup
     val onConfirmation = {
-        if (addedSkill != null){
-            val newSkill: skillAddedDataClass = skillAddedDataClass(
-                id = addedSkill.value!!.id,
-                skill = addedSkill.value!!.skill,
-                selected = true,
-                price = addedPrice.value
-            )
-            addSkill(newSkill)
-        }
+        val newSkill: skillAddedDataClass = skillAddedDataClass(
+            id = addedSkill.value.id,
+            skill = addedSkill.value.skill,
+            selected = true,
+            price = addedPrice.value
+        )
+        addSkill(newSkill)
         setShowAddPopUp(false)
     }
 
