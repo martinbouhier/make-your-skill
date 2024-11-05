@@ -11,10 +11,13 @@ import com.make_your_skill.helpers.validations.isValidEmail
 import com.make_your_skill.helpers.validations.isValidPassword
 import com.make_your_skill.models.auth.AuthModel
 import com.make_your_skill.ui.navigation.AppRoutes
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class CreateNewAcoountViewModel: ViewModel() {
+@HiltViewModel
+class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
     private val INVALID_EMAIL = "Email is not valid"
     private val INVALID_PASSWORD = "Password must have a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
@@ -45,6 +48,14 @@ class CreateNewAcoountViewModel: ViewModel() {
     val reWritePassword: StateFlow<String> get() = _reWritePassword
     fun setreWritepassword(newPassword: String) { _reWritePassword.value = newPassword }
 
+    private val _firstname = MutableStateFlow<String>("")
+    val firstname: StateFlow<String> get() = _firstname
+    fun setFirstname(newFirstname: String) { _firstname.value = newFirstname }
+
+    private val _lastname = MutableStateFlow<String>("")
+    val lastname: StateFlow<String> get() = _lastname
+    fun setLastname(newLastname: String) { _lastname.value = newLastname }
+
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
         setEmail(newEmail)
@@ -60,10 +71,21 @@ class CreateNewAcoountViewModel: ViewModel() {
         setreWritepassword(newPassword)
     }
 
+    val onFirstNameChange: (String) -> Unit = { newFirstname ->
+        clearError()
+        setFirstname(newFirstname)
+    }
+
+    val onLastNameChange: (String) -> Unit = { newLastname ->
+        clearError()
+        setLastname(newLastname)
+    }
+
     fun clearError() {
         _error.value = null
     }
 
+    //Para la pagina de register (mail y contra)
     val onClick: (NavHostController) -> Unit = {navController ->
         if (email.value == "" || password.value == "" || reWritePassword.value == ""){
             setError(MUST_COMPLETE_INPUTS)

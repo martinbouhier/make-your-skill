@@ -50,12 +50,6 @@ fun FirstNameScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            BackButton(navController,Color.Gray)
-        }
         Row {
             Column(
                 modifier = Modifier
