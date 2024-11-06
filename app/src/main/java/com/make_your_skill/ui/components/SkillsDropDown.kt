@@ -17,7 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.make_your_skill.ui.screens.skill.skillDataClass
+import com.make_your_skill.dataClasses.skills.skillDataClass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +26,7 @@ fun skillsDropDown(
     onSkillAddChange: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val textFieldState = rememberTextFieldState(skillsList[0].skill)
+    val textFieldState = rememberTextFieldState(skillsList[0].name)
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -47,9 +47,9 @@ fun skillsDropDown(
         ) {
             skillsList.forEach { skill ->
                 DropdownMenuItem(
-                    text = { Text(skill.skill, style = MaterialTheme.typography.bodyLarge) },
+                    text = { Text(skill.name, style = MaterialTheme.typography.bodyLarge) },
                     onClick = {
-                        textFieldState.setTextAndPlaceCursorAtEnd(skill.skill)
+                        textFieldState.setTextAndPlaceCursorAtEnd(skill.name)
                         onSkillAddChange(skill.id)
                         expanded = false
                     },

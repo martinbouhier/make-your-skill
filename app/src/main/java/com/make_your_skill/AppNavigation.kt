@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.BottomAppBarContent
 import com.make_your_skill.ui.screens.birthday.BirthdayScreen
@@ -33,6 +34,7 @@ import com.make_your_skill.ui.screens.results.ResultsRoutes
 import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesScreen
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
+import com.make_your_skill.ui.screens.skill.SkillsRoutes
 import com.make_your_skill.ui.screens.skill.SkillsScreen
 import com.make_your_skill.viewModel.MakeYourSkillViewModel
 
@@ -40,10 +42,10 @@ import com.make_your_skill.viewModel.MakeYourSkillViewModel
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    makeYourSkillViewModel: MakeYourSkillViewModel = viewModel(),
     singInViewModel: SingInViewModel = viewModel(),
     createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel()
 ) {
+    val cookieJar = InMemoryCookieJar()
     val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
 
     Scaffold(
@@ -74,7 +76,7 @@ fun AppNavigation(
                 FirstScreenRoutes(navController)
             }
             composable(AppRoutes.LOGIN_SCREEN){
-                SingInRoutes(navController)
+                SingInRoutes(navController,singInViewModel,cookieJar)
             }
             composable(AppRoutes.REGISTER_SCREEN){
                 CreateNewAccountRoutes(navController, createNewAcoountViewModel)
@@ -92,10 +94,10 @@ fun AppNavigation(
                 FirstNameScreen(navController, createNewAcoountViewModel)
             }
             composable(AppRoutes.BIRTHDAY_SCREEN){
-                BirthdayScreen(navController, createNewAcoountViewModel)
+                BirthdayScreen(navController, createNewAcoountViewModel, singInViewModel,cookieJar)
             }
             composable(AppRoutes.SKILLS_SCREEN){
-                SkillsScreen(navController)
+                SkillsRoutes(navController, singInViewModel,cookieJar)
             }
             composable(AppRoutes.INTERESTS_SCREEN) {
                 InterestedSkillsScreen(navController)

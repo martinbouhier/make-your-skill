@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.DatePickerDocked
@@ -33,18 +34,23 @@ import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameViewModel
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BirthdayScreen(
     navController: NavHostController,
-    createNewAcoountViewModel: CreateNewAcoountViewModel
+    createNewAcoountViewModel: CreateNewAcoountViewModel,
+    singInViewModel: SingInViewModel,
+    cookieJar: InMemoryCookieJar
 ){
     val viewModel: BirthdayViewModel = viewModel()
     val dateOfBirth by createNewAcoountViewModel.dateOfBirth.collectAsState()
     val error by viewModel.error.collectAsState()
-    val registerError by createNewAcoountViewModel.error.collectAsState()
+    val defaultDate by createNewAcoountViewModel.defaultDate.collectAsState()
+    val registerError by createNewAcoountViewModel.registerError.collectAsState()
     val loading by createNewAcoountViewModel.loading.collectAsState()
+    val registerInfo by createNewAcoountViewModel.registerInfo.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 2/4"
@@ -55,13 +61,26 @@ fun BirthdayScreen(
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
-    } ?: ""
+    } ?: defaultDate
 
     LaunchedEffect(selectedDate) {
         if (selectedDate != "") {
             createNewAcoountViewModel.setDateOfBirth(selectedDate)
+            createNewAcoountViewModel.setDefaultDate(selectedDate)
         }
     }
+
+    LaunchedEffect(registerInfo) {
+        if (registerError == null && loading.not() && registerInfo != null) {
+            //Armamos para que si se registra exitosamente te logue automaticamente
+            singInViewModel.setEmail(createNewAcoountViewModel.email.value)
+            singInViewModel.setPassword(createNewAcoountViewModel.password.value)
+            singInViewModel.onLogin(cookieJar)
+
+            navController.navigate(AppRoutes.SKILLS_SCREEN)
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -92,9 +111,8 @@ fun BirthdayScreen(
         Row {
             CustomButton({viewModel.onClick(
                 dateOfBirth,
-                {createNewAcoountViewModel.register()},
-                error,
-                navController)},
+                {createNewAcoountViewModel.register()}
+            )},
                 if (loading) REGISTERING_USER else BUTTON_TEXT
             )
         }

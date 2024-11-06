@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.TextInputLogin
 import com.make_your_skill.ui.navigation.AppRoutes
@@ -37,14 +38,14 @@ import com.make_your_skill.viewModel.MakeYourSkillViewModel
 @Composable
 fun SignInScreen(
     navController: NavHostController,
-    makeYourSkillViewModel: MakeYourSkillViewModel = hiltViewModel()
+    singInViewModel: SingInViewModel = hiltViewModel(),
+    cookieJar: InMemoryCookieJar
 ) {
-    val viewModel: SingInViewModel = viewModel()
-    val isLoading by viewModel.loading.collectAsState()
-    val signInInfo by viewModel.signInInfo.collectAsState()
-    val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val isLoading by singInViewModel.loading.collectAsState()
+    val signInInfo by singInViewModel.signInInfo.collectAsState()
+    val email by singInViewModel.email.collectAsState()
+    val password by singInViewModel.password.collectAsState()
+    val error by singInViewModel.error.collectAsState()
 
     val separation = 25.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -89,9 +90,9 @@ fun SignInScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextInputLogin(label = "Email", text = email, onChange = viewModel.onEmailChange, error = error)
+            TextInputLogin(label = "Email", text = email, onChange = singInViewModel.onEmailChange, error = error)
             Spacer(modifier = Modifier.height(11.dp))
-            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = viewModel.onPasswordChange,error = error)
+            TextInputLogin(label = "Password", isPassword = true, text = password, onChange = singInViewModel.onPasswordChange,error = error)
             Spacer(modifier = Modifier.height(16.dp))
             if (error != null){
                 Text(
@@ -124,7 +125,7 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomButton(
-                onClick = { viewModel.onClick() },
+                onClick = { singInViewModel.onLogin(cookieJar) },
                 text = if (isLoading) "Loading..." else "SIGN IN",
             )
         }

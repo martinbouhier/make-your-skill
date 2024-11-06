@@ -6,7 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.make_your_skill.ui.screens.skill.skillDataClass
+import com.make_your_skill.dataClasses.skills.skillDataClass
 
 @Composable
 fun addSkillPopUp(

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
 import com.make_your_skill.helpers.validations.isValidEmail
@@ -46,6 +47,14 @@ class SingInViewModel @Inject constructor(): ViewModel() {
     val password: StateFlow<String> get() = _password
     fun setPassword(newPassword: String) { _password.value = newPassword }
 
+    fun getToken(): String{
+        var token = ""
+        if (signInInfo.value != null){
+            token = signInInfo.value!!.tokens.token
+        }
+        return token
+    }
+
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
         setEmail(newEmail)
@@ -60,23 +69,34 @@ class SingInViewModel @Inject constructor(): ViewModel() {
         _error.value = null
     }
 
-    val onClick = {
-        if (email.value == "" || password.value == ""){
+    fun login(
+        email: MutableStateFlow<String>,
+        password: MutableStateFlow<String>,
+        loading:  MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        signInInfo: MutableStateFlow<SignInDto?>,
+        isLoggedIn: MutableStateFlow<Boolean>,
+        cookieJar: InMemoryCookieJar
+    ){
+        val signInBody = SignInBody(email.value, password.value)
+        authModel.signIn(
+            scope = viewModelScope,
+            signInBody = signInBody,
+            loading = loading,
+            error = error,
+            signInInfo = signInInfo,
+            isLoggedIn = isLoggedIn,
+            cookieJar = cookieJar
+        )
+    }
+
+    val onLogin = { cookieJar: InMemoryCookieJar ->
+        if (email.value.isEmpty() || password.value.isEmpty()) {
             setError(MUST_COMPLETE_INPUTS)
-        }
-        else if (!isValidEmail(email.value)){
+        } else if (!isValidEmail(email.value)) {
             setError(INVALID_EMAIL)
-        }
-        else {
-            val signInBody = SignInBody(email.value, password.value)
-            authModel.signIn(
-                scope = viewModelScope,
-                signInBody = signInBody,
-                loading = _loading,
-                error = _error,
-                signInInfo = _signInInfo,
-                isLoggedIn = _isLoggedIn
-            )
+        } else {
+            login(_email,_password,_loading,_error,_signInInfo,_isLoggedIn, cookieJar)
         }
     }
 }

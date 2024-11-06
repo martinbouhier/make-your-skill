@@ -26,15 +26,15 @@ import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.addInterestsPopUp
 import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.components.interest
-import com.make_your_skill.ui.screens.skill.skillDataClass
+import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun InterestedSkillsScreen(navController: NavHostController) {
     val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues. Mock Data
-        skillDataClass(id =1, skill = "Kotlin"),
-        skillDataClass(id =2, skill = "Java"),
-        skillDataClass(id =3, skill = "Python")
+        skillDataClass(id =1, name = "Kotlin", createdAt = "", updatedAt = ""),
+        skillDataClass(id =2, name = "Java", createdAt = "", updatedAt = ""),
+        skillDataClass(id =3, name = "Python", createdAt = "", updatedAt = "")
     )
 
     var showAddPopUp by remember { mutableStateOf(false) } //Si muestro el popup o no
@@ -81,7 +81,7 @@ fun InterestedSkillsScreen(navController: NavHostController) {
         if (addedInterestedSkill != null){
             val newSkill: interestAddedDataClass = interestAddedDataClass(
                 id = addedInterestedSkill!!.id,
-                skill = addedInterestedSkill!!.skill,
+                skill = addedInterestedSkill!!.name,
                 selected = true
             )
             interests = interests + newSkill
