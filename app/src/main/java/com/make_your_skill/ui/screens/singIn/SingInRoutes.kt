@@ -4,13 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 
 
 @Composable
 fun SingInRoutes(
     navController: NavHostController,
-    viewModel: SingInViewModel = viewModel()
+    viewModel: SingInViewModel = viewModel(),
+    cookieJar: InMemoryCookieJar
 ){
-    SignInScreen(navController = navController)
+    SignInScreen(navController = navController,cookieJar = cookieJar)
 }
 

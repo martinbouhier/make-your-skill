@@ -6,10 +6,15 @@ import com.make_your_skill.dataClasses.ErrorResponse
 import com.make_your_skill.dataClasses.auth.body.RegisterBody
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
+import com.make_your_skill.helpers.retrofit.Credentials
 import com.make_your_skill.helpers.retrofit.auth.AuthService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import okhttp3.Cookie
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 class AuthModel(private val authService: AuthService) {
     private val ERROR_LOGIN_IN = "Error logging in"
@@ -21,13 +26,27 @@ class AuthModel(private val authService: AuthService) {
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         signInInfo: MutableStateFlow<SignInDto?>,
-        isLoggedIn: MutableStateFlow<Boolean>
+        isLoggedIn: MutableStateFlow<Boolean>,
+        cookieJar: InMemoryCookieJar
     ) {
         scope.launch {
             loading.value = true
             try {
                 val response = authService.login(signInBody)
                 if (response.isSuccessful){
+                    response.headers()["Set-Cookie"]?.let { cookies ->
+                        val sessionCookie = cookies.split(";").find { it.contains("NESTJS_SESSION_ID") }
+                        sessionCookie?.let { cookie ->
+                            val cookieValue = cookie.trim()
+                            // Guardamos la cookie en el cookieJar
+                            val httpUrl = Credentials.BASE_URL.toHttpUrlOrNull()!!
+                            val parsedCookie = Cookie.parse(httpUrl, cookieValue)
+                            if (parsedCookie != null) {
+                                cookieJar.saveFromResponse(httpUrl, listOf(parsedCookie))
+                            }
+                        }
+                    }
+
                     signInInfo.value = response.body()
                     error.value = null
                     isLoggedIn.value = true

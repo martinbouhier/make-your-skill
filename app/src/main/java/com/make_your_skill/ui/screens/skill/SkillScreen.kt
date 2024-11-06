@@ -23,18 +23,21 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.dataClasses.skills.skillDataClass
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.addSkillPopUp
 import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.components.skill
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun SkillsScreen(
     navController: NavHostController,
-    singInViewModel: SingInViewModel
+    singInViewModel: SingInViewModel,
+    cookieJar: InMemoryCookieJar
 ) {
     val skillsViewModel: SkillsViewModel = viewModel()
     val listOfSkills by skillsViewModel.listOfSkills.collectAsState()
@@ -55,7 +58,8 @@ fun SkillsScreen(
     LaunchedEffect(userInfo) {
         if (userInfo != null){
             val token = userInfo!!.tokens.token
-            skillsViewModel.getAllSkills(token)
+            val sessionId = cookieJar.getSessionCookie().toString()
+            skillsViewModel.getAllSkills(token,sessionId)
         }
     }
 
@@ -123,7 +127,7 @@ fun SkillsScreen(
                         )
                     }
                 }
-                else if (error != null){
+                else if (error == null){
                     Text(text = LOADING_SKILLS)
                 }
                 if (error != null){
@@ -133,7 +137,6 @@ fun SkillsScreen(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Text(text = listOfSkills.toString())
             }
 
         }

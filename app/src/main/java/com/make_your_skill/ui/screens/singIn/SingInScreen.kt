@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.TextInputLogin
 import com.make_your_skill.ui.navigation.AppRoutes
@@ -37,7 +38,8 @@ import com.make_your_skill.viewModel.MakeYourSkillViewModel
 @Composable
 fun SignInScreen(
     navController: NavHostController,
-    singInViewModel: SingInViewModel = hiltViewModel()
+    singInViewModel: SingInViewModel = hiltViewModel(),
+    cookieJar: InMemoryCookieJar
 ) {
     val isLoading by singInViewModel.loading.collectAsState()
     val signInInfo by singInViewModel.signInInfo.collectAsState()
@@ -123,7 +125,7 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomButton(
-                onClick = { singInViewModel.onLogin() },
+                onClick = { singInViewModel.onLogin(cookieJar) },
                 text = if (isLoading) "Loading..." else "SIGN IN",
             )
         }

@@ -43,7 +43,7 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
         _skills.value = _skills.value + newSkill // Asignar la nueva lista
     }
 
-    private val _addedSkill = MutableStateFlow<skillDataClass>(skillDataClass(id = 0, skill = "", createdAt = "", updatedAt = ""))
+    private val _addedSkill = MutableStateFlow<skillDataClass>(skillDataClass(id = 0, name = "", createdAt = "", updatedAt = ""))
     val addedSkill: StateFlow<skillDataClass> get() = _addedSkill
     fun setAddedSkill(skill: skillDataClass) { _addedSkill.value = skill }
 
@@ -98,7 +98,7 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     val onConfirmation = {
         val newSkill: skillAddedDataClass = skillAddedDataClass(
             id = addedSkill.value.id,
-            skill = addedSkill.value.skill,
+            skill = addedSkill.value.name,
             selected = true,
             price = addedPrice.value
         )
@@ -106,13 +106,14 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
         setShowAddPopUp(false)
     }
 
-    val getAllSkills: (String) -> Unit = { token ->
+    val getAllSkills: (String, String) -> Unit = { token, sessionCookie ->
         skillsModel.getAllSkills(
             scope = viewModelScope,
             loading = _loading,
             error = _error,
             listOfSkills = _listOfSkills,
-            token = token
+            token = token,
+            sessionCookie = sessionCookie
         )
     }
 }

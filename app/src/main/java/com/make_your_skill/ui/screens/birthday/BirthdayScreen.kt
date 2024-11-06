@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.DatePickerDocked
@@ -40,7 +41,8 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 fun BirthdayScreen(
     navController: NavHostController,
     createNewAcoountViewModel: CreateNewAcoountViewModel,
-    singInViewModel: SingInViewModel
+    singInViewModel: SingInViewModel,
+    cookieJar: InMemoryCookieJar
 ){
     val viewModel: BirthdayViewModel = viewModel()
     val dateOfBirth by createNewAcoountViewModel.dateOfBirth.collectAsState()
@@ -73,7 +75,7 @@ fun BirthdayScreen(
             //Armamos para que si se registra exitosamente te logue automaticamente
             singInViewModel.setEmail(createNewAcoountViewModel.email.value)
             singInViewModel.setPassword(createNewAcoountViewModel.password.value)
-            singInViewModel.onLogin()
+            singInViewModel.onLogin(cookieJar)
 
             navController.navigate(AppRoutes.SKILLS_SCREEN)
         }

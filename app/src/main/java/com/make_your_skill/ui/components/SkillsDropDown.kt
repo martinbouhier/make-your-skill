@@ -26,7 +26,7 @@ fun skillsDropDown(
     onSkillAddChange: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val textFieldState = rememberTextFieldState(skillsList[0].skill)
+    val textFieldState = rememberTextFieldState(skillsList[0].name)
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -47,9 +47,9 @@ fun skillsDropDown(
         ) {
             skillsList.forEach { skill ->
                 DropdownMenuItem(
-                    text = { Text(skill.skill, style = MaterialTheme.typography.bodyLarge) },
+                    text = { Text(skill.name, style = MaterialTheme.typography.bodyLarge) },
                     onClick = {
-                        textFieldState.setTextAndPlaceCursorAtEnd(skill.skill)
+                        textFieldState.setTextAndPlaceCursorAtEnd(skill.name)
                         onSkillAddChange(skill.id)
                         expanded = false
                     },

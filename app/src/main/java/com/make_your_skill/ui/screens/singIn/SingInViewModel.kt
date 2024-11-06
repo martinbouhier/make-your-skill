@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
+import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
 import com.make_your_skill.helpers.validations.isValidEmail
@@ -74,7 +75,8 @@ class SingInViewModel @Inject constructor(): ViewModel() {
         loading:  MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         signInInfo: MutableStateFlow<SignInDto?>,
-        isLoggedIn: MutableStateFlow<Boolean>
+        isLoggedIn: MutableStateFlow<Boolean>,
+        cookieJar: InMemoryCookieJar
     ){
         val signInBody = SignInBody(email.value, password.value)
         authModel.signIn(
@@ -83,17 +85,18 @@ class SingInViewModel @Inject constructor(): ViewModel() {
             loading = loading,
             error = error,
             signInInfo = signInInfo,
-            isLoggedIn = isLoggedIn
+            isLoggedIn = isLoggedIn,
+            cookieJar = cookieJar
         )
     }
 
-    val onLogin = {
+    val onLogin = { cookieJar: InMemoryCookieJar ->
         if (email.value.isEmpty() || password.value.isEmpty()) {
             setError(MUST_COMPLETE_INPUTS)
         } else if (!isValidEmail(email.value)) {
             setError(INVALID_EMAIL)
         } else {
-            login(_email,_password,_loading,_error,_signInInfo,_isLoggedIn)
+            login(_email,_password,_loading,_error,_signInInfo,_isLoggedIn, cookieJar)
         }
     }
 }
