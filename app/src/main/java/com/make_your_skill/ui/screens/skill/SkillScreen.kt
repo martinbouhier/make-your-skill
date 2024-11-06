@@ -43,9 +43,10 @@ fun SkillsScreen(
     val listOfSkills by skillsViewModel.listOfSkills.collectAsState()
     val showAddPopUp by skillsViewModel.showAddPopUp.collectAsState()
     val skills by skillsViewModel.skills.collectAsState()//Lista de skills que va a agregar el usuario
-    val addedSkill by skillsViewModel.addedSkill.collectAsState()//Skill a agregar
     val addedPrice by skillsViewModel.addedPrice.collectAsState()//Precio del skill a agregar
     val error by skillsViewModel.error.collectAsState()
+    val loading by skillsViewModel.loading.collectAsState()
+    val loadingAddSkill by skillsViewModel.loadingAddSkill.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
 
     val separation = 25.dp
@@ -54,6 +55,7 @@ fun SkillsScreen(
     val DIALOG_TITLE = "Add skill"
     val PRICE_LABEL = "Price..."
     val LOADING_SKILLS = "Loading skills..."
+    val LOADING_ADD_SKILLS = "Adding skills"
 
     LaunchedEffect(userInfo) {
         if (userInfo != null){
@@ -83,11 +85,14 @@ fun SkillsScreen(
                 skillsViewModel.onSkillAddChange
             )
         }
-        Row {
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f),
+        ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.7f),
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -103,6 +108,7 @@ fun SkillsScreen(
                             .fillMaxWidth(0.7f),
                         horizontalArrangement = Arrangement.End
                     ) {
+
                         Text(
                             text = "Add",
                             modifier = Modifier
@@ -114,6 +120,7 @@ fun SkillsScreen(
                             fontSize = 17.sp,
                             color = DarkPurple
                         )
+
                         Text(
                             text = "Delete",
                             modifier = Modifier
@@ -127,7 +134,7 @@ fun SkillsScreen(
                         )
                     }
                 }
-                else if (error == null){
+                else if (loading){
                     Text(text = LOADING_SKILLS)
                 }
                 if (error != null){
@@ -138,10 +145,19 @@ fun SkillsScreen(
                     )
                 }
             }
-
         }
-        Row {
-            CustomButton({skillsViewModel.onClick(navController)},BUTTON_TEXT)
+        Row (
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            CustomButton({skillsViewModel.onClick(
+                navController,
+                userInfo!!.tokens.token,
+                cookieJar.getSessionCookie().toString(),
+                userInfo!!.user.id
+            )},
+                if (loadingAddSkill) LOADING_ADD_SKILLS else BUTTON_TEXT
+            )
         }
     }
 }
