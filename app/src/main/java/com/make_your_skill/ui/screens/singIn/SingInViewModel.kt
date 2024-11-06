@@ -68,23 +68,32 @@ class SingInViewModel @Inject constructor(): ViewModel() {
         _error.value = null
     }
 
-    val onClick = {
-        if (email.value == "" || password.value == ""){
+    fun login(
+        email: MutableStateFlow<String>,
+        password: MutableStateFlow<String>,
+        loading:  MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        signInInfo: MutableStateFlow<SignInDto?>,
+        isLoggedIn: MutableStateFlow<Boolean>
+    ){
+        val signInBody = SignInBody(email.value, password.value)
+        authModel.signIn(
+            scope = viewModelScope,
+            signInBody = signInBody,
+            loading = loading,
+            error = error,
+            signInInfo = signInInfo,
+            isLoggedIn = isLoggedIn
+        )
+    }
+
+    val onLogin = {
+        if (email.value.isEmpty() || password.value.isEmpty()) {
             setError(MUST_COMPLETE_INPUTS)
-        }
-        else if (!isValidEmail(email.value)){
+        } else if (!isValidEmail(email.value)) {
             setError(INVALID_EMAIL)
-        }
-        else {
-            val signInBody = SignInBody(email.value, password.value)
-            authModel.signIn(
-                scope = viewModelScope,
-                signInBody = signInBody,
-                loading = _loading,
-                error = _error,
-                signInInfo = _signInInfo,
-                isLoggedIn = _isLoggedIn
-            )
+        } else {
+            login(_email,_password,_loading,_error,_signInInfo,_isLoggedIn)
         }
     }
 }

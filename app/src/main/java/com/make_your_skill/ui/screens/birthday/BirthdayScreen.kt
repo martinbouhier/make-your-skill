@@ -33,12 +33,14 @@ import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameViewModel
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BirthdayScreen(
     navController: NavHostController,
-    createNewAcoountViewModel: CreateNewAcoountViewModel
+    createNewAcoountViewModel: CreateNewAcoountViewModel,
+    singInViewModel: SingInViewModel
 ){
     val viewModel: BirthdayViewModel = viewModel()
     val dateOfBirth by createNewAcoountViewModel.dateOfBirth.collectAsState()
@@ -68,6 +70,11 @@ fun BirthdayScreen(
 
     LaunchedEffect(registerInfo) {
         if (registerError == null && loading.not() && registerInfo != null) {
+            //Armamos para que si se registra exitosamente te logue automaticamente
+            singInViewModel.setEmail(createNewAcoountViewModel.email.value)
+            singInViewModel.setPassword(createNewAcoountViewModel.password.value)
+            singInViewModel.onLogin()
+
             navController.navigate(AppRoutes.SKILLS_SCREEN)
         }
     }

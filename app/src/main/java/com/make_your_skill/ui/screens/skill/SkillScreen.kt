@@ -27,13 +27,14 @@ import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.addSkillPopUp
 import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.ui.components.skill
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple
 
 
 @Composable
 fun SkillsScreen(
     navController: NavHostController,
-    token: String
+    singInViewModel: SingInViewModel
 ) {
     val skillsViewModel: SkillsViewModel = viewModel()
     val listOfSkills by skillsViewModel.listOfSkills.collectAsState()
@@ -42,6 +43,7 @@ fun SkillsScreen(
     val addedSkill by skillsViewModel.addedSkill.collectAsState()//Skill a agregar
     val addedPrice by skillsViewModel.addedPrice.collectAsState()//Precio del skill a agregar
     val error by skillsViewModel.error.collectAsState()
+    val userInfo by singInViewModel.signInInfo.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 3/4"
@@ -50,8 +52,11 @@ fun SkillsScreen(
     val PRICE_LABEL = "Price..."
     val LOADING_SKILLS = "Loading skills..."
 
-    LaunchedEffect(Unit) {
-        skillsViewModel.getAllSkills(token)
+    LaunchedEffect(userInfo) {
+        if (userInfo != null){
+            val token = userInfo!!.tokens.token
+            skillsViewModel.getAllSkills(token)
+        }
     }
 
     Column(
@@ -128,6 +133,7 @@ fun SkillsScreen(
                         fontWeight = FontWeight.Bold
                     )
                 }
+                Text(text = listOfSkills.toString())
             }
 
         }

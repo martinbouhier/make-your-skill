@@ -73,7 +73,7 @@ fun AppNavigation(
                 FirstScreenRoutes(navController)
             }
             composable(AppRoutes.LOGIN_SCREEN){
-                SingInRoutes(navController)
+                SingInRoutes(navController,singInViewModel)
             }
             composable(AppRoutes.REGISTER_SCREEN){
                 CreateNewAccountRoutes(navController, createNewAcoountViewModel)
@@ -91,10 +91,10 @@ fun AppNavigation(
                 FirstNameScreen(navController, createNewAcoountViewModel)
             }
             composable(AppRoutes.BIRTHDAY_SCREEN){
-                BirthdayScreen(navController, createNewAcoountViewModel)
+                BirthdayScreen(navController, createNewAcoountViewModel, singInViewModel)
             }
             composable(AppRoutes.SKILLS_SCREEN){
-                SkillsScreen(navController, singInViewModel.getToken())
+                SkillsScreen(navController, singInViewModel)
             }
             composable(AppRoutes.INTERESTS_SCREEN) {
                 InterestedSkillsScreen(navController)
