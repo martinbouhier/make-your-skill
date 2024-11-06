@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,24 +31,28 @@ import com.make_your_skill.ui.theme.DarkPurple
 
 
 @Composable
-fun SkillsScreen(navController: NavHostController) {
-    val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues. Mock Data
-        skillDataClass(id =1, skill = "Kotlin", createdAt = "", updatedAt = ""),
-        skillDataClass(id =2, skill = "Java", createdAt = "", updatedAt = ""),
-        skillDataClass(id =3, skill = "Python", createdAt = "", updatedAt = "")
-    )
-
+fun SkillsScreen(
+    navController: NavHostController,
+    token: String
+) {
     val skillsViewModel: SkillsViewModel = viewModel()
+    val listOfSkills by skillsViewModel.listOfSkills.collectAsState()
     val showAddPopUp by skillsViewModel.showAddPopUp.collectAsState()
     val skills by skillsViewModel.skills.collectAsState()//Lista de skills que va a agregar el usuario
     val addedSkill by skillsViewModel.addedSkill.collectAsState()//Skill a agregar
     val addedPrice by skillsViewModel.addedPrice.collectAsState()//Precio del skill a agregar
+    val error by skillsViewModel.error.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 3/4"
     val FIRST_TEXT = "Skills"
     val DIALOG_TITLE = "Add skill"
     val PRICE_LABEL = "Price..."
+    val LOADING_SKILLS = "Loading skills..."
+
+    LaunchedEffect(Unit) {
+        skillsViewModel.getAllSkills(token)
+    }
 
     Column(
         modifier = Modifier
@@ -57,7 +62,7 @@ fun SkillsScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        if (showAddPopUp == true){
+        if (showAddPopUp){
             addSkillPopUp(
                 skillsViewModel.onDismissRequest,
                 skillsViewModel.onConfirmation,
@@ -83,32 +88,44 @@ fun SkillsScreen(navController: NavHostController) {
                         skill(skillItem, skillsViewModel.onSkillChange) // Llama al composable SkillItem para cada habilidad
                     }
                 }
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = "Add",
+                if (listOfSkills.isNotEmpty()){
+                    Row (
                         modifier = Modifier
-                            .padding(16.dp)
-                            .clickable {
-                                skillsViewModel.onAdd()
-                            }, // Aplica un margen de 16dp
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 17.sp,
-                        color = DarkPurple
-                    )
+                            .fillMaxWidth(0.7f),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = "Add",
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .clickable {
+                                    skillsViewModel.onAdd()
+                                }, // Aplica un margen de 16dp
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp,
+                            color = DarkPurple
+                        )
+                        Text(
+                            text = "Delete",
+                            modifier = Modifier
+                                .padding(16.dp) // Aplica un margen de 16dp
+                                .clickable {
+                                    skillsViewModel.onDelete()
+                                },
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp,
+                            color = DarkPurple
+                        )
+                    }
+                }
+                else if (error != null){
+                    Text(text = LOADING_SKILLS)
+                }
+                if (error != null){
                     Text(
-                        text = "Delete",
-                        modifier = Modifier
-                            .padding(16.dp) // Aplica un margen de 16dp
-                            .clickable {
-                                skillsViewModel.onDelete()
-                            },
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 17.sp,
-                        color = DarkPurple
+                        text = error.toString(),
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }

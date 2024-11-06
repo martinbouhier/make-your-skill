@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun SkillsRoutes(
     navController: NavHostController,
-    viewModel: SkillsViewModel = viewModel()
+    token: String
 ){
-    SkillsScreen(navController)
+    SkillsScreen(navController, token)
 }

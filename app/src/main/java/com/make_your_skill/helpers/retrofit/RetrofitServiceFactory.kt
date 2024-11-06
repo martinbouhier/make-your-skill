@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitServiceFactory {
     inline fun <reified T> makeRetrofitService(): T {
         return Retrofit.Builder()
-            .baseUrl("http://3.145.137.163:5000/")
+            .baseUrl(Credentials.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(T::class.java)

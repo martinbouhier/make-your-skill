@@ -40,7 +40,6 @@ import com.make_your_skill.viewModel.MakeYourSkillViewModel
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    makeYourSkillViewModel: MakeYourSkillViewModel = viewModel(),
     singInViewModel: SingInViewModel = viewModel(),
     createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel()
 ) {
@@ -95,7 +94,7 @@ fun AppNavigation(
                 BirthdayScreen(navController, createNewAcoountViewModel)
             }
             composable(AppRoutes.SKILLS_SCREEN){
-                SkillsScreen(navController)
+                SkillsScreen(navController, singInViewModel.getToken())
             }
             composable(AppRoutes.INTERESTS_SCREEN) {
                 InterestedSkillsScreen(navController)

@@ -66,11 +66,12 @@ fun BirthdayScreen(
         }
     }
 
-    LaunchedEffect(registerError) {
+    LaunchedEffect(registerInfo) {
         if (registerError == null && loading.not() && registerInfo != null) {
             navController.navigate(AppRoutes.SKILLS_SCREEN)
         }
     }
+
 
     Column(
         modifier = Modifier

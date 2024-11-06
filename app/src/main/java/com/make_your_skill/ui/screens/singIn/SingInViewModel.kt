@@ -46,6 +46,14 @@ class SingInViewModel @Inject constructor(): ViewModel() {
     val password: StateFlow<String> get() = _password
     fun setPassword(newPassword: String) { _password.value = newPassword }
 
+    fun getToken(): String{
+        var token = ""
+        if (signInInfo.value != null){
+            token = signInInfo.value!!.tokens.token
+        }
+        return token
+    }
+
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
         setEmail(newEmail)

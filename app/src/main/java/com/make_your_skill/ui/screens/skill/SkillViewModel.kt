@@ -1,21 +1,37 @@
 package com.make_your_skill.ui.screens.skill
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.dataClasses.skills.skillDataClass
+import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
+import com.make_your_skill.helpers.retrofit.skills.SkillsService
+import com.make_your_skill.helpers.validations.isValidEmail
+import com.make_your_skill.models.skills.SkillsModel
 import com.make_your_skill.ui.navigation.AppRoutes
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SkillsViewModel : ViewModel() {
-    val listOfSkills = listOf<skillDataClass>( //Hay que borrarlos despues. Mock Data
-        skillDataClass(id =1, skill = "Kotlin", createdAt = "", updatedAt = ""),
-        skillDataClass(id =2, skill = "Java", createdAt = "", updatedAt = ""),
-        skillDataClass(id =3, skill = "Python", createdAt = "", updatedAt = "")
-    )
+@HiltViewModel
+class SkillsViewModel @Inject constructor() : ViewModel() {
+    val skillsService: SkillsService = RetrofitServiceFactory.makeRetrofitService<SkillsService>()
+    private val skillsModel = SkillsModel(skillsService)
+
+    private val _listOfSkills = MutableStateFlow<List<skillDataClass>>(emptyList())
+    val listOfSkills: StateFlow<List<skillDataClass>> get() = _listOfSkills
+
+    private val _loading = MutableStateFlow<Boolean>(false)
+    val loading: StateFlow<Boolean> get() = _loading
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> get() = _error
+    fun setError(newError: String) { _error.value = newError }
 
     private val _showAddPopUp = MutableStateFlow<Boolean>(false)
     val showAddPopUp: StateFlow<Boolean> get() = _showAddPopUp
@@ -27,7 +43,7 @@ class SkillsViewModel : ViewModel() {
         _skills.value = _skills.value + newSkill // Asignar la nueva lista
     }
 
-    private val _addedSkill = MutableStateFlow<skillDataClass>(listOfSkills[0])
+    private val _addedSkill = MutableStateFlow<skillDataClass>(skillDataClass(id = 0, skill = "", createdAt = "", updatedAt = ""))
     val addedSkill: StateFlow<skillDataClass> get() = _addedSkill
     fun setAddedSkill(skill: skillDataClass) { _addedSkill.value = skill }
 
@@ -63,7 +79,7 @@ class SkillsViewModel : ViewModel() {
 
     // Cuando cambia el skill que voy a agregar
     val onSkillAddChange: (Int) -> Unit = { skillId ->
-        val skillFound: skillDataClass? = listOfSkills.find { it.id == skillId }
+        val skillFound: skillDataClass? = listOfSkills.value.find { it.id == skillId }
         setAddedSkill(skillFound!!) // Actualizamos el estado con el skill encontrado
     }
 
@@ -90,4 +106,13 @@ class SkillsViewModel : ViewModel() {
         setShowAddPopUp(false)
     }
 
+    val getAllSkills: (String) -> Unit = { token ->
+        skillsModel.getAllSkills(
+            scope = viewModelScope,
+            loading = _loading,
+            error = _error,
+            listOfSkills = _listOfSkills,
+            token = token
+        )
+    }
 }
