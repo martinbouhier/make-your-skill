@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
     private val ERROR_INSERTING_USER_SKILL = "Error inserting user skill"
+    private val ERROR_GETTING_USER_SKILLS = "Error getting user skills"
 
     fun addUserSkill(
         scope: CoroutineScope,
@@ -67,11 +68,11 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = errorBody?.let {
                         Gson().fromJson(it, ErrorResponse::class.java).message
-                    } ?: ERROR_INSERTING_USER_SKILL
+                    } ?: ERROR_GETTING_USER_SKILLS
                     error.value = errorMessage
                 }
             } catch (e: Exception) {
-                error.value = ERROR_INSERTING_USER_SKILL
+                error.value = ERROR_GETTING_USER_SKILLS
             } finally {
                 loading.value = false
             }

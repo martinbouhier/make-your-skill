@@ -85,7 +85,7 @@ fun AppNavigation(
                 MainScreenRoutes(navController)
             }
             composable(AppRoutes.PROFILE_SCREEN) {
-                ProfileRoutes(navController, singInViewModel)
+                ProfileRoutes(navController, singInViewModel,cookieJar)
             }
             composable(AppRoutes.MATCH_SEARCH_SCREEN){
                 MatchSearchRoutes(navController)
