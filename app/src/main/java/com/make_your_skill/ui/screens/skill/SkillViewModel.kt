@@ -3,22 +3,18 @@ package com.make_your_skill.ui.screens.skill
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.usersSkills.body.AddUserSkill
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.skills.SkillsService
 import com.make_your_skill.helpers.retrofit.usersSkills.UsersSkillsService
-import com.make_your_skill.helpers.validations.isValidEmail
 import com.make_your_skill.models.skills.SkillsModel
 import com.make_your_skill.models.usersSkills.UsersSkillsModel
 import com.make_your_skill.ui.navigation.AppRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,7 +50,7 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     val skills: StateFlow<List<skillAddedDataClass>> get() = _skills
     fun addSkill(newSkill: skillAddedDataClass) {
         if (findSkillById(newSkill.id) == null){
-            _skills.value = _skills.value + newSkill // Asignar la nueva lista
+            _skills.value += newSkill // Asignar la nueva lista
         }
     }
 

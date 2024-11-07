@@ -100,7 +100,7 @@ fun AppNavigation(
                 SkillsRoutes(navController, singInViewModel,cookieJar)
             }
             composable(AppRoutes.INTERESTS_SCREEN) {
-                InterestedSkillsScreen(navController)
+                InterestedSkillsScreen(navController, singInViewModel,cookieJar)
             }
             composable(AppRoutes.SETTINGS_SCREEN){
                 ProfileSettingsRoutes(navController = navController)
