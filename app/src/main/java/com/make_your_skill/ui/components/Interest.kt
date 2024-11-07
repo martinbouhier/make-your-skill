@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.make_your_skill.ui.screens.interests.interestAddedDataClass
+import com.make_your_skill.dataClasses.interestedSkills.InterestAddedDataClass
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
 fun interest(
-    skill: interestAddedDataClass,
-    onSkillChange: (interestAddedDataClass) -> Unit){
+    skill: InterestAddedDataClass,
+    onSkillChange: (InterestAddedDataClass) -> Unit){
     Column {
         Row (
             verticalAlignment = Alignment.CenterVertically,
