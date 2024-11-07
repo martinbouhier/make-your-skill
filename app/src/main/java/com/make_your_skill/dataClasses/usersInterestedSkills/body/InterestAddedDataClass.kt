@@ -1,4 +1,4 @@
-package com.make_your_skill.dataClasses.interestedSkills
+package com.make_your_skill.dataClasses.usersInterestedSkills.body
 
 data class InterestAddedDataClass(
     val id: Int,

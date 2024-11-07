@@ -1,4 +1,4 @@
-package com.make_your_skill.helpers.validations
+package com.make_your_skill.helpers.functions
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
