@@ -10,6 +10,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -23,11 +25,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
+import com.make_your_skill.helpers.functions.calculateAge
+import com.make_your_skill.helpers.functions.capitalizeFirstLetter
 import com.make_your_skill.ui.navigation.AppRoutes
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.*
 
 @Composable
-fun ProfileScreen(navController: NavHostController) {
+fun ProfileScreen(
+    navController: NavHostController,
+    singInViewModel: SingInViewModel
+) {
+    val userInfo by singInViewModel.signInInfo.collectAsState()
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val spacerSeparation = 32.dp
 
@@ -53,7 +62,9 @@ fun ProfileScreen(navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(spacerSeparation))
             Text(
-                text = "Persona Random",
+                text = capitalizeFirstLetter(userInfo!!.user.firstname) +
+                        " " +
+                        capitalizeFirstLetter(userInfo!!.user.lastname),
                 style = styleTitle
             )
             Spacer(modifier = Modifier.height(spacerSeparation))
@@ -65,7 +76,7 @@ fun ProfileScreen(navController: NavHostController) {
                     .width(142.dp),
             )
             Spacer(modifier = Modifier.height(spacerSeparation))
-            ContentProfile(spacerSeparation)
+            ContentProfile(spacerSeparation, calculateAge(userInfo!!.user.dateOfBirth))
 
 
         }
@@ -92,7 +103,7 @@ fun ProfileScreen(navController: NavHostController) {
     }
 }
 @Composable
-fun ContentProfile(spacerSeparation : Dp) {
+fun ContentProfile(spacerSeparation : Dp,age: Int) {
     Column(
         modifier = Modifier.padding(16.dp) 
     ) {
@@ -107,7 +118,7 @@ fun ContentProfile(spacerSeparation : Dp) {
                 modifier = Modifier.weight(1f) 
             )
             Text(
-                text = "25", 
+                text = age.toString(),
                 style = styleSubtitle,
                 fontSize = 30.sp,
                 modifier = Modifier.weight(1f), 

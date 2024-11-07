@@ -2,15 +2,13 @@ package com.make_your_skill.ui.screens.singIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
-import com.make_your_skill.helpers.validations.isValidEmail
+import com.make_your_skill.helpers.functions.isValidEmail
 import com.make_your_skill.models.auth.AuthModel
-import com.make_your_skill.viewModel.MakeYourSkillViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

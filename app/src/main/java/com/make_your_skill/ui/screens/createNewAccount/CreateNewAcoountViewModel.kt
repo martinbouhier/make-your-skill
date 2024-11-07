@@ -4,12 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.make_your_skill.dataClasses.auth.body.RegisterBody
-import com.make_your_skill.dataClasses.auth.body.SignInBody
-import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
-import com.make_your_skill.helpers.validations.isValidEmail
-import com.make_your_skill.helpers.validations.isValidPassword
+import com.make_your_skill.helpers.functions.isValidEmail
+import com.make_your_skill.helpers.functions.isValidPassword
 import com.make_your_skill.models.auth.AuthModel
 import com.make_your_skill.ui.navigation.AppRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel

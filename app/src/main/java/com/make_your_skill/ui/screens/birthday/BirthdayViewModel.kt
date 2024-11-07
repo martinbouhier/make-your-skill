@@ -1,10 +1,7 @@
 package com.make_your_skill.ui.screens.birthday
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
-import com.make_your_skill.dataClasses.auth.dto.SignInDto
-import com.make_your_skill.helpers.validations.isDateBeforeOrEqualToday
-import com.make_your_skill.ui.navigation.AppRoutes
+import com.make_your_skill.helpers.functions.isDateBeforeOrEqualToday
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
