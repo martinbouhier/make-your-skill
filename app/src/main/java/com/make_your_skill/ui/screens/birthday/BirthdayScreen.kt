@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
+import com.make_your_skill.helpers.validations.getNextDate
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.DatePickerDocked
@@ -60,7 +61,8 @@ fun BirthdayScreen(
 
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
+        val currentDate = convertMillisToDate(it) // "11/05/2024"
+        getNextDate(currentDate) // "11/06/2024"
     } ?: defaultDate
 
     LaunchedEffect(selectedDate) {
