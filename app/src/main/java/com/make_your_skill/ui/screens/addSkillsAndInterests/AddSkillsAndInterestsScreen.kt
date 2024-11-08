@@ -12,8 +12,8 @@ fun AddSkillsAndInterestsScreen(navController: NavHostController) {
     TwoOptionsScreen(navController = navController,
         firstButtonText = "INTERESTS",
         secondButtonText = "SKILLS",
-        firstButtonAction = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
-        secondButtonAction = { navController.navigate(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) },
+        firstButtonAction = { navController.navigate(AppRoutes.INTERESTS_SCREEN) },
+        secondButtonAction = { navController.navigate(AppRoutes.SKILLS_SCREEN) },
         description = "ADD SKILLS AND INTERESTS"
     )
 }

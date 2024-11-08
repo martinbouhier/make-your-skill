@@ -3,15 +3,20 @@ package com.make_your_skill
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BottomAppBarContent
@@ -52,15 +58,14 @@ fun AppNavigation(
     val cookieJar = InMemoryCookieJar()
     val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route ?: AppRoutes.MAIN_SCREEN
 
     Scaffold(
-        modifier = Modifier
-            .padding(WindowInsets.statusBars.asPaddingValues()),
         topBar = {
-            if(true){
+            if(currentRoute != AppRoutes.FIRST_SCREEN && currentRoute != AppRoutes.MAIN_SCREEN ){
                 BackButton(navController, Color.Gray)
             }
-
         },
         bottomBar = {
             if(isLoggedIn){
@@ -71,57 +76,71 @@ fun AppNavigation(
                 }
             }
 
-        }
-    ) {
-        NavHost(
-            navController = navController,
-            startDestination = AppRoutes.FIRST_SCREEN
+        },
+        modifier = Modifier.windowInsetsPadding(WindowInsets.systemBars)
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         ) {
-            composable(AppRoutes.FIRST_SCREEN){
-                FirstScreenRoutes(navController)
-            }
-            composable(AppRoutes.LOGIN_SCREEN){
-                SingInRoutes(navController,singInViewModel,cookieJar)
-            }
-            composable(AppRoutes.REGISTER_SCREEN){
-                CreateNewAccountRoutes(navController, createNewAcoountViewModel)
-            }
-            composable(AppRoutes.MAIN_SCREEN) {
-                MainScreenRoutes(navController)
-            }
-            composable(
-                route = AppRoutes.PROFILE_SCREEN + "/{userId}",
-                arguments = listOf(navArgument("userId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val userId: Int = backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
-                ProfileRoutes(navController, singInViewModel, cookieJar, userId)
-            }
-            composable(AppRoutes.MATCH_SEARCH_SCREEN){
-                MatchSearchRoutes(navController)
-            }
-            composable(AppRoutes.ADD_SKILLS_INTEREST_SCREEN){
-                AddSkillsAndInterestsRoutes(navController)
-            }
-            composable(AppRoutes.FIRST_NAME_SCREEN){
-                FirstNameScreen(navController, createNewAcoountViewModel)
-            }
-            composable(AppRoutes.BIRTHDAY_SCREEN){
-                BirthdayScreen(navController, createNewAcoountViewModel, singInViewModel,cookieJar)
-            }
-            composable(AppRoutes.SKILLS_SCREEN){
-                SkillsRoutes(navController, singInViewModel,cookieJar)
-            }
-            composable(AppRoutes.INTERESTS_SCREEN) {
-                InterestedSkillsScreen(navController, singInViewModel,cookieJar)
-            }
-            composable(AppRoutes.SETTINGS_SCREEN){
-                ProfileSettingsRoutes(navController = navController)
-            }
-            composable(AppRoutes.RESULTS_SCREEN){
-                ResultsRoutes(navController)
-            }
-            composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN){
-                SearchForPaidClassesScreen(navController)
+            NavHost(
+                navController = navController,
+                startDestination = AppRoutes.FIRST_SCREEN,
+
+            ) {
+                composable(AppRoutes.FIRST_SCREEN) {
+                    FirstScreenRoutes(navController)
+                }
+                composable(AppRoutes.LOGIN_SCREEN) {
+                    SingInRoutes(navController, singInViewModel, cookieJar)
+                }
+                composable(AppRoutes.REGISTER_SCREEN) {
+                    CreateNewAccountRoutes(navController, createNewAcoountViewModel)
+                }
+                composable(AppRoutes.MAIN_SCREEN) {
+                    MainScreenRoutes(navController)
+                }
+                composable(
+                    route = AppRoutes.PROFILE_SCREEN + "/{userId}",
+                    arguments = listOf(navArgument("userId") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    val userId: Int =
+                        backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
+                    ProfileRoutes(navController, singInViewModel, cookieJar, userId)
+                }
+                composable(AppRoutes.MATCH_SEARCH_SCREEN) {
+                    MatchSearchRoutes(navController)
+                }
+                composable(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) {
+                    AddSkillsAndInterestsRoutes(navController)
+                }
+                composable(AppRoutes.FIRST_NAME_SCREEN) {
+                    FirstNameScreen(navController, createNewAcoountViewModel)
+                }
+                composable(AppRoutes.BIRTHDAY_SCREEN) {
+                    BirthdayScreen(
+                        navController,
+                        createNewAcoountViewModel,
+                        singInViewModel,
+                        cookieJar
+                    )
+                }
+                composable(AppRoutes.SKILLS_SCREEN) {
+                    SkillsRoutes(navController, singInViewModel, cookieJar)
+                }
+                composable(AppRoutes.INTERESTS_SCREEN) {
+                    InterestedSkillsScreen(navController, singInViewModel, cookieJar)
+                }
+                composable(AppRoutes.SETTINGS_SCREEN) {
+                    ProfileSettingsRoutes(navController = navController)
+                }
+                composable(AppRoutes.RESULTS_SCREEN) {
+                    ResultsRoutes(navController)
+                }
+                composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) {
+                    SearchForPaidClassesScreen(navController)
+                }
             }
         }
     }

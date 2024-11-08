@@ -27,9 +27,9 @@ fun BottomAppBarContent(
           .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        CustomIconButton(iconResId = R.drawable.logo_purple, {navController.navigate("${AppRoutes.PROFILE_SCREEN}/$userId")}, Purple)
+        CustomIconButton(iconResId = R.drawable.logo_purple, {navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN)},Purple)
         CustomIconButton(iconResId = R.drawable.search, {navController.navigate(AppRoutes.MAIN_SCREEN)},Purple)
-        CustomIconButton(iconResId = R.drawable.profile, {navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN)},Purple)
+        CustomIconButton(iconResId = R.drawable.profile, {navController.navigate("${AppRoutes.PROFILE_SCREEN}/$userId")}, Purple)
 
     }
 }
