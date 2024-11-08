@@ -1,7 +1,9 @@
 package com.make_your_skill.helpers.retrofit.usersInterestedSkills
 
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.AddUserInterestedSkill
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.DeleteUserInterestedSkill
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
+import com.make_your_skill.dataClasses.usersSkills.body.DeleteUserSkill
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -9,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface UserInterestedSkillsService {
     @POST("users-interested-skills")
@@ -25,10 +28,11 @@ interface UserInterestedSkillsService {
         @Path("userId") userId: Int
     ): Response<List<GetUserInterestedSkillsById>>
 
-    @DELETE("users-interested-skills/{skillId}")
-    suspend fun deleteUserSkillsByUserId(
+    @DELETE("users-interested-skills/byUserSkill")
+    suspend fun deleteUserInterestedSkill(
         @Header("Authorization") token: String,
         @Header("Cookie") sessionCookie: String? = null, // Añadimos la cookie como parámetro opcional
-        @Path("skillId") skillId: Int
-    ): Response<List<Any>>
+        @Query("userId") userId: Int,
+        @Query("skillId") skillId: Int
+    ): Response<Any>
 }

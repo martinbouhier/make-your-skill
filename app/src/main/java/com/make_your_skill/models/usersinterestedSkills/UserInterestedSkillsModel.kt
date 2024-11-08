@@ -3,7 +3,9 @@ package com.make_your_skill.models.usersinterestedSkills
 import com.google.gson.Gson
 import com.make_your_skill.dataClasses.ErrorResponse
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.AddUserInterestedSkill
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.DeleteUserInterestedSkill
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
+import com.make_your_skill.dataClasses.usersSkills.body.DeleteUserSkill
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.retrofit.usersInterestedSkills.UserInterestedSkillsService
 import kotlinx.coroutines.CoroutineScope
@@ -77,11 +79,11 @@ class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserIn
         }
     }
 
-    fun deleteUserSkill(
+    fun deleteUserInterestedSkill(
         scope: CoroutineScope,
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
-        skillId: Int,
+        deleteUserSkill: DeleteUserSkill,
         token: String,
         sessionCookie: String
     ) {
@@ -89,18 +91,18 @@ class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserIn
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = userInterestedSkillsService.deleteUserSkillsByUserId(finalToken, sessionCookie,skillId)
+                val response = userInterestedSkillsService.deleteUserInterestedSkill(finalToken, sessionCookie,deleteUserSkill.userId,deleteUserSkill.skillId)
                 if (response.isSuccessful) {
                     error.value = null
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = errorBody?.let {
                         Gson().fromJson(it, ErrorResponse::class.java).message
-                    } ?: ERROR_DELETING_USER_INTERESTED_SKILL
+                    } ?: ERROR_INSERTING_USER_INTERESTED_SKILL
                     error.value = errorMessage
                 }
             } catch (e: Exception) {
-                error.value = ERROR_DELETING_USER_INTERESTED_SKILL
+                error.value = ERROR_INSERTING_USER_INTERESTED_SKILL
             } finally {
                 loading.value = false
             }

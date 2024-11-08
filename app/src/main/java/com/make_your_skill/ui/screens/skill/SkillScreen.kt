@@ -144,7 +144,10 @@ fun SkillsScreen(
                             modifier = Modifier
                                 .padding(16.dp) // Aplica un margen de 16dp
                                 .clickable {
-                                    skillsViewModel.onDelete()
+                                    skillsViewModel.onDelete(
+                                        userInfo!!.tokens.token,
+                                        cookieJar.getSessionCookie().toString(),
+                                        userInfo!!.user.id)
                                 },
                             fontWeight = FontWeight.Bold,
                             fontSize = 17.sp,

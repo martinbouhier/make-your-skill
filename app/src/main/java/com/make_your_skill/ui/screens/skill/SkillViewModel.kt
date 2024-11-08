@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.usersSkills.body.AddUserSkill
+import com.make_your_skill.dataClasses.usersSkills.body.DeleteUserSkill
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.skills.SkillsService
@@ -35,6 +36,9 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     private val _loadingAddSkill = MutableStateFlow<Boolean>(false)
     val loadingAddSkill: StateFlow<Boolean> get() = _loadingAddSkill
 
+    private val _loadingDeleteSkill = MutableStateFlow<Boolean>(false)
+    val loadingDeleteSkill: StateFlow<Boolean> get() = _loadingDeleteSkill
+
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
     fun setError(newError: String) { _error.value = newError }
@@ -42,6 +46,10 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     private val _errorAddSkill = MutableStateFlow<String?>(null)
     val errorAddSkill: StateFlow<String?> get() = _errorAddSkill
     fun setErrorAddSkill(newError: String) { _errorAddSkill.value = newError }
+
+    private val _errorDeleteSkill = MutableStateFlow<String?>(null)
+    val errorDeleteSkill: StateFlow<String?> get() = _errorDeleteSkill
+    fun setErrorDeleteSkill(newError: String) { _errorDeleteSkill.value = newError }
 
     private val _showAddPopUp = MutableStateFlow<Boolean>(false)
     val showAddPopUp: StateFlow<Boolean> get() = _showAddPopUp
@@ -84,14 +92,17 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     }
 
     //Cuando hago click en delete y borro un skill
-    val onDelete = {
+    val onDelete: (String, String, Int) -> Unit = { token, sessionCookie, userId ->
         val selectedSkills = _skills.value.filter { it.selected } // Filtramos los skills seleccionados
         val unselectedSkills = _skills.value.filter { !it.selected } // Filtramos los skills no seleccionados
 
+        //en el back borramos las seleccionadas
+        for (selectedSkill in selectedSkills){
+            deleteUserSkillBack(selectedSkill,token,sessionCookie,userId)
+        }
+
         //dejamos para el front todas las que no fueron seleccionadas
         _skills.value = unselectedSkills // Actualizamos la lista sin los skills seleccionados
-
-        //en el back borramos las seleccionadas
     }
 
     //Cuando click en add skill
@@ -158,6 +169,25 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
                 userId = userId,
                 skillId = skill.id,
                 pricePerHour = skill.price!!
+            ),
+            token = token,
+            sessionCookie = sessionCookie
+        )
+    }
+
+    fun deleteUserSkillBack(
+        skill: skillAddedDataClass,
+        token: String,
+        sessionCookie: String,
+        userId: Int
+    ){
+        usersSkillModel.deleteUserSkill(
+            scope = viewModelScope,
+            loading = _loadingDeleteSkill,
+            error = _errorDeleteSkill,
+            deleteUserSkill = DeleteUserSkill(
+                userId = userId,
+                skillId = skill.id
             ),
             token = token,
             sessionCookie = sessionCookie

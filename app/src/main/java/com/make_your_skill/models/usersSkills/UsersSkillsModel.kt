@@ -6,6 +6,7 @@ import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.usersSkills.body.AddUserSkill
+import com.make_your_skill.dataClasses.usersSkills.body.DeleteUserSkill
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.retrofit.skills.SkillsService
 import com.make_your_skill.helpers.retrofit.usersSkills.UsersSkillsService
@@ -84,7 +85,7 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
         scope: CoroutineScope,
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
-        skillId: Int,
+        deleteUserSkill: DeleteUserSkill,
         token: String,
         sessionCookie: String
     ) {
@@ -92,7 +93,7 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = usersSkillsService.deleteUserSkillsByUserId(finalToken, sessionCookie,skillId)
+                val response = usersSkillsService.deleteUserSkill(finalToken, sessionCookie,deleteUserSkill.userId,deleteUserSkill.skillId)
                 if (response.isSuccessful) {
                     error.value = null
                 } else {
@@ -103,7 +104,7 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
                     error.value = errorMessage
                 }
             } catch (e: Exception) {
-                error.value = ERROR_INSERTING_USER_SKILL
+                error.value = ERROR_DELETING_USER_SKILL
             } finally {
                 loading.value = false
             }
