@@ -19,4 +19,5 @@ object AppRoutes {
     val SKILLS_SCREEN = "skills_screen"
     val INTERESTED_SKILLS_SCREEN = "interestes_skills_screen"
     val RESULTS_SCREEN = "ResultsScreen"
+    val ADD_SKILLS_INTEREST_SCREEN = "AddSkillsInterestsScreen"
 }
