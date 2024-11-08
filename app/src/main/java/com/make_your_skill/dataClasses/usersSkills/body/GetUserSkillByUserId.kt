@@ -5,7 +5,7 @@ import com.make_your_skill.dataClasses.users.UserDataClass
 
 data class GetUserSkillByUserId(
     val id:Int,
-    val pricePerHour: Int,
+    val pricePerHour: Float,
     val user : UserDataClass,
     val skill : skillDataClass
 )
