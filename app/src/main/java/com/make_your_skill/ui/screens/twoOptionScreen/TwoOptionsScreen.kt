@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components.others
+package com.make_your_skill.ui.screens.twoOptionScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
