@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
     private val ERROR_INSERTING_USER_SKILL = "Error inserting user skill"
     private val ERROR_GETTING_USER_SKILLS = "Error getting user skills"
+    private val ERROR_DELETING_USER_SKILL = "Error deleting user skill"
 
     fun addUserSkill(
         scope: CoroutineScope,
@@ -73,6 +74,36 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
                 }
             } catch (e: Exception) {
                 error.value = ERROR_GETTING_USER_SKILLS
+            } finally {
+                loading.value = false
+            }
+        }
+    }
+
+    fun deleteUserSkill(
+        scope: CoroutineScope,
+        loading: MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        skillId: Int,
+        token: String,
+        sessionCookie: String
+    ) {
+        scope.launch {
+            loading.value = true
+            try {
+                val finalToken: String = "Bearer $token"
+                val response = usersSkillsService.deleteUserSkillsByUserId(finalToken, sessionCookie,skillId)
+                if (response.isSuccessful) {
+                    error.value = null
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java).message
+                    } ?: ERROR_INSERTING_USER_SKILL
+                    error.value = errorMessage
+                }
+            } catch (e: Exception) {
+                error.value = ERROR_INSERTING_USER_SKILL
             } finally {
                 loading.value = false
             }

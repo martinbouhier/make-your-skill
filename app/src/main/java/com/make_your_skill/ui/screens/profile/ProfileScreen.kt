@@ -43,86 +43,106 @@ import com.make_your_skill.ui.theme.*
 fun ProfileScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    cookieJar: InMemoryCookieJar,
+    userId: Int
 ) {
     val profileViewModel: ProfileViewModel = viewModel()
     val userInfo by singInViewModel.signInInfo.collectAsState()
+
+    val userSearched by profileViewModel.userSearched.collectAsState()
+    val loadingUserSearched by profileViewModel.loadingUserSearched.collectAsState()
+    val errorUserSearched by profileViewModel.errorUserSearched.collectAsState()
+
     val listOfUserSkills by profileViewModel.listOfUserSkills.collectAsState()
     val loading by profileViewModel.loading.collectAsState()
     val error by profileViewModel.error.collectAsState()
+
     val listOfUserInterestedSkills by profileViewModel.listOfUserInterestedSkills.collectAsState()
     val loadingInterests by profileViewModel.loadingInterest.collectAsState()
     val errorInterests by profileViewModel.errorInterest.collectAsState()
+
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val spacerSeparation = 32.dp
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
         val sessionId = cookieJar.getSessionCookie().toString()
-        profileViewModel.getUserSkillByUserId(token,sessionId,userInfo!!.user.id)
-        profileViewModel.getUserInterestedSkillByUserId(token,sessionId,userInfo!!.user.id)
-    }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Column(
+        //obtenemos la info del usuario del que estamos viendo el perfil
+        profileViewModel.getUserById(token,sessionId,userId)
+
+        //hay que cambiar el id que esta tomando por el de userSearched (implementar endpoints)
+        profileViewModel.getUserSkillByUserId(token,sessionId,userId)
+
+        //hay que cambiar el id que esta tomando por el de userSearched (implementar endpoints)
+        profileViewModel.getUserInterestedSkillByUserId(token,sessionId,userId)
+    }
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .padding(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(screenHeight * 0.1f))
-            Image(
-                painter = painterResource(id = R.drawable.logo_purple),
-                contentDescription = "App Logo",
+            Column(
                 modifier = Modifier
-                    .height(79.dp)
-                    .width(78.dp),
-            )
-            Spacer(modifier = Modifier.height(spacerSeparation))
-            Text(
-                text = capitalizeFirstLetter(userInfo!!.user.firstname) +
-                        " " +
-                        capitalizeFirstLetter(userInfo!!.user.lastname),
-                style = styleTitle
-            )
-            Text(
-                text = userInfo!!.user.email,
-                fontSize = 12.sp
-            )
-            Spacer(modifier = Modifier.height(spacerSeparation))
-            Image(
-                painter = painterResource(id = R.drawable.user_profile_icon),
-                contentDescription = "User Profile Foto",
+                    .fillMaxSize()
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                if (loadingUserSearched || loading || loadingInterests){
+                    Text(text = "Loading...")
+                }
+                else if (userSearched == null) {
+                    Text(text = errorUserSearched.toString())
+                }
+                else {
+                    Spacer(modifier = Modifier.height(screenHeight * 0.1f))
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_purple),
+                        contentDescription = "App Logo",
+                        modifier = Modifier
+                            .height(79.dp)
+                            .width(78.dp),
+                    )
+                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Text(
+                        text = capitalizeFirstLetter(userSearched!!.firstname) +
+                                " " +
+                                capitalizeFirstLetter(userSearched!!.lastname),
+                        style = styleTitle
+                    )
+                    Text(
+                        text = userSearched!!.email,
+                        fontSize = 12.sp
+                    )
+                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Image(
+                        painter = painterResource(id = R.drawable.user_profile_icon),
+                        contentDescription = "User Profile Foto",
+                        modifier = Modifier
+                            .height(142.dp)
+                            .width(142.dp),
+                    )
+                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    ContentProfile(
+                        spacerSeparation,
+                        calculateAge(userSearched!!.dateOfBirth),
+                        listOfUserSkills,
+                        loading,
+                        error,
+                        listOfUserInterestedSkills,
+                        loadingInterests,
+                        errorInterests
+                    )
+                }
+            }
+            IconButton(
+                onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) },
                 modifier = Modifier
-                    .height(142.dp)
-                    .width(142.dp),
-            )
-            Spacer(modifier = Modifier.height(spacerSeparation))
-            ContentProfile(
-                spacerSeparation,
-                calculateAge(userInfo!!.user.dateOfBirth),
-                listOfUserSkills,
-                loading,
-                error,
-                listOfUserInterestedSkills,
-                loadingInterests,
-                errorInterests
-            )
+                    .align(Alignment.TopEnd)
+            ) {
 
-
-        }
-        IconButton(
-            onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) },
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-        ) {
-
-            val iconPainter: Painter = painterResource(id = R.drawable.settings_icon)
+                val iconPainter: Painter = painterResource(id = R.drawable.settings_icon)
 
                 Image(
                     painter = iconPainter,
@@ -131,10 +151,8 @@ fun ProfileScreen(
                         .size(64.dp)
                         .scale(2f),
                 )
-
-
+            }
         }
-    }
 }
 @Composable
 fun ContentProfile(

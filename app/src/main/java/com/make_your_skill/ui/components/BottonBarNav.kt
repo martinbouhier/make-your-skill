@@ -16,16 +16,19 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.Purple
 
 @Composable
-fun BottomAppBarContent(navController: NavHostController) {
+fun BottomAppBarContent(
+    navController: NavHostController,
+    userId: Int
+) {
     Row (
       modifier = Modifier
           .fillMaxWidth()
           .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        CustomIconButton(iconResId = R.drawable.logo_purple, {navController.navigate(AppRoutes.PROFILE_SCREEN)}, Purple)
+        CustomIconButton(iconResId = R.drawable.logo_purple, {navController.navigate("${AppRoutes.PROFILE_SCREEN}/$userId")}, Purple)
         CustomIconButton(iconResId = R.drawable.search, {navController.navigate(AppRoutes.MAIN_SCREEN)},Purple)
-        CustomIconButton(iconResId = R.drawable.profile, {navController.navigate(AppRoutes.PROFILE_SCREEN)},Purple)
+        CustomIconButton(iconResId = R.drawable.profile, {navController.navigate("${AppRoutes.PROFILE_SCREEN}/$userId")},Purple)
 
     }
 

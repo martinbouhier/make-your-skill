@@ -1,6 +1,8 @@
 package com.make_your_skill
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.padding
@@ -15,8 +17,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BackButton
 import com.make_your_skill.ui.components.BottomAppBarContent
@@ -38,6 +42,7 @@ import com.make_your_skill.ui.screens.skill.SkillsRoutes
 import com.make_your_skill.ui.screens.skill.SkillsScreen
 import com.make_your_skill.viewModel.MakeYourSkillViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppNavigation(
@@ -47,6 +52,7 @@ fun AppNavigation(
 ) {
     val cookieJar = InMemoryCookieJar()
     val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
+    val userInfo by singInViewModel.signInInfo.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -62,7 +68,7 @@ fun AppNavigation(
                 BottomAppBar(
                     containerColor = Color.White
                 ) {
-                    BottomAppBarContent(navController)
+                    BottomAppBarContent(navController, userInfo!!.user.id)
                 }
             }
 
@@ -84,8 +90,12 @@ fun AppNavigation(
             composable(AppRoutes.MAIN_SCREEN) {
                 MainScreenRoutes(navController)
             }
-            composable(AppRoutes.PROFILE_SCREEN) {
-                ProfileRoutes(navController, singInViewModel,cookieJar)
+            composable(
+                route = AppRoutes.PROFILE_SCREEN + "/{userId}",
+                arguments = listOf(navArgument("userId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val userId: Int = backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
+                ProfileRoutes(navController, singInViewModel, cookieJar, userId)
             }
             composable(AppRoutes.MATCH_SEARCH_SCREEN){
                 MatchSearchRoutes(navController)

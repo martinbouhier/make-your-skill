@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserInterestedSkillsService) {
     private val ERROR_INSERTING_USER_INTERESTED_SKILL = "Error inserting user interested skill"
     private val ERROR_GETTING_USER_INTERESTED_SKILLS = "Error getting user interested skills"
+    private val ERROR_DELETING_USER_INTERESTED_SKILL = "Error deleting user interested skill"
 
     fun addUserInterestedSkill(
         scope: CoroutineScope,
@@ -70,6 +71,36 @@ class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserIn
                 }
             } catch (e: Exception) {
                 error.value = ERROR_GETTING_USER_INTERESTED_SKILLS
+            } finally {
+                loading.value = false
+            }
+        }
+    }
+
+    fun deleteUserSkill(
+        scope: CoroutineScope,
+        loading: MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        skillId: Int,
+        token: String,
+        sessionCookie: String
+    ) {
+        scope.launch {
+            loading.value = true
+            try {
+                val finalToken: String = "Bearer $token"
+                val response = userInterestedSkillsService.deleteUserSkillsByUserId(finalToken, sessionCookie,skillId)
+                if (response.isSuccessful) {
+                    error.value = null
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java).message
+                    } ?: ERROR_DELETING_USER_INTERESTED_SKILL
+                    error.value = errorMessage
+                }
+            } catch (e: Exception) {
+                error.value = ERROR_DELETING_USER_INTERESTED_SKILL
             } finally {
                 loading.value = false
             }
