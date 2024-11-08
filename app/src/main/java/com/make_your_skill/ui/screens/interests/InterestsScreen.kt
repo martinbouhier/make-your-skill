@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.make_your_skill.dataClasses.skills.skillAddedDataClass
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.ScreenTitleText
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
@@ -45,6 +47,7 @@ fun InterestedSkillsScreen(
     val loading by interestsViewModel.loading.collectAsState()
     val loadingAddSkill by interestsViewModel.loadingAddSkill.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
+    val listOfUserSkills by interestsViewModel.listOfUserSkills.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 4/4"
@@ -58,6 +61,18 @@ fun InterestedSkillsScreen(
             val token = userInfo!!.tokens.token
             val sessionId = cookieJar.getSessionCookie().toString()
             interestsViewModel.getAllSkills(token,sessionId)
+            interestsViewModel.getUserSkillByUserId(token,sessionId, userInfo!!.user.id)
+        }
+    }
+
+    LaunchedEffect (listOfUserSkills) {
+        for (skillIterated in listOfUserSkills){
+            val item: InterestAddedDataClass = InterestAddedDataClass(
+                id = skillIterated.skill.id,
+                selected = true,
+                skill = skillIterated.skill.name
+            )
+            interestsViewModel.addSkill(item)
         }
     }
 
@@ -72,7 +87,11 @@ fun InterestedSkillsScreen(
         if (showAddPopUp){
             addInterestsPopUp(
                 interestsViewModel.onDismissRequest,
-                interestsViewModel.onConfirmation,
+                {interestsViewModel.onConfirmation(
+                    userInfo!!.tokens.token,
+                    cookieJar.getSessionCookie().toString(),
+                    userInfo!!.user.id
+                ) },
                 DIALOG_TITLE,
                 listOfSkills,
                 interestsViewModel.onSkillAddChange
@@ -119,7 +138,11 @@ fun InterestedSkillsScreen(
                             modifier = Modifier
                                 .padding(16.dp) // Aplica un margen de 16dp
                                 .clickable {
-                                    interestsViewModel.onDelete()
+                                    interestsViewModel.onDelete(
+                                        userInfo!!.tokens.token,
+                                        cookieJar.getSessionCookie().toString(),
+                                        userInfo!!.user.id
+                                    )
                                 },
                             fontWeight = FontWeight.Bold,
                             fontSize = 17.sp,
@@ -143,12 +166,7 @@ fun InterestedSkillsScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            CustomButton({interestsViewModel.onClick(
-                navController,
-                userInfo!!.tokens.token,
-                cookieJar.getSessionCookie().toString(),
-                userInfo!!.user.id
-            )},
+            CustomButton({interestsViewModel.onClick(navController)},
                 if (loadingAddSkill) LOADING_ADD_INTEREST else BUTTON_TEXT
             )
         }

@@ -108,9 +108,6 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     //Cuando click en add skill
     val onAdd = {
         setAddedSkill(listOfSkills.value[0])
-
-        //llamamos a la api para agregar skill al usuario
-
         setShowAddPopUp(true)
     }
 
