@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.others
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
+import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.theme.styleNormalText
 
 

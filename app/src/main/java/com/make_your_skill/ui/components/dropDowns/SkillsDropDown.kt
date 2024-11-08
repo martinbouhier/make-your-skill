@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.dropDowns
 
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState

@@ -18,8 +18,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
-import com.make_your_skill.ui.components.BackButton
-import com.make_your_skill.ui.components.BottomAppBarContent
+import com.make_your_skill.ui.components.buttons.BackButton
+import com.make_your_skill.ui.components.bars.BottomAppBarContent
 import com.make_your_skill.ui.screens.birthday.BirthdayScreen
 import com.make_your_skill.ui.screens.firstScreen.FirstScreenRoutes
 import com.make_your_skill.ui.screens.mainScreen.MainScreenRoutes
@@ -35,8 +35,6 @@ import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesS
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.screens.skill.SkillsRoutes
-import com.make_your_skill.ui.screens.skill.SkillsScreen
-import com.make_your_skill.viewModel.MakeYourSkillViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

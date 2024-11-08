@@ -1,21 +1,11 @@
 package com.make_your_skill.ui.screens.mainScreen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.make_your_skill.R
-import com.make_your_skill.ui.components.*
+import com.make_your_skill.ui.components.others.TwoOptionsScreen
 import com.make_your_skill.ui.navigation.AppRoutes
-import com.make_your_skill.ui.theme.*
 
 @Composable
 fun MainScreen( navController: NavHostController) {

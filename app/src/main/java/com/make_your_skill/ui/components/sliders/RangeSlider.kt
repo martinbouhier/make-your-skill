@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.sliders
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

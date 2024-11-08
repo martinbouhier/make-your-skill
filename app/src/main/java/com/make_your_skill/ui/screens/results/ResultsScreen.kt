@@ -7,12 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.make_your_skill.ui.components.*
 import com.make_your_skill.ui.theme.*
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.make_your_skill.dataClasses.Profile
+import com.make_your_skill.ui.components.cards.ProfileCard
 import java.sql.Date
 
 @Composable
@@ -23,7 +24,8 @@ fun ResultsScreen(navController: NavHostController) {
     val profiles = listOf(
         Profile("John", "Doe", "1.34",
             Date(1990, 1, 1) // TODO: Cambiar Package
-        ))
+        )
+    )
 
     Column(
         modifier = Modifier
