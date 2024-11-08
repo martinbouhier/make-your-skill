@@ -166,7 +166,10 @@ fun InterestedSkillsScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            CustomButton({interestsViewModel.onClick(navController)},
+            CustomButton({interestsViewModel.onClick(
+                navController,
+                userInfo!!.user.id
+            )},
                 if (loadingAddSkill) LOADING_ADD_INTEREST else BUTTON_TEXT
             )
         }

@@ -121,8 +121,8 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     }
 
     //Funcion para cuando hago click en continue
-    val onClick: (NavController) -> Unit = { navController ->
-        navController.navigate(AppRoutes.INTERESTS_SCREEN)
+    val onClick: (NavController, Int) -> Unit = { navController, userId ->
+        navController.navigate(AppRoutes.PROFILE_SCREEN + "/" + userId)
     }
 
     //Confirmo que agrego skill en el popup
