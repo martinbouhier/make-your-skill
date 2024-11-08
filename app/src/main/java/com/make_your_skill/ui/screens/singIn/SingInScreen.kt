@@ -36,7 +36,7 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 @Composable
 fun SignInScreen(
     navController: NavHostController,
-    singInViewModel: SingInViewModel = hiltViewModel(),
+    singInViewModel: SingInViewModel,
     cookieJar: InMemoryCookieJar
 ) {
     val isLoading by singInViewModel.loading.collectAsState()
@@ -51,6 +51,7 @@ fun SignInScreen(
     // Navegar a la pantalla principal cuando signInInfo no sea nulo
     LaunchedEffect(signInInfo) {
         if (signInInfo != null) {
+            singInViewModel.setIsLoggedIn(true)
             navController.navigate(AppRoutes.MAIN_SCREEN)
         }
     }
