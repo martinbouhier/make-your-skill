@@ -19,38 +19,14 @@ import com.make_your_skill.ui.theme.*
 
 @Composable
 fun MainScreen( navController: NavHostController) {
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val separation = 16.dp
-
-    val FIRST_BUTTON = "MATCH"
-    val SECOND_BUTTON = "SEARCH FOR PAID CLASSES"
-    val SCREEN_TEXT = "OR"
-
-    Column(
-        modifier = Modifier.fillMaxSize().padding(separation),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
-        Image(
-            painter = painterResource(id = R.drawable.logo_purple),
-            contentDescription = "App Logo",
-            modifier = Modifier.size(128.dp)
-        )
-        Spacer(modifier = Modifier.height(160.dp))
-        CustomButton(onClick = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
-            text = FIRST_BUTTON)
-        Spacer(modifier = Modifier.height(separation))
-        Text(
-            text = SCREEN_TEXT,
-            style = styleNormalText
-            )
-        Spacer(modifier = Modifier.height(separation))
-        CustomButton(onClick = { navController.navigate(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) },
-            text = SECOND_BUTTON)
-    }
+    TwoOptionsScreen(navController = navController,
+        firstButtonText = "MATCH",
+        secondButtonText = "SEARCH FOR PAID CLASSES",
+        firstButtonAction = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
+        secondButtonAction = { navController.navigate(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) },
+        description = ""
+    )
 }
-
 
 
 @Preview(showBackground = true)
