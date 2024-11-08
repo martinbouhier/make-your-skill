@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.make_your_skill.dataClasses.skills.skillDataClass
+import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.CustomButton
 import com.make_your_skill.ui.components.addSkillPopUp
@@ -48,6 +48,7 @@ fun SkillsScreen(
     val loading by skillsViewModel.loading.collectAsState()
     val loadingAddSkill by skillsViewModel.loadingAddSkill.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
+    val listOfUserSkills by skillsViewModel.listOfUserSkills.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE 3/4"
@@ -62,6 +63,19 @@ fun SkillsScreen(
             val token = userInfo!!.tokens.token
             val sessionId = cookieJar.getSessionCookie().toString()
             skillsViewModel.getAllSkills(token,sessionId)
+            skillsViewModel.getUserSkillByUserId(token,sessionId, userInfo!!.user.id)
+        }
+    }
+
+    LaunchedEffect (listOfUserSkills) {
+        for (skillIterated in listOfUserSkills){
+            val item: skillAddedDataClass = skillAddedDataClass(
+                id = skillIterated.skill.id,
+                selected = true,
+                skill = skillIterated.skill.name,
+                price = skillIterated.pricePerHour
+            )
+            skillsViewModel.addSkill(item)
         }
     }
 
@@ -76,7 +90,11 @@ fun SkillsScreen(
         if (showAddPopUp){
             addSkillPopUp(
                 skillsViewModel.onDismissRequest,
-                skillsViewModel.onConfirmation,
+                {skillsViewModel.onConfirmation(
+                    userInfo!!.tokens.token,
+                    cookieJar.getSessionCookie().toString(),
+                    userInfo!!.user.id
+                ) },
                 DIALOG_TITLE,
                 skillsViewModel.onPriceAddChange,
                 PRICE_LABEL,
@@ -150,12 +168,7 @@ fun SkillsScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            CustomButton({skillsViewModel.onClick(
-                navController,
-                userInfo!!.tokens.token,
-                cookieJar.getSessionCookie().toString(),
-                userInfo!!.user.id
-            )},
+            CustomButton({skillsViewModel.onClick(navController)},
                 if (loadingAddSkill) LOADING_ADD_SKILLS else BUTTON_TEXT
             )
         }
