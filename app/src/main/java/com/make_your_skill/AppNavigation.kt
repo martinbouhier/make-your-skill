@@ -24,6 +24,7 @@ import androidx.navigation.navArgument
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BottomAppBarContent
 import com.make_your_skill.ui.components.buttons.BackButton
+import com.make_your_skill.ui.screens.addSkillsAndInterests.AddSkillsAndInterestsRoutes
 import com.make_your_skill.ui.screens.birthday.BirthdayScreen
 import com.make_your_skill.ui.screens.firstScreen.FirstScreenRoutes
 import com.make_your_skill.ui.screens.mainScreen.MainScreenRoutes
@@ -97,6 +98,9 @@ fun AppNavigation(
             }
             composable(AppRoutes.MATCH_SEARCH_SCREEN){
                 MatchSearchRoutes(navController)
+            }
+            composable(AppRoutes.ADD_SKILLS_INTEREST_SCREEN){
+                AddSkillsAndInterestsRoutes(navController)
             }
             composable(AppRoutes.FIRST_NAME_SCREEN){
                 FirstNameScreen(navController, createNewAcoountViewModel)
