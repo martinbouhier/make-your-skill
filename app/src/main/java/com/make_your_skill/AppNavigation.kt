@@ -141,6 +141,9 @@ fun AppNavigation(
                 composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) {
                     SearchForPaidClassesScreen(navController)
                 }
+                composable(AppRoutes.CELL_PHONE_SCREEN){
+
+                }
             }
         }
     }
