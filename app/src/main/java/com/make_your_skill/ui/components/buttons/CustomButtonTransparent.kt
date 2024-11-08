@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height

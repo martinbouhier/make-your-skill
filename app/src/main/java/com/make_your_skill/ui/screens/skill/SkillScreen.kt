@@ -24,10 +24,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
-import com.make_your_skill.ui.components.CustomButton
-import com.make_your_skill.ui.components.addSkillPopUp
-import com.make_your_skill.ui.components.ScreenTitleText
+import com.make_your_skill.ui.components.buttons.CustomButton
+import com.make_your_skill.ui.components.popUps.addSkillPopUp
 import com.make_your_skill.ui.components.skill
+import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple
 import kotlinx.coroutines.delay

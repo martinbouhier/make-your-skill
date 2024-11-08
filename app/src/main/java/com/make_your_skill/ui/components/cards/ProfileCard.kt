@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.cards
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.make_your_skill.R
+import com.make_your_skill.dataClasses.Profile
 import com.make_your_skill.ui.theme.cardInfo
 import com.make_your_skill.ui.theme.cardRate
 import com.make_your_skill.ui.theme.cardTitle

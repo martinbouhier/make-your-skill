@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.dataClasses
 
 import java.util.Calendar
 import java.util.Date

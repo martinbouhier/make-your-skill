@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
-import com.make_your_skill.ui.components.CustomButtonTransparent
+import com.make_your_skill.ui.components.buttons.CustomButtonTransparent
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.BackgroundColor2
 
