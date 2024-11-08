@@ -25,15 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
-import com.make_your_skill.ui.components.CustomButton
-import com.make_your_skill.ui.components.TextInputLogin
+import com.make_your_skill.ui.components.buttons.CustomButton
+import com.make_your_skill.ui.components.text.textFileds.TextInputLogin
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.BackgroundColor2
-import com.make_your_skill.viewModel.MakeYourSkillViewModel
 
 @Composable
 fun SignInScreen(

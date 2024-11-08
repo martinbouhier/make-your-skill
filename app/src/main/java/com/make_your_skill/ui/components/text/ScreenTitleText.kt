@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.text
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -7,11 +7,11 @@ import androidx.compose.ui.unit.sp
 import com.make_your_skill.ui.theme.DarkPurple
 
 @Composable
-fun ScreenContentText(text: String){
+fun ScreenTitleText(text: String){
     Text(
         text = text,
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Normal,
+        fontSize = 40.sp,
+        fontWeight = FontWeight.Medium,
         color = DarkPurple
     )
 }

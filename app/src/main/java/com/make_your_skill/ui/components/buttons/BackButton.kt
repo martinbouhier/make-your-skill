@@ -1,6 +1,5 @@
-package com.make_your_skill.ui.components
+package com.make_your_skill.ui.components.buttons
 
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController

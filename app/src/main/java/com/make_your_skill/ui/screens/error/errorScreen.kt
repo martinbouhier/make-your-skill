@@ -21,14 +21,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.make_your_skill.ui.components.BackButton
-import com.make_your_skill.ui.components.CustomButton
-import com.make_your_skill.ui.components.ScreenTitleText
+import com.make_your_skill.ui.components.buttons.BackButton
+import com.make_your_skill.ui.components.buttons.CustomButton
+import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
-import com.make_your_skill.ui.components.ScreenContentText
+import com.make_your_skill.ui.components.text.ScreenContentText
 
 
 @Composable
