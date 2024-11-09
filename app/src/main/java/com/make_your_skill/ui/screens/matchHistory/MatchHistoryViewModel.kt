@@ -1,4 +1,6 @@
 package com.make_your_skill.ui.screens.matchHistory
 
-class MatchHistoryViewModel {
+import androidx.lifecycle.ViewModel
+
+class MatchHistoryViewModel: ViewModel() {
 }
