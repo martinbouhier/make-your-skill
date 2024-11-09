@@ -36,6 +36,7 @@ import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.helpers.functions.calculateAge
 import com.make_your_skill.helpers.functions.capitalizeFirstLetter
+import com.make_your_skill.ui.components.text.CircularText
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.*
@@ -213,14 +214,7 @@ fun ContentProfile(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(listOfUserSkills) { userSkill ->
-                        Box(
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .background(Color.LightGray, shape = CircleShape)
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                        ) {
-                            Text(text = userSkill.skill.name, color = Color.White)
-                        }
+                        CircularText(userSkill.skill.name)
                     }
                 }
             }
@@ -251,14 +245,7 @@ fun ContentProfile(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(listOfUserInterestedSkills) { userSkill ->
-                        Box(
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .background(Color.LightGray, shape = CircleShape)
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                        ) {
-                            Text(text = userSkill.skill.name, color = Color.White)
-                        }
+                        CircularText(userSkill.skill.name)
                     }
                 }
             }
