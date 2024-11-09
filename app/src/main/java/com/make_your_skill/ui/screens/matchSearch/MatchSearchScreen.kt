@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.sliders.RangeSlider
+import com.make_your_skill.ui.components.text.CircularText
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.*
@@ -76,41 +77,28 @@ fun MatchSearchScreen(
             onTextChange = onTextChange,
             label = LABEL,
             onSubmit = {
-                if (text.isNotBlank()) { // Verifica que el texto no esté vacío
-                    skillsList.add(text) // Agrega el texto a la lista
-                    text = "" // Limpia el campo de texto
+                if (text.isNotBlank()) {
+                    skillsList.add(text)
+                    text = ""
                 }
             },
             isSubmitEnabled = true // Habilita el submit
         )
         Box(
             modifier = Modifier
-                .height(180.dp) // Altura fija para la lista
+                .height(180.dp)
                 .padding(8.dp)
         ) {
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 120.dp), // Ancho mínimo por elemento
+                columns = GridCells.Adaptive(minSize = 120.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(), // El scroll se gestiona en el propio LazyVerticalGrid
+                    .fillMaxHeight(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(skillsList) { skill -> // Ahora usa skillsList directamente
-                    Box(
-                        modifier = Modifier
-                            .border(
-                                width = 2.dp,
-                                color = Color(0xFF4E40EA).copy(alpha = 0.8f),
-                                shape = CircleShape
-                            )
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            text = skill,
-                            color = Color(0xFF4E40EA).copy(alpha = 0.8f)
-                        )
-                    }
+                items(skillsList) { skill ->
+                    CircularText(skill)
                 }
             }
         }
