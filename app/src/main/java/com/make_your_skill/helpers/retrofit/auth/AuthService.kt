@@ -1,11 +1,13 @@
 package com.make_your_skill.helpers.retrofit.auth
 
+import com.make_your_skill.dataClasses.auth.body.ChangePasswordBody
 import com.make_your_skill.dataClasses.auth.body.RegisterBody
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface AuthService {
 
@@ -17,5 +19,11 @@ interface AuthService {
     @POST("auth/register")
     suspend fun register(
         @Body registerBody: RegisterBody
+    ): Response<Any>
+
+    @POST("auth/changePassword/{userId}")
+    suspend fun changePassword(
+        @Path("userId") userId: String, // Parámetro de ruta
+        @Body changePasswordBody: ChangePasswordBody
     ): Response<Any>
 }

@@ -3,6 +3,7 @@ package com.make_your_skill.models.auth
 import android.util.Log
 import com.google.gson.Gson
 import com.make_your_skill.dataClasses.ErrorResponse
+import com.make_your_skill.dataClasses.auth.body.ChangePasswordBody
 import com.make_your_skill.dataClasses.auth.body.RegisterBody
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
@@ -19,6 +20,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 class AuthModel(private val authService: AuthService) {
     private val ERROR_LOGIN_IN = "Error logging in"
     private val ERROR_IN_REGISTER = "Error while registering"
+    private val ERROR_CHANGING_PASSWORD = "Error while changing password"
 
     fun signIn(
         scope: CoroutineScope,
@@ -91,6 +93,37 @@ class AuthModel(private val authService: AuthService) {
                 }
             } catch (e: Exception) {
                 error.value = ERROR_IN_REGISTER
+            } finally {
+                loading.value = false
+            }
+        }
+    }
+
+    fun changePassword(
+        scope: CoroutineScope,
+        changePasswordBody: ChangePasswordBody,
+        userId: String,
+        loading: MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        changePasswordInfo: MutableStateFlow<Any?>
+    ) {
+        scope.launch {
+            loading.value = true
+            try {
+                val response = authService.changePassword(userId,changePasswordBody)
+                if (response.isSuccessful){
+                    changePasswordInfo.value = response.body()
+                    error.value = null
+                }
+                else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java).message
+                    } ?: ERROR_CHANGING_PASSWORD
+                    error.value = errorMessage
+                }
+            } catch (e: Exception) {
+                error.value = ERROR_CHANGING_PASSWORD
             } finally {
                 loading.value = false
             }
