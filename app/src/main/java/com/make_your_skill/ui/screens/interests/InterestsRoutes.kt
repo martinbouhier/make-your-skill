@@ -11,7 +11,7 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 fun InterestsRoutes(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    showContinue: Boolean
 ){
-    InterestedSkillsScreen(navController, singInViewModel, cookieJar)
+    InterestedSkillsScreen(navController, singInViewModel, showContinue)
 }

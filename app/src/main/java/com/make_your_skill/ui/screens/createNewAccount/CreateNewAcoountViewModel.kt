@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.make_your_skill.dataClasses.auth.body.RegisterBody
+import com.make_your_skill.helpers.functions.formatPhoneNumberToArgentinianFormat
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
 import com.make_your_skill.helpers.functions.isValidEmail
@@ -68,6 +69,10 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     val dateOfBirth: StateFlow<String> get() = _dateOfBirth
     fun setDateOfBirth(newDate: String) { _dateOfBirth.value = convertStringDateToISO8601(newDate) }
 
+    private val _phoneNumber = MutableStateFlow<String>("")
+    val phoneNumber: StateFlow<String> get() = _phoneNumber
+    fun setPhoneNumber(newPhoneNumber: String) { _phoneNumber.value = newPhoneNumber }
+
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
         setEmail(newEmail)
@@ -91,6 +96,11 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     val onLastNameChange: (String) -> Unit = { newLastname ->
         clearError()
         setLastname(newLastname)
+    }
+
+    val onPhoneNumberChange: (String) -> Unit = { newPhoneNumber ->
+        clearError()
+        setPhoneNumber(newPhoneNumber)
     }
 
     fun clearError() {
@@ -132,6 +142,7 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
             firstname.value,
             lastname.value,
             email.value,
+            phoneNumber.value,
             dateOfBirth.value,
             password.value,
             true

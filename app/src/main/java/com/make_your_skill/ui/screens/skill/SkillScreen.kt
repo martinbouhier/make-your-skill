@@ -22,20 +22,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.popUps.addSkillPopUp
-import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.components.skill
+import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun SkillsScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    showContinue: Boolean
 ) {
     val skillsViewModel: SkillsViewModel = viewModel()
     val listOfSkills by skillsViewModel.listOfSkills.collectAsState()
@@ -46,9 +48,10 @@ fun SkillsScreen(
     val loading by skillsViewModel.loading.collectAsState()
     val loadingAddSkill by skillsViewModel.loadingAddSkill.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
+    val listOfUserSkills by skillsViewModel.listOfUserSkills.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 3/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "Skills"
     val DIALOG_TITLE = "Add skill"
     val PRICE_LABEL = "Price..."
@@ -58,8 +61,20 @@ fun SkillsScreen(
     LaunchedEffect(userInfo) {
         if (userInfo != null){
             val token = userInfo!!.tokens.token
-            val sessionId = cookieJar.getSessionCookie().toString()
-            skillsViewModel.getAllSkills(token,sessionId)
+            skillsViewModel.getAllSkills(token)
+            skillsViewModel.getUserSkillByUserId(token,userInfo!!.user.id)
+        }
+    }
+
+    LaunchedEffect (listOfUserSkills) {
+        for (skillIterated in listOfUserSkills){
+            val item: skillAddedDataClass = skillAddedDataClass(
+                id = skillIterated.skill.id,
+                selected = true,
+                skill = skillIterated.skill.name,
+                price = skillIterated.pricePerHour
+            )
+            skillsViewModel.addSkill(item)
         }
     }
 
@@ -74,7 +89,10 @@ fun SkillsScreen(
         if (showAddPopUp){
             addSkillPopUp(
                 skillsViewModel.onDismissRequest,
-                skillsViewModel.onConfirmation,
+                {skillsViewModel.onConfirmation(
+                    userInfo!!.tokens.token,
+                    userInfo!!.user.id
+                ) },
                 DIALOG_TITLE,
                 skillsViewModel.onPriceAddChange,
                 PRICE_LABEL,
@@ -124,7 +142,9 @@ fun SkillsScreen(
                             modifier = Modifier
                                 .padding(16.dp) // Aplica un margen de 16dp
                                 .clickable {
-                                    skillsViewModel.onDelete()
+                                    skillsViewModel.onDelete(
+                                        userInfo!!.tokens.token,
+                                        userInfo!!.user.id)
                                 },
                             fontWeight = FontWeight.Bold,
                             fontSize = 17.sp,
@@ -144,18 +164,15 @@ fun SkillsScreen(
                 }
             }
         }
-        Row (
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            CustomButton({skillsViewModel.onClick(
-                navController,
-                userInfo!!.tokens.token,
-                cookieJar.getSessionCookie().toString(),
-                userInfo!!.user.id
-            )},
-                if (loadingAddSkill) LOADING_ADD_SKILLS else BUTTON_TEXT
-            )
+        if (showContinue){
+            Row (
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CustomButton({skillsViewModel.onClick(navController)},
+                    if (loadingAddSkill) LOADING_ADD_SKILLS else BUTTON_TEXT
+                )
+            }
         }
     }
 }

@@ -37,8 +37,7 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 fun BirthdayScreen(
     navController: NavHostController,
     createNewAcoountViewModel: CreateNewAcoountViewModel,
-    singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    singInViewModel: SingInViewModel
 ){
     val viewModel: BirthdayViewModel = viewModel()
     val dateOfBirth by createNewAcoountViewModel.dateOfBirth.collectAsState()
@@ -49,7 +48,7 @@ fun BirthdayScreen(
     val registerInfo by createNewAcoountViewModel.registerInfo.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 2/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "My"
     val SECOND_TEXT = "birthday is..."
     val REGISTERING_USER = "Registering user..."
@@ -72,9 +71,9 @@ fun BirthdayScreen(
             //Armamos para que si se registra exitosamente te logue automaticamente
             singInViewModel.setEmail(createNewAcoountViewModel.email.value)
             singInViewModel.setPassword(createNewAcoountViewModel.password.value)
-            singInViewModel.onLogin(cookieJar)
+            singInViewModel.onLogin()
 
-            navController.navigate(AppRoutes.SKILLS_SCREEN)
+            navController.navigate(AppRoutes.SKILLS_SCREEN + "?showContinue=true")
         }
     }
 

@@ -42,7 +42,7 @@ class FirstNameViewModel @Inject constructor(): ViewModel() {
             setError(LASTNAME_MAX_LENGTH_ERROR)
         }
         else {
-            navController.navigate(AppRoutes.BIRTHDAY_SCREEN)
+            navController.navigate(AppRoutes.CELL_PHONE_SCREEN)
         }
     }
 }

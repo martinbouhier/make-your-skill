@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.text.textFileds.ClickableText
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.BackgroundColor2
 import com.make_your_skill.ui.theme.styleTitle
 
@@ -53,13 +54,16 @@ fun ProfileSettingsScreen(navController: NavHostController) {
             fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(separation*2))
-        EditProfile(separation)
+        EditProfile(separation, navController)
 
     }
 }
 
 @Composable
-fun EditProfile(separation: Dp){
+fun EditProfile(
+    separation: Dp,
+    navController: NavHostController
+){
     Column (
         modifier = Modifier
         .fillMaxSize(),
@@ -80,9 +84,9 @@ fun EditProfile(separation: Dp){
             fontSize = 18.sp
         )
         Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Add skills/interests", onClick = { /*TODO*/ }, color = BackgroundColor2)
+        ClickableText(text = "Add skills/interests", onClick = { navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) }, color = BackgroundColor2)
         Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Match History", onClick = { /*TODO*/ }, color = BackgroundColor2)
+        ClickableText(text = "Match History", onClick = { navController.navigate(AppRoutes.MATCH_HISTORY_SCREEN) }, color = BackgroundColor2)
         Spacer(modifier = Modifier.height(separation))
         ClickableText(text = "Log Out", onClick = { /*TODO*/ }, color = BackgroundColor2)
         Spacer(modifier = Modifier.height(separation))

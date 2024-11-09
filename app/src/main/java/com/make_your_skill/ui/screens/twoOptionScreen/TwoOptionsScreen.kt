@@ -24,37 +24,50 @@ import com.make_your_skill.ui.theme.styleNormalText
 
 
 @Composable
-fun TwoOptionsScreen(navController: NavHostController, firstButtonText: String, secondButtonText: String, firstButtonAction: () -> Unit, secondButtonAction: () -> Unit, description: String) {
+fun TwoOptionsScreen(
+    navController: NavHostController,
+    firstButtonText: String,
+    secondButtonText: String,
+    firstButtonAction: () -> Unit,
+    secondButtonAction: () -> Unit,
+    description: String = "") {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 16.dp
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(separation),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(separation),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
+        Spacer(modifier = Modifier.height(200.dp))
         Image(
             painter = painterResource(id = R.drawable.logo_purple),
             contentDescription = "App Logo",
-            modifier = Modifier.size(128.dp)
+            modifier = Modifier.size(78.dp)
         )
-        Spacer(modifier = Modifier.height(160.dp))
-        Text(
-            text = description,
-            style = styleNormalText
-        )
-        Spacer(modifier = Modifier.height(160.dp))
+        if(description != ""){
+            Spacer(modifier = Modifier.height(100.dp))
+            Text(
+                text = description,
+                style = styleNormalText
+            )
+            Spacer(modifier = Modifier.height(60.dp))
+        }else{
+            Spacer(modifier = Modifier.height(160.dp))
+        }
         CustomButton(onClick = firstButtonAction,
             text = firstButtonText)
-        Spacer(modifier = Modifier.height(separation))
+        Spacer(modifier = Modifier.height(separation*3))
         Text(
             text = "OR",
             style = styleNormalText
         )
-        Spacer(modifier = Modifier.height(separation))
+        Spacer(modifier = Modifier.height(separation*3))
         CustomButton(onClick = secondButtonAction,
             text = secondButtonText)
+
     }
 }
 
@@ -62,6 +75,6 @@ fun TwoOptionsScreen(navController: NavHostController, firstButtonText: String, 
 @Composable
 fun PreviewTwoOptionsScreen() {
     val navController = rememberNavController()
-    TwoOptionsScreen(navController, "MATCH", "SEARCH FOR PAID CLASSES", { }, { }, "")
+    TwoOptionsScreen(navController, "MATCH", "SEARCH FOR PAID CLASSES", { }, { }, "a")
 }
 

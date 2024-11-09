@@ -6,6 +6,8 @@ import androidx.navigation.NavController
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.AddUserInterestedSkill
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
+import com.make_your_skill.dataClasses.usersSkills.body.DeleteUserSkill
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.skills.SkillsService
 import com.make_your_skill.helpers.retrofit.usersInterestedSkills.UserInterestedSkillsService
@@ -34,6 +36,9 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     private val _loadingAddSkill = MutableStateFlow<Boolean>(false)
     val loadingAddSkill: StateFlow<Boolean> get() = _loadingAddSkill
 
+    private val _loadingDeleteSkill = MutableStateFlow<Boolean>(false)
+    val loadingDeleteSkill: StateFlow<Boolean> get() = _loadingDeleteSkill
+
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
     fun setError(newError: String) { _error.value = newError }
@@ -41,6 +46,10 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     private val _errorAddSkill = MutableStateFlow<String?>(null)
     val errorAddSkill: StateFlow<String?> get() = _errorAddSkill
     fun setErrorAddSkill(newError: String) { _errorAddSkill.value = newError }
+
+    private val _errorDeleteSkill = MutableStateFlow<String?>(null)
+    val errorDeleteSkill: StateFlow<String?> get() = _errorDeleteSkill
+    fun setErrorDeleteSkill(newError: String) { _errorDeleteSkill.value = newError }
 
     private val _showAddPopUp = MutableStateFlow<Boolean>(false)
     val showAddPopUp: StateFlow<Boolean> get() = _showAddPopUp
@@ -62,14 +71,32 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     val addedSkill: StateFlow<skillDataClass?> get() = _addedSkill
     fun setAddedSkill(skill: skillDataClass) { _addedSkill.value = skill }
 
+    private val _listOfUserSkills = MutableStateFlow<List<GetUserInterestedSkillsById>>(emptyList())
+    val listOfUserSkills: StateFlow<List<GetUserInterestedSkillsById>> get() = _listOfUserSkills
+
+    private val _loadingUserSkills = MutableStateFlow<Boolean>(false)
+    val loadingUserSkills: StateFlow<Boolean> get() = _loadingUserSkills
+
+    private val _errorUserSkills = MutableStateFlow<String?>(null)
+    val errorUserSkills: StateFlow<String?> get() = _errorUserSkills
+    fun setErrorUserSkills(newError: String) { _errorUserSkills.value = newError }
+
     //Para cuando se hace un cambio en el objeto skill (principalmente si esta selected o no)
     val onSkillChange: (InterestAddedDataClass) -> Unit = { updatedSkill ->
         _skills.value = _skills.value.map { if (it.id == updatedSkill.id) updatedSkill else it }
     }
 
     //Cuando hago click en delete y borro un skill
-    val onDelete = {
+    val onDelete: (String, Int) -> Unit = { token, userId ->
+        val selectedSkills = _skills.value.filter { it.selected } // Filtramos los skills seleccionados
         val unselectedSkills = _skills.value.filter { !it.selected } // Filtramos los skills no seleccionados
+
+        //en el back borramos las seleccionadas
+        for (selectedSkill in selectedSkills){
+            deleteUserSkillBack(selectedSkill,token,userId)
+        }
+
+        //dejamos para el front todas las que no fueron seleccionadas
         _skills.value = unselectedSkills // Actualizamos la lista sin los skills seleccionados
     }
 
@@ -91,59 +118,84 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     }
 
     //Funcion para cuando hago click en continue
-    val onClick: (NavController, String, String, Int) -> Unit = { navController, token, sessionCookie, userId ->
-        val currentSkills = _skills.value // Obtenemos la lista actual de skills
-        if (currentSkills.isNotEmpty()) {
-            val selectedSkills = currentSkills.filter { it.selected } // Filtramos los skills seleccionados
-            if (selectedSkills.isNotEmpty()) {
-                addSkills(selectedSkills,token,sessionCookie, userId)
-                navController.navigate(AppRoutes.MAIN_SCREEN)
-            }
-        }
-    }
-
-    fun addSkills(
-        selectedSkills: List<InterestAddedDataClass>,
-        token: String,
-        sessionCookie: String,
-        userId: Int
-    ){
-        for (skill in selectedSkills){
-            usersInterestedSkillModel.addUserInterestedSkill(
-                scope = viewModelScope,
-                loading = _loadingAddSkill,
-                error = _errorAddSkill,
-                addUserInterestedSkillBody = AddUserInterestedSkill(
-                    userId = userId,
-                    skillId = skill.id
-                ),
-                token = token,
-                sessionCookie = sessionCookie
-            )
-        }
+    val onClick: (NavController, Int) -> Unit = { navController, userId ->
+        navController.navigate(AppRoutes.PROFILE_SCREEN + "/" + userId)
     }
 
     //Confirmo que agrego skill en el popup
-    val onConfirmation = {
+    val onConfirmation: (String, Int) -> Unit = { token,userId ->
         if (addedSkill.value != null){
+
             val newSkill: InterestAddedDataClass = InterestAddedDataClass(
                 id = addedSkill.value!!.id,
                 skill = addedSkill.value!!.name,
                 selected = true
             )
+            //agrego el skill en el back
+            addSkillBack(newSkill,token,userId)
+
+            //Agrego el skill en el front
             addSkill(newSkill)
+
             setShowAddPopUp(false)
         }
     }
 
-    val getAllSkills: (String, String) -> Unit = { token, sessionCookie ->
+    fun addSkillBack(
+        skill: InterestAddedDataClass,
+        token: String,
+        userId: Int
+    ){
+        usersInterestedSkillModel.addUserInterestedSkill(
+            scope = viewModelScope,
+            loading = _loadingAddSkill,
+            error = _errorAddSkill,
+            addUserInterestedSkillBody = AddUserInterestedSkill(
+                userId = userId,
+                skillId = skill.id
+            ),
+            token = token
+        )
+    }
+
+    fun deleteUserSkillBack(
+        skill: InterestAddedDataClass,
+        token: String,
+        userId: Int
+    ){
+        usersInterestedSkillModel.deleteUserInterestedSkill(
+            scope = viewModelScope,
+            loading = _loadingDeleteSkill,
+            error = _errorDeleteSkill,
+            deleteUserSkill = DeleteUserSkill(
+                userId = userId,
+                skillId = skill.id
+            ),
+            token = token
+        )
+    }
+
+    val getAllSkills: (String) -> Unit = { token ->
         skillsModel.getAllSkills(
             scope = viewModelScope,
             loading = _loading,
             error = _error,
             listOfSkills = _listOfSkills,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
+        )
+    }
+
+    fun getUserSkillByUserId(
+        token: String,
+        userId: Int
+    ){
+        usersInterestedSkillModel.getUserInterestedSkillsByUserId(
+            scope = viewModelScope,
+            loading = _loadingUserSkills,
+            error = _errorUserSkills,
+            listOfUserInterestedSkills = _listOfUserSkills,
+            userId = userId,
+            token = token
         )
     }
 }

@@ -2,11 +2,14 @@ package com.make_your_skill.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
+import com.make_your_skill.helpers.retrofit.users.UserService
 import com.make_your_skill.helpers.retrofit.usersInterestedSkills.UserInterestedSkillsService
 import com.make_your_skill.helpers.retrofit.usersSkills.UsersSkillsService
+import com.make_your_skill.models.users.UsersModel
 import com.make_your_skill.models.usersSkills.UsersSkillsModel
 import com.make_your_skill.models.usersinterestedSkills.UsersInterestedSkillsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +24,19 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     val usersInterestedSkillsService: UserInterestedSkillsService = RetrofitServiceFactory.makeRetrofitService<UserInterestedSkillsService>()
     private val usersInterestedSkillsModel = UsersInterestedSkillsModel(usersInterestedSkillsService)
+
+    val usersService: UserService = RetrofitServiceFactory.makeRetrofitService<UserService>()
+    private val usersModel = UsersModel(usersService)
+
+    private val _userSearched = MutableStateFlow<UserDataClass?>(null)
+    val userSearched: StateFlow<UserDataClass?> get() = _userSearched
+
+    private val _loadingUserSearched = MutableStateFlow<Boolean>(false)
+    val loadingUserSearched: StateFlow<Boolean> get() = _loadingUserSearched
+
+    private val _errorUserSearched = MutableStateFlow<String?>(null)
+    val errorUserSearched: StateFlow<String?> get() = _errorUserSearched
+    fun setErrorUserSearched(newError: String) { _errorUserSearched.value = newError }
 
     private val _listOfUserSkills = MutableStateFlow<List<GetUserSkillByUserId>>(emptyList())
     val listOfUserSkills: StateFlow<List<GetUserSkillByUserId>> get() = _listOfUserSkills
@@ -42,9 +58,23 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     val errorInterest: StateFlow<String?> get() = _errorInterest
     fun setErrorInterest(newError: String) { _errorInterest.value = newError }
 
+
+    fun getUserById(
+        token: String,
+        userId: Int
+    ){
+        usersModel.getUserByUserId(
+            scope = viewModelScope,
+            loading = _loadingUserSearched,
+            error = _errorUserSearched,
+            userSearched = _userSearched,
+            userId = userId,
+            token = token
+        )
+    }
+
     fun getUserSkillByUserId(
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersSkillModel.getUserSkillsByUserId(
@@ -53,14 +83,12 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             error = _error,
             listOfUserSkills = _listOfUserSkills,
             userId = userId,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 
     fun getUserInterestedSkillByUserId(
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersInterestedSkillsModel.getUserInterestedSkillsByUserId(
@@ -69,8 +97,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             error = _errorInterest,
             listOfUserInterestedSkills = _listOfUserInterestedSkills,
             userId = userId,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 }
