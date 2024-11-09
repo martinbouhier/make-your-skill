@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.make_your_skill.ui.theme.*
 import androidx.compose.ui.platform.LocalConfiguration
@@ -48,14 +49,12 @@ fun ResultsScreen(navController: NavHostController) {
                 .padding(separation)
         )
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(separation),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(separation) // Espacio entre cards
         ) {
             items(profiles) { profile ->
                 ProfileCard(profile)
-                HorizontalDivider()
+                HorizontalDivider(modifier = Modifier.background(color = Color(0x784E40EA)))
             }
         }
     }

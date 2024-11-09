@@ -15,7 +15,7 @@ val styleTitle = TextStyle(
 val styleSubtitle = TextStyle(
     fontSize = 19.sp,
     fontWeight = FontWeight.Normal,
-    color = Color(0xE54E40EA)
+    color = Color(0x784E40EA)
 )
 
 val styleNormalText = TextStyle(
