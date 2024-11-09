@@ -73,8 +73,7 @@ class SingInViewModel @Inject constructor(): ViewModel() {
         loading:  MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         signInInfo: MutableStateFlow<SignInDto?>,
-        isLoggedIn: MutableStateFlow<Boolean>,
-        cookieJar: InMemoryCookieJar
+        isLoggedIn: MutableStateFlow<Boolean>
     ){
         val signInBody = SignInBody(email.value, password.value)
         authModel.signIn(
@@ -83,18 +82,17 @@ class SingInViewModel @Inject constructor(): ViewModel() {
             loading = loading,
             error = error,
             signInInfo = signInInfo,
-            isLoggedIn = isLoggedIn,
-            cookieJar = cookieJar
+            isLoggedIn = isLoggedIn
         )
     }
 
-    val onLogin = { cookieJar: InMemoryCookieJar ->
+    val onLogin = {
         if (email.value.isEmpty() || password.value.isEmpty()) {
             setError(MUST_COMPLETE_INPUTS)
         } else if (!isValidEmail(email.value)) {
             setError(INVALID_EMAIL)
         } else {
-            login(_email,_password,_loading,_error,_signInInfo,_isLoggedIn, cookieJar)
+            login(_email,_password,_loading,_error,_signInInfo,_isLoggedIn)
         }
     }
 }

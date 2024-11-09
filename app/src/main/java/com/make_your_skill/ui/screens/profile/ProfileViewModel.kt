@@ -61,7 +61,6 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     fun getUserById(
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersModel.getUserByUserId(
@@ -70,14 +69,12 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             error = _errorUserSearched,
             userSearched = _userSearched,
             userId = userId,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 
     fun getUserSkillByUserId(
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersSkillModel.getUserSkillsByUserId(
@@ -86,14 +83,12 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             error = _error,
             listOfUserSkills = _listOfUserSkills,
             userId = userId,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 
     fun getUserInterestedSkillByUserId(
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersInterestedSkillsModel.getUserInterestedSkillsByUserId(
@@ -102,8 +97,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             error = _errorInterest,
             listOfUserInterestedSkills = _listOfUserInterestedSkills,
             userId = userId,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 }

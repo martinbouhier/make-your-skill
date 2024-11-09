@@ -12,14 +12,12 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 @Composable
 fun ProfileRoutes(
     navController: NavHostController,
-    singInViewModel: SingInViewModel = viewModel(),
-    cookieJar: InMemoryCookieJar,
+    singInViewModel: SingInViewModel,
     userId: Int
 ) {
     ProfileScreen(
         navController = navController,
         singInViewModel = singInViewModel,
-        cookieJar = cookieJar,
         userId = userId
     )
 }

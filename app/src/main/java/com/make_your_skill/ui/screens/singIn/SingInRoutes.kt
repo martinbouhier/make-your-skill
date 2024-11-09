@@ -10,9 +10,8 @@ import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 @Composable
 fun SingInRoutes(
     navController: NavHostController,
-    singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    singInViewModel: SingInViewModel
 ){
-    SignInScreen(navController = navController,cookieJar = cookieJar, singInViewModel = singInViewModel)
+    SignInScreen(navController = navController, singInViewModel = singInViewModel)
 }
 

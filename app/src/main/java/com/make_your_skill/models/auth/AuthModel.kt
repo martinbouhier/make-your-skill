@@ -28,27 +28,13 @@ class AuthModel(private val authService: AuthService) {
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         signInInfo: MutableStateFlow<SignInDto?>,
-        isLoggedIn: MutableStateFlow<Boolean>,
-        cookieJar: InMemoryCookieJar
+        isLoggedIn: MutableStateFlow<Boolean>
     ) {
         scope.launch {
             loading.value = true
             try {
                 val response = authService.login(signInBody)
                 if (response.isSuccessful){
-                    response.headers()["Set-Cookie"]?.let { cookies ->
-                        val sessionCookie = cookies.split(";").find { it.contains("NESTJS_SESSION_ID") }
-                        sessionCookie?.let { cookie ->
-                            val cookieValue = cookie.trim()
-                            // Guardamos la cookie en el cookieJar
-                            val httpUrl = Credentials.BASE_URL.toHttpUrlOrNull()!!
-                            val parsedCookie = Cookie.parse(httpUrl, cookieValue)
-                            if (parsedCookie != null) {
-                                cookieJar.saveFromResponse(httpUrl, listOf(parsedCookie))
-                            }
-                        }
-                    }
-
                     signInInfo.value = response.body()
                     error.value = null
                     isLoggedIn.value = true

@@ -45,7 +45,6 @@ import com.make_your_skill.ui.theme.*
 fun ProfileScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar,
     userId: Int
 ) {
     val profileViewModel: ProfileViewModel = viewModel()
@@ -68,16 +67,15 @@ fun ProfileScreen(
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
-        val sessionId = cookieJar.getSessionCookie().toString()
 
         //obtenemos la info del usuario del que estamos viendo el perfil
-        profileViewModel.getUserById(token,sessionId,userId)
+        profileViewModel.getUserById(token,userId)
 
         //hay que cambiar el id que esta tomando por el de userSearched (implementar endpoints)
-        profileViewModel.getUserSkillByUserId(token,sessionId,userId)
+        profileViewModel.getUserSkillByUserId(token,userId)
 
         //hay que cambiar el id que esta tomando por el de userSearched (implementar endpoints)
-        profileViewModel.getUserInterestedSkillByUserId(token,sessionId,userId)
+        profileViewModel.getUserInterestedSkillByUserId(token,userId)
     }
         Box(
             modifier = Modifier
@@ -264,15 +262,4 @@ fun ContentProfile(
             }
         }
     }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview(){
-    val navController = rememberNavController()
-    val singInViewModel: SingInViewModel = viewModel()
-    val cookieJar = InMemoryCookieJar()
-    ProfileScreen(navController, singInViewModel, cookieJar, 1)
-
 }

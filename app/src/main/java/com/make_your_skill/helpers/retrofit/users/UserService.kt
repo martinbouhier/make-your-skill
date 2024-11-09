@@ -15,7 +15,6 @@ interface UserService {
     @GET("users/{userId}")
     suspend fun getUserById(
         @Header("Authorization") token: String,
-        @Header("Cookie") sessionCookie: String? = null, // Añadimos la cookie como parámetro opcional
         @Path("userId") userId: Int, // Añadimos el parámetro userId
     ): Response<UserDataClass>
 

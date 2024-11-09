@@ -37,7 +37,6 @@ import com.make_your_skill.ui.theme.DarkPurple
 fun InterestedSkillsScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar,
     showContinue: Boolean
 ) {
     val interestsViewModel: InterestsViewModel = viewModel()
@@ -60,9 +59,8 @@ fun InterestedSkillsScreen(
     LaunchedEffect(userInfo) {
         if (userInfo != null){
             val token = userInfo!!.tokens.token
-            val sessionId = cookieJar.getSessionCookie().toString()
-            interestsViewModel.getAllSkills(token,sessionId)
-            interestsViewModel.getUserSkillByUserId(token,sessionId, userInfo!!.user.id)
+            interestsViewModel.getAllSkills(token)
+            interestsViewModel.getUserSkillByUserId(token,userInfo!!.user.id)
         }
     }
 
@@ -90,7 +88,6 @@ fun InterestedSkillsScreen(
                 interestsViewModel.onDismissRequest,
                 {interestsViewModel.onConfirmation(
                     userInfo!!.tokens.token,
-                    cookieJar.getSessionCookie().toString(),
                     userInfo!!.user.id
                 ) },
                 DIALOG_TITLE,
@@ -141,7 +138,6 @@ fun InterestedSkillsScreen(
                                 .clickable {
                                     interestsViewModel.onDelete(
                                         userInfo!!.tokens.token,
-                                        cookieJar.getSessionCookie().toString(),
                                         userInfo!!.user.id
                                     )
                                 },

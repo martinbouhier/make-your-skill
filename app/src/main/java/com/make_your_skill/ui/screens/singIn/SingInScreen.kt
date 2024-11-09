@@ -36,8 +36,7 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 @Composable
 fun SignInScreen(
     navController: NavHostController,
-    singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    singInViewModel: SingInViewModel
 ) {
     val isLoading by singInViewModel.loading.collectAsState()
     val signInInfo by singInViewModel.signInInfo.collectAsState()
@@ -124,7 +123,7 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomButton(
-                onClick = { singInViewModel.onLogin(cookieJar) },
+                onClick = { singInViewModel.onLogin() },
                 text = if (isLoading) "Loading..." else "SIGN IN",
             )
         }

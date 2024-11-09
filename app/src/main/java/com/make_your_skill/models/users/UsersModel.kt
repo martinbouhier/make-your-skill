@@ -21,14 +21,13 @@ class UsersModel(private val usersService: UserService){
         error: MutableStateFlow<String?>,
         userSearched: MutableStateFlow<UserDataClass?>,
         userId: Int,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = usersService.getUserById(finalToken, sessionCookie,userId)
+                val response = usersService.getUserById(finalToken, userId)
                 if (response.isSuccessful) {
                     userSearched.value = response.body()
                     error.value = null

@@ -11,13 +11,11 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 fun BirthdayRoutes(
     navController: NavHostController,
     createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel(),
-    singInViewModel: SingInViewModel = viewModel(),
-    cookieJar: InMemoryCookieJar
+    singInViewModel: SingInViewModel,
 ){
     BirthdayScreen(
         navController = navController,
         createNewAcoountViewModel = createNewAcoountViewModel,
-        singInViewModel = singInViewModel,
-        cookieJar = cookieJar
+        singInViewModel = singInViewModel
     )
 }

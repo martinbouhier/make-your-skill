@@ -22,14 +22,13 @@ class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserIn
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         addUserInterestedSkillBody: AddUserInterestedSkill,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = userInterestedSkillsService.addUserInterestedSkill(finalToken, sessionCookie,addUserInterestedSkillBody)
+                val response = userInterestedSkillsService.addUserInterestedSkill(finalToken, addUserInterestedSkillBody)
                 if (response.isSuccessful) {
                     error.value = null
                 } else {
@@ -53,14 +52,13 @@ class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserIn
         error: MutableStateFlow<String?>,
         listOfUserInterestedSkills: MutableStateFlow<List<GetUserInterestedSkillsById>>,
         userId: Int,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = userInterestedSkillsService.getUserInterestedSkillsByUserId(finalToken, sessionCookie,userId)
+                val response = userInterestedSkillsService.getUserInterestedSkillsByUserId(finalToken, userId)
                 if (response.isSuccessful) {
                     listOfUserInterestedSkills.value = response.body() ?: emptyList()
                     error.value = null
@@ -84,14 +82,13 @@ class UsersInterestedSkillsModel(private val userInterestedSkillsService: UserIn
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         deleteUserSkill: DeleteUserSkill,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = userInterestedSkillsService.deleteUserInterestedSkill(finalToken, sessionCookie,deleteUserSkill.userId,deleteUserSkill.skillId)
+                val response = userInterestedSkillsService.deleteUserInterestedSkill(finalToken, deleteUserSkill.userId,deleteUserSkill.skillId)
                 if (response.isSuccessful) {
                     error.value = null
                 } else {

@@ -24,14 +24,13 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         addUserSkillBody: AddUserSkill,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = usersSkillsService.addUserSkill(finalToken, sessionCookie,addUserSkillBody)
+                val response = usersSkillsService.addUserSkill(finalToken, addUserSkillBody)
                 if (response.isSuccessful) {
                     error.value = null
                 } else {
@@ -55,14 +54,13 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
         error: MutableStateFlow<String?>,
         listOfUserSkills: MutableStateFlow<List<GetUserSkillByUserId>>,
         userId: Int,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = usersSkillsService.getUserSkillsByUserId(finalToken, sessionCookie,userId)
+                val response = usersSkillsService.getUserSkillsByUserId(finalToken, userId)
                 if (response.isSuccessful) {
                     listOfUserSkills.value = response.body() ?: emptyList()
                     error.value = null
@@ -86,14 +84,13 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         deleteUserSkill: DeleteUserSkill,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = usersSkillsService.deleteUserSkill(finalToken, sessionCookie,deleteUserSkill.userId,deleteUserSkill.skillId)
+                val response = usersSkillsService.deleteUserSkill(finalToken, deleteUserSkill.userId,deleteUserSkill.skillId)
                 if (response.isSuccessful) {
                     error.value = null
                 } else {

@@ -37,7 +37,6 @@ import kotlinx.coroutines.delay
 fun SkillsScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar,
     showContinue: Boolean
 ) {
     val skillsViewModel: SkillsViewModel = viewModel()
@@ -62,9 +61,8 @@ fun SkillsScreen(
     LaunchedEffect(userInfo) {
         if (userInfo != null){
             val token = userInfo!!.tokens.token
-            val sessionId = cookieJar.getSessionCookie().toString()
-            skillsViewModel.getAllSkills(token,sessionId)
-            skillsViewModel.getUserSkillByUserId(token,sessionId, userInfo!!.user.id)
+            skillsViewModel.getAllSkills(token)
+            skillsViewModel.getUserSkillByUserId(token,userInfo!!.user.id)
         }
     }
 
@@ -93,7 +91,6 @@ fun SkillsScreen(
                 skillsViewModel.onDismissRequest,
                 {skillsViewModel.onConfirmation(
                     userInfo!!.tokens.token,
-                    cookieJar.getSessionCookie().toString(),
                     userInfo!!.user.id
                 ) },
                 DIALOG_TITLE,
@@ -147,7 +144,6 @@ fun SkillsScreen(
                                 .clickable {
                                     skillsViewModel.onDelete(
                                         userInfo!!.tokens.token,
-                                        cookieJar.getSessionCookie().toString(),
                                         userInfo!!.user.id)
                                 },
                             fontWeight = FontWeight.Bold,

@@ -17,21 +17,18 @@ interface UserInterestedSkillsService {
     @POST("users-interested-skills")
     suspend fun addUserInterestedSkill(
         @Header("Authorization") token: String,
-        @Header("Cookie") sessionCookie: String? = null, // Añadimos la cookie como parámetro opcional
         @Body addUserInterestedSkill: AddUserInterestedSkill
     ): Response<Any>
 
     @GET("users-interested-skills/findByUser/{userId}")
     suspend fun getUserInterestedSkillsByUserId(
         @Header("Authorization") token: String,
-        @Header("Cookie") sessionCookie: String? = null, // Añadimos la cookie como parámetro opcional
         @Path("userId") userId: Int
     ): Response<List<GetUserInterestedSkillsById>>
 
     @DELETE("users-interested-skills/byUserSkill")
     suspend fun deleteUserInterestedSkill(
         @Header("Authorization") token: String,
-        @Header("Cookie") sessionCookie: String? = null, // Añadimos la cookie como parámetro opcional
         @Query("userId") userId: Int,
         @Query("skillId") skillId: Int
     ): Response<Any>
