@@ -64,7 +64,7 @@ fun ProfileScreen(
     val errorInterests by profileViewModel.errorInterest.collectAsState()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val spacerSeparation = 32.dp
+    val spacerSeparation =screenHeight * 0.04f
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
@@ -81,12 +81,12 @@ fun ProfileScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp),
+                    .padding(screenHeight * 0.01f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
@@ -97,7 +97,7 @@ fun ProfileScreen(
                     Text(text = errorUserSearched.toString())
                 }
                 else {
-                    Spacer(modifier = Modifier.height(screenHeight * 0.1f))
+                    Spacer(modifier = Modifier.height(screenHeight * 0.01f))
                     Image(
                         painter = painterResource(id = R.drawable.logo_purple),
                         contentDescription = "App Logo",
@@ -120,9 +120,7 @@ fun ProfileScreen(
                     Image(
                         painter = painterResource(id = R.drawable.user_profile_icon),
                         contentDescription = "User Profile Foto",
-                        modifier = Modifier
-                            .height(142.dp)
-                            .width(142.dp),
+                        modifier = Modifier.size(100.dp),
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
                     ContentProfile(

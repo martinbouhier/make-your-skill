@@ -41,21 +41,21 @@ fun TwoOptionsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(200.dp))
+        Spacer(modifier = Modifier.height(screenHeight * 0.15f))
         Image(
             painter = painterResource(id = R.drawable.logo_purple),
             contentDescription = "App Logo",
             modifier = Modifier.size(78.dp)
         )
         if(description != ""){
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.08f))
             Text(
                 text = description,
                 style = styleNormalText
             )
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.04f))
         }else{
-            Spacer(modifier = Modifier.height(160.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.15f))
         }
         CustomButton(onClick = firstButtonAction,
             text = firstButtonText)
