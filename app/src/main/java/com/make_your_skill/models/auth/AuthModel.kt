@@ -101,6 +101,7 @@ class AuthModel(private val authService: AuthService) {
 
     fun changePassword(
         scope: CoroutineScope,
+        token: String,
         changePasswordBody: ChangePasswordBody,
         userId: String,
         loading: MutableStateFlow<Boolean>,
@@ -110,7 +111,7 @@ class AuthModel(private val authService: AuthService) {
         scope.launch {
             loading.value = true
             try {
-                val response = authService.changePassword(userId,changePasswordBody)
+                val response = authService.changePassword(token,userId,changePasswordBody)
                 if (response.isSuccessful){
                     changePasswordInfo.value = response.body()
                     error.value = null
