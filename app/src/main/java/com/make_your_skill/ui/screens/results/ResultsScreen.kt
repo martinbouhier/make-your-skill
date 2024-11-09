@@ -1,5 +1,6 @@
 package com.make_your_skill.ui.screens.results
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,6 +23,12 @@ fun ResultsScreen(navController: NavHostController) {
     val separation = 10.dp
 
     val profiles = listOf(
+        Profile("John", "Doe", "1.34",
+            Date(1990, 1, 1) // TODO: Cambiar Package
+        ),
+        Profile("John", "Doe", "1.34",
+            Date(1990, 1, 1) // TODO: Cambiar Package
+        ),
         Profile("John", "Doe", "1.34",
             Date(1990, 1, 1) // TODO: Cambiar Package
         )
@@ -48,6 +55,7 @@ fun ResultsScreen(navController: NavHostController) {
         ) {
             items(profiles) { profile ->
                 ProfileCard(profile)
+                HorizontalDivider()
             }
         }
     }

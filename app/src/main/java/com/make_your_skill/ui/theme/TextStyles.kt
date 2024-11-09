@@ -46,8 +46,8 @@ val cardInfo = TextStyle(
 
 val cardRate = TextStyle(
     fontFamily =  FontFamily.SansSerif,
-    fontSize = 14.sp,
-    fontWeight = FontWeight.Medium,
-    color = Color(0x4D4E40EA)
+    fontSize = 15.sp,
+    fontWeight = FontWeight.Bold,
+    color = Color(0xF55451DC)
 )
 
