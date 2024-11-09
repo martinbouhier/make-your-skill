@@ -23,8 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.buttons.CustomTextField
+import com.make_your_skill.ui.components.interest
 import com.make_your_skill.ui.components.sliders.RangeSlider
 import com.make_your_skill.ui.components.text.CircularText
 import com.make_your_skill.ui.navigation.AppRoutes
@@ -40,19 +43,16 @@ fun MatchSearchScreen(
     val TITLE_TEXT = "Learn"
     val LABEL = "Add skills..."
     val BUTTON_TEXT = "MATCH"
+    val LOADING = "Loading interests..."
 
     val matchSearchViewModel: MatchSearchViewModel = viewModel()
 
     val listOfUserInterestedSkills by matchSearchViewModel.listOfUserInterestedSkills.collectAsState()
     val loadingInterests by matchSearchViewModel.loadingInterest.collectAsState()
     val errorInterests by matchSearchViewModel.errorInterest.collectAsState()
+    val skillSelected by matchSearchViewModel.skillSelected.collectAsState()
 
     val userInfo by singInViewModel.signInInfo.collectAsState()
-
-    var text by remember { mutableStateOf("") }
-    val skillsList = remember { mutableStateListOf<String>() } // Mantener la lista como mutableStateList
-
-    val onTextChange: (String) -> Unit = { newText -> text = newText }
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
@@ -72,37 +72,39 @@ fun MatchSearchScreen(
             style = styleTitle,
             modifier = Modifier.padding(start = separation)
         )
-        CustomTextField(
-            text = text,
-            onTextChange = onTextChange,
-            label = LABEL,
-            onSubmit = {
-                if (text.isNotBlank()) {
-                    skillsList.add(text)
-                    text = ""
-                }
-            },
-            isSubmitEnabled = true // Habilita el submit
-        )
-        Box(
-            modifier = Modifier
-                .height(180.dp)
-                .padding(8.dp)
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 120.dp),
+
+        if (loadingInterests){
+            Text(text = LOADING)
+        }
+        else if (errorInterests != null){
+            Text(text = errorInterests.toString())
+        }
+        else if (listOfUserInterestedSkills.isNotEmpty()){
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                    .height(180.dp)
+                    .padding(8.dp)
             ) {
-                items(skillsList) { skill ->
-                    CircularText(skill)
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 120.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(listOfUserInterestedSkills) { item ->
+                        val finalItem = InterestAddedDataClass(item.skill.id,true,item.skill.name)
+                        val selected: Boolean = skillSelected?.id == item.skill.id
+                        CircularText(
+                            item.skill.name,
+                            {matchSearchViewModel.setSkillSelected(finalItem) },
+                            selected
+                        )
+                    }
                 }
             }
         }
-
         Spacer(modifier = Modifier.height(separation))
 
         RangeSlider()

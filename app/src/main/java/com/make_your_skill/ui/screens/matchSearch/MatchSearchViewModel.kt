@@ -3,6 +3,7 @@ package com.make_your_skill.ui.screens.matchSearch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.usersInterestedSkills.UserInterestedSkillsService
 import com.make_your_skill.models.usersinterestedSkills.UsersInterestedSkillsModel
@@ -25,6 +26,10 @@ class MatchSearchViewModel @Inject constructor() : ViewModel() {
     private val _errorInterest = MutableStateFlow<String?>(null)
     val errorInterest: StateFlow<String?> get() = _errorInterest
     fun setErrorInterest(newError: String) { _errorInterest.value = newError }
+
+    private val _skillSelected = MutableStateFlow<InterestAddedDataClass?>(null)
+    val skillSelected: StateFlow<InterestAddedDataClass?> get() = _skillSelected
+    fun setSkillSelected(newSkill: InterestAddedDataClass) { _skillSelected.value = newSkill   }
 
     fun getUserInterestedSkillByUserId(
         token: String,
