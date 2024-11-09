@@ -2,6 +2,7 @@ package com.make_your_skill.ui.components.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -19,21 +20,27 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CircularText(
     text: String,
-
+    onClick: () -> Unit = {},
+    selected: Boolean = false
 ) {
     Box(
         modifier = Modifier
+            .background(
+                color = if (selected) Color(0xFF4E40EA).copy(alpha = 0.8f) else Color.White, // Cambiar color según `selected`,
+                shape = CircleShape
+            )
             .border(
                 width = 2.dp,
-                color = Color(0xFF4E40EA).copy(alpha = 0.8f),
+                color = if (!selected) Color(0xFF4E40EA).copy(alpha = 0.8f) else Color.White,
                 shape = CircleShape
             )
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .wrapContentSize()
+            .clickable { onClick() }
     ) {
         Text(
             text = text,
-            color = Color(0xFF4E40EA).copy(alpha = 0.8f),
+            color = if (!selected) Color(0xFF4E40EA).copy(alpha = 0.8f) else Color.White,
             modifier = Modifier.align(Alignment.Center)
         )
     }
