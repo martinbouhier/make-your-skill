@@ -10,6 +10,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = DarkBlue,
     onSecondary = White,
     background = BackgroundColor,
+    onSecondaryContainer = BackgroundColor2,
 
 
 )
@@ -18,10 +19,8 @@ private val LightColorScheme = lightColorScheme(
 fun MakeYourSkillTheme(
     content: @Composable () -> Unit
 ) {
-    val colorScheme = LightColorScheme
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = LightColorScheme,
         typography = Typography,
         content = content
     )
