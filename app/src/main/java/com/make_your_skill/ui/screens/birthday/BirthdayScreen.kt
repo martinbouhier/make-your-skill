@@ -49,7 +49,7 @@ fun BirthdayScreen(
     val registerInfo by createNewAcoountViewModel.registerInfo.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 2/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "My"
     val SECOND_TEXT = "birthday is..."
     val REGISTERING_USER = "Registering user..."

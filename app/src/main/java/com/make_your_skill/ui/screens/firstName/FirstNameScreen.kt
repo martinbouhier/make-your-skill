@@ -35,7 +35,7 @@ fun FirstNameScreen(
     val error by viewModel.error.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 1/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "My full"
     val SECOND_TEXT = "name is..."
     val FIRSTNAME_LABEL = "First Name..."

@@ -9,7 +9,7 @@ import com.make_your_skill.ui.screens.profile.ProfileScreen
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 
 @Composable
-fun ProfileRoutes(
+fun PhoneNumberRoutes(
     navController: NavHostController,
     createNewAcoountViewModel: CreateNewAcoountViewModel
 ) {

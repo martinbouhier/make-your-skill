@@ -32,15 +32,15 @@ fun PhoneNumberScreen(
     navController: NavHostController,
     createNewAcoountViewModel: CreateNewAcoountViewModel
 ) {
-    val viewModel: FirstNameViewModel = viewModel()
-    val cellPhone by createNewAcoountViewModel.firstname.collectAsState()
+    val viewModel: PhoneNumberViewModel = viewModel()
+    val phoneNumber by createNewAcoountViewModel.phoneNumber.collectAsState()
     val error by viewModel.error.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 1/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "My cell phone "
     val SECOND_TEXT = "number is..."
-    val FIRSTNAME_LABEL = "Cell phone..."
+    val PHONE_NUMBER_LABEL = "Cell phone..."
 
     Column(
         modifier = Modifier
@@ -61,9 +61,9 @@ fun PhoneNumberScreen(
                 ScreenTitleText(FIRST_TEXT)
                 ScreenTitleText(SECOND_TEXT)
                 CustomTextField(
-                    cellPhone,
-                    createNewAcoountViewModel.onFirstNameChange,
-                    FIRSTNAME_LABEL,
+                    phoneNumber,
+                    createNewAcoountViewModel.onPhoneNumberChange,
+                    PHONE_NUMBER_LABEL,
                     onSubmit = {},
                     false)
 
@@ -78,7 +78,7 @@ fun PhoneNumberScreen(
             }
         }
         Row {
-            CustomButton({},BUTTON_TEXT)
+            CustomButton({viewModel.onClick(phoneNumber,navController)},BUTTON_TEXT)
         }
     }
 }

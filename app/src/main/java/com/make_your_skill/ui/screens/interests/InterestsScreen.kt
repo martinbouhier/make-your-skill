@@ -50,7 +50,7 @@ fun InterestedSkillsScreen(
     val listOfUserSkills by interestsViewModel.listOfUserSkills.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 4/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "Interests"
     val DIALOG_TITLE = "Add interet"
     val LOADING_SKILLS = "Loading skills..."
