@@ -37,7 +37,8 @@ import com.make_your_skill.ui.theme.DarkPurple
 fun InterestedSkillsScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    cookieJar: InMemoryCookieJar,
+    showContinue: Boolean
 ) {
     val interestsViewModel: InterestsViewModel = viewModel()
     val listOfSkills by interestsViewModel.listOfSkills.collectAsState()
@@ -162,16 +163,19 @@ fun InterestedSkillsScreen(
                 }
             }
         }
-        Row (
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            CustomButton({interestsViewModel.onClick(
-                navController,
-                userInfo!!.user.id
-            )},
-                if (loadingAddSkill) LOADING_ADD_INTEREST else BUTTON_TEXT
-            )
+
+        if (showContinue){
+            Row (
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CustomButton({interestsViewModel.onClick(
+                    navController,
+                    userInfo!!.user.id
+                )},
+                    if (loadingAddSkill) LOADING_ADD_INTEREST else BUTTON_TEXT
+                )
+            }
         }
     }
 }
