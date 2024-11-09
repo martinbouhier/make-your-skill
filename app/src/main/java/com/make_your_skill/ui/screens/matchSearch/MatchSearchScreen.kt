@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,7 +40,8 @@ fun MatchSearchScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
 ) {
-    val separation = 25.dp
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val separation = screenHeight * 0.02f
     val TITLE_TEXT = "Learn"
     val LABEL = "Add skills..."
     val BUTTON_TEXT = "MATCH"

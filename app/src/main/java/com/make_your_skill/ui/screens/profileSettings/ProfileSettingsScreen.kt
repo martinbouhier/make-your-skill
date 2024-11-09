@@ -29,7 +29,7 @@ import com.make_your_skill.ui.theme.styleTitle
 @Composable
 fun ProfileSettingsScreen(navController: NavHostController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val separation = 16.dp
+    val separation = screenHeight * 0.02f
 
 
     Column(
@@ -77,7 +77,7 @@ fun EditProfile(
         Spacer(modifier = Modifier.height(separation))
 
         ClickableText(text = "Reset password", onClick = { /*TODO*/ }, color = BackgroundColor2)
-        Spacer(modifier = Modifier.height(separation*15))
+        Spacer(modifier = Modifier.height(separation*10))
         Text(
             text = "OTHERS",
             style = styleTitle,
