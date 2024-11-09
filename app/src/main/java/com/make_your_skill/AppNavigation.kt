@@ -40,6 +40,7 @@ import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
+import com.make_your_skill.ui.screens.phoneNumber.PhoneNumberRoutes
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
 import com.make_your_skill.ui.screens.results.ResultsRoutes
 import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesScreen
@@ -142,7 +143,7 @@ fun AppNavigation(
                     SearchForPaidClassesScreen(navController)
                 }
                 composable(AppRoutes.CELL_PHONE_SCREEN){
-
+                    PhoneNumberRoutes(navController, createNewAcoountViewModel)
                 }
             }
         }

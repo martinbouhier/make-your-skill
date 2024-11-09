@@ -28,9 +28,9 @@ fun PantallaHistorial() {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     val listaPersonas = listOf(
-        UserDataClass(1, "John","Doe","john@gmail.com",true, 5,"01/01/2000","01/01/2024","01/01/2024"),
-        UserDataClass(1, "John","Doe","john@gmail.com",true, 5,"01/01/2000","01/01/2024","01/01/2024"),
-        UserDataClass(1, "John","Doe","john@gmail.com",true, 5,"01/01/2000","01/01/2024","01/01/2024")
+        UserDataClass(1, "John","Doe","john@gmail.com", phone = "1234 5678",true, 5,1,"01/01/2000","01/01/2024","01/01/2024"),
+        UserDataClass(1, "John","Doe","john@gmail.com", phone = "1234 5678",true, 5,1,"01/01/2000","01/01/2024","01/01/2024"),
+        UserDataClass(1, "John","Doe","john@gmail.com", phone = "1234 5678",true, 5,1,"01/01/2000","01/01/2024","01/01/2024")
     )
     Column(
         modifier = Modifier
