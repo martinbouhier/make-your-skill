@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.make_your_skill.ui.components.others.TwoOptionsScreen
+import com.make_your_skill.ui.screens.twoOptionScreen.TwoOptionsScreen
 import com.make_your_skill.ui.navigation.AppRoutes
 
 @Composable
