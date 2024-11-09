@@ -51,7 +51,7 @@ fun SkillsScreen(
     val listOfUserSkills by skillsViewModel.listOfUserSkills.collectAsState()
 
     val separation = 25.dp
-    val BUTTON_TEXT = "CONTINUE 3/4"
+    val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "Skills"
     val DIALOG_TITLE = "Add skill"
     val PRICE_LABEL = "Price..."
