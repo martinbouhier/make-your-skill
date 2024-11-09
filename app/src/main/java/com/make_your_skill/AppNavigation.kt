@@ -57,7 +57,6 @@ fun AppNavigation(
     singInViewModel: SingInViewModel = viewModel(),
     createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel()
 ) {
-    val cookieJar = InMemoryCookieJar()
     val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -95,7 +94,7 @@ fun AppNavigation(
                     FirstScreenRoutes(navController)
                 }
                 composable(AppRoutes.LOGIN_SCREEN) {
-                    SingInRoutes(navController, singInViewModel, cookieJar)
+                    SingInRoutes(navController, singInViewModel)
                 }
                 composable(AppRoutes.REGISTER_SCREEN) {
                     CreateNewAccountRoutes(navController, createNewAcoountViewModel)
@@ -109,10 +108,10 @@ fun AppNavigation(
                 ) { backStackEntry ->
                     val userId: Int =
                         backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
-                    ProfileRoutes(navController, singInViewModel, cookieJar, userId)
+                    ProfileRoutes(navController, singInViewModel, userId)
                 }
                 composable(AppRoutes.MATCH_SEARCH_SCREEN) {
-                    MatchSearchRoutes(navController)
+                    MatchSearchRoutes(navController, singInViewModel)
                 }
                 composable(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) {
                     AddSkillsAndInterestsRoutes(navController)
@@ -124,8 +123,7 @@ fun AppNavigation(
                     BirthdayScreen(
                         navController,
                         createNewAcoountViewModel,
-                        singInViewModel,
-                        cookieJar
+                        singInViewModel
                     )
                 }
                 composable(
@@ -134,7 +132,7 @@ fun AppNavigation(
                 ) { backStackEntry ->
                     val showContinue: Boolean =
                         backStackEntry.arguments?.getString("showContinue")?.toBoolean() ?: false
-                    SkillsRoutes(navController, singInViewModel, cookieJar, showContinue)
+                    SkillsRoutes(navController, singInViewModel, showContinue)
                 }
                 composable(
                     route = "${AppRoutes.INTERESTS_SCREEN}?showContinue={showContinue}",
@@ -142,7 +140,7 @@ fun AppNavigation(
                 ) {backStackEntry ->
                     val showContinue: Boolean =
                         backStackEntry.arguments?.getString("showContinue")?.toBoolean() ?: false
-                    InterestedSkillsScreen(navController, singInViewModel, cookieJar, showContinue)
+                    InterestedSkillsScreen(navController, singInViewModel, showContinue)
                 }
                 composable(AppRoutes.SETTINGS_SCREEN) {
                     ProfileSettingsRoutes(navController = navController)

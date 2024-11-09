@@ -18,14 +18,13 @@ class SkillsModel(private val skillsService: SkillsService) {
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         listOfSkills: MutableStateFlow<List<skillDataClass>>,
-        token: String,
-        sessionCookie: String
+        token: String
     ) {
         scope.launch {
             loading.value = true
             try {
                 val finalToken: String = "Bearer $token"
-                val response = skillsService.getAllSkills(finalToken, sessionCookie)
+                val response = skillsService.getAllSkills(finalToken)
                 if (response.isSuccessful) {
                     listOfSkills.value = response.body() ?: emptyList()
                     error.value = null

@@ -9,6 +9,5 @@ interface SkillsService {
     @GET("Skills")
     suspend fun getAllSkills(
         @Header("Authorization") token: String,
-        @Header("Cookie") sessionCookie: String? = null // Añadimos la cookie como parámetro opcional
     ): Response<List<skillDataClass>>
 }

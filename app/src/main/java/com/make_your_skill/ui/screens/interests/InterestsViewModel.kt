@@ -3,14 +3,11 @@ package com.make_your_skill.ui.screens.interests
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.AddUserInterestedSkill
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
-import com.make_your_skill.dataClasses.usersSkills.body.AddUserSkill
 import com.make_your_skill.dataClasses.usersSkills.body.DeleteUserSkill
-import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.skills.SkillsService
 import com.make_your_skill.helpers.retrofit.usersInterestedSkills.UserInterestedSkillsService
@@ -90,13 +87,13 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     }
 
     //Cuando hago click en delete y borro un skill
-    val onDelete: (String, String, Int) -> Unit = { token, sessionCookie, userId ->
+    val onDelete: (String, Int) -> Unit = { token, userId ->
         val selectedSkills = _skills.value.filter { it.selected } // Filtramos los skills seleccionados
         val unselectedSkills = _skills.value.filter { !it.selected } // Filtramos los skills no seleccionados
 
         //en el back borramos las seleccionadas
         for (selectedSkill in selectedSkills){
-            deleteUserSkillBack(selectedSkill,token,sessionCookie,userId)
+            deleteUserSkillBack(selectedSkill,token,userId)
         }
 
         //dejamos para el front todas las que no fueron seleccionadas
@@ -126,7 +123,7 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     }
 
     //Confirmo que agrego skill en el popup
-    val onConfirmation: (String, String, Int) -> Unit = { token, sessionCookie, userId ->
+    val onConfirmation: (String, Int) -> Unit = { token,userId ->
         if (addedSkill.value != null){
 
             val newSkill: InterestAddedDataClass = InterestAddedDataClass(
@@ -135,7 +132,7 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
                 selected = true
             )
             //agrego el skill en el back
-            addSkillBack(newSkill,token,sessionCookie, userId)
+            addSkillBack(newSkill,token,userId)
 
             //Agrego el skill en el front
             addSkill(newSkill)
@@ -147,7 +144,6 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
     fun addSkillBack(
         skill: InterestAddedDataClass,
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersInterestedSkillModel.addUserInterestedSkill(
@@ -158,15 +154,13 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
                 userId = userId,
                 skillId = skill.id
             ),
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 
     fun deleteUserSkillBack(
         skill: InterestAddedDataClass,
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersInterestedSkillModel.deleteUserInterestedSkill(
@@ -177,25 +171,22 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
                 userId = userId,
                 skillId = skill.id
             ),
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 
-    val getAllSkills: (String, String) -> Unit = { token, sessionCookie ->
+    val getAllSkills: (String) -> Unit = { token ->
         skillsModel.getAllSkills(
             scope = viewModelScope,
             loading = _loading,
             error = _error,
             listOfSkills = _listOfSkills,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 
     fun getUserSkillByUserId(
         token: String,
-        sessionCookie: String,
         userId: Int
     ){
         usersInterestedSkillModel.getUserInterestedSkillsByUserId(
@@ -204,8 +195,7 @@ class InterestsViewModel @Inject constructor(): ViewModel() {
             error = _errorUserSkills,
             listOfUserInterestedSkills = _listOfUserSkills,
             userId = userId,
-            token = token,
-            sessionCookie = sessionCookie
+            token = token
         )
     }
 }

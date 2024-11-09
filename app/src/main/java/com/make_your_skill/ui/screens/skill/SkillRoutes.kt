@@ -11,8 +11,7 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 fun SkillsRoutes(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar,
     showContinue: Boolean
 ){
-    SkillsScreen(navController, singInViewModel, cookieJar, showContinue)
+    SkillsScreen(navController, singInViewModel, showContinue)
 }
