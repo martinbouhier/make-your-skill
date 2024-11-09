@@ -37,7 +37,8 @@ import kotlinx.coroutines.delay
 fun SkillsScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    cookieJar: InMemoryCookieJar
+    cookieJar: InMemoryCookieJar,
+    showContinue: Boolean
 ) {
     val skillsViewModel: SkillsViewModel = viewModel()
     val listOfSkills by skillsViewModel.listOfSkills.collectAsState()
@@ -167,13 +168,15 @@ fun SkillsScreen(
                 }
             }
         }
-        Row (
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            CustomButton({skillsViewModel.onClick(navController)},
-                if (loadingAddSkill) LOADING_ADD_SKILLS else BUTTON_TEXT
-            )
+        if (showContinue){
+            Row (
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CustomButton({skillsViewModel.onClick(navController)},
+                    if (loadingAddSkill) LOADING_ADD_SKILLS else BUTTON_TEXT
+                )
+            }
         }
     }
 }

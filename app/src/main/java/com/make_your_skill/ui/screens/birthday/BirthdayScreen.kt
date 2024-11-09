@@ -74,7 +74,7 @@ fun BirthdayScreen(
             singInViewModel.setPassword(createNewAcoountViewModel.password.value)
             singInViewModel.onLogin(cookieJar)
 
-            navController.navigate(AppRoutes.SKILLS_SCREEN)
+            navController.navigate(AppRoutes.SKILLS_SCREEN + "?showContinue=true")
         }
     }
 

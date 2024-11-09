@@ -127,11 +127,21 @@ fun AppNavigation(
                         cookieJar
                     )
                 }
-                composable(AppRoutes.SKILLS_SCREEN) {
-                    SkillsRoutes(navController, singInViewModel, cookieJar)
+                composable(
+                    route = "${AppRoutes.SKILLS_SCREEN}?showContinue={showContinue}",
+                    arguments = listOf(navArgument("showContinue") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    val showContinue: Boolean =
+                        backStackEntry.arguments?.getString("showContinue")?.toBoolean() ?: false
+                    SkillsRoutes(navController, singInViewModel, cookieJar, showContinue)
                 }
-                composable(AppRoutes.INTERESTS_SCREEN) {
-                    InterestedSkillsScreen(navController, singInViewModel, cookieJar)
+                composable(
+                    route = "${AppRoutes.INTERESTS_SCREEN}?showContinue={showContinue}",
+                    arguments = listOf(navArgument("showContinue") { type = NavType.StringType })
+                ) {backStackEntry ->
+                    val showContinue: Boolean =
+                        backStackEntry.arguments?.getString("showContinue")?.toBoolean() ?: false
+                    InterestedSkillsScreen(navController, singInViewModel, cookieJar, showContinue)
                 }
                 composable(AppRoutes.SETTINGS_SCREEN) {
                     ProfileSettingsRoutes(navController = navController)
