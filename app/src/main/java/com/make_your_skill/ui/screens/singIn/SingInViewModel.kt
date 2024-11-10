@@ -2,6 +2,7 @@ package com.make_your_skill.ui.screens.singIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.make_your_skill.dataClasses.auth.body.SignInBody
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
@@ -9,6 +10,7 @@ import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.auth.AuthService
 import com.make_your_skill.helpers.functions.isValidEmail
 import com.make_your_skill.models.auth.AuthModel
+import com.make_your_skill.ui.navigation.AppRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,7 +36,7 @@ class SingInViewModel @Inject constructor(): ViewModel() {
     val error: StateFlow<String?> get() = _error
     fun setError(newError: String) { _error.value = newError }
 
-    private val _signInInfo = MutableStateFlow<SignInDto?>(null)
+    private var _signInInfo = MutableStateFlow<SignInDto?>(null)
     val signInInfo: StateFlow<SignInDto?> get() = _signInInfo
 
     private val _email = MutableStateFlow<String>("")
@@ -44,6 +46,20 @@ class SingInViewModel @Inject constructor(): ViewModel() {
     private val _password = MutableStateFlow<String>("")
     val password: StateFlow<String> get() = _password
     fun setPassword(newPassword: String) { _password.value = newPassword }
+
+    fun signOut(navController: NavController){
+        resetVariables()
+        navController.navigate(AppRoutes.FIRST_SCREEN)
+    }
+
+    fun resetVariables(){
+        _signInInfo.value = null
+        _loading.value = false
+        _isLoggedIn.value = false
+        _error.value = ""
+        _email.value = ""
+        _password.value = ""
+    }
 
     fun getToken(): String{
         var token = ""

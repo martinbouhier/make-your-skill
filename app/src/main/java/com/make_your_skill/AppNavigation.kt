@@ -143,7 +143,7 @@ fun AppNavigation(
                     InterestedSkillsScreen(navController, singInViewModel, showContinue)
                 }
                 composable(AppRoutes.SETTINGS_SCREEN) {
-                    ProfileSettingsRoutes(navController = navController)
+                    ProfileSettingsRoutes(navController, singInViewModel)
                 }
                 composable(AppRoutes.RESULTS_SCREEN) {
                     ResultsRoutes(navController)
