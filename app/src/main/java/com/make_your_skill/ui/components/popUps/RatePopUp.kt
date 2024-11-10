@@ -21,11 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.make_your_skill.ui.components.icons.starts.getIconStart
 import com.make_your_skill.ui.components.icons.starts.getIconStartSelected
+import com.make_your_skill.ui.screens.matchHistory.MatchHistoryViewModel
 
 @Composable
 fun RatePopUp(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
+    token: String,
+    userId: Int,
+    viewModel: MatchHistoryViewModel
 ) {
     var selectedStars by remember { mutableStateOf(0) }
 
@@ -47,14 +49,18 @@ fun RatePopUp(
         },
         confirmButton = {
             PopUpButton(
-                onClick = onDismissRequest,
-                text = "Exit"
+                onClick = { viewModel.onConfirmation(
+                    token,
+                    userId,
+                    selectedStars
+                ) },
+                text = "Add"
             )
         },
         dismissButton = {
             PopUpButton(
-                onClick = onDismissRequest,
-                text = "Add"
+                onClick = { viewModel.onDismissRequest() },
+                text = "Exit"
             )
         }
     )
@@ -66,7 +72,7 @@ fun StarsRow(selectedStars: Int, onStarSelected: (Int) -> Unit) {
 
     ) {
         for (i in 1..5) {
-            StartButton(
+            StarButton(
                 isSelected = i <= selectedStars,
                 onClick = { onStarSelected(i) }
             )
@@ -76,7 +82,7 @@ fun StarsRow(selectedStars: Int, onStarSelected: (Int) -> Unit) {
 }
 
 @Composable
-fun StartButton(isSelected: Boolean, onClick: () -> Unit) {
+fun StarButton(isSelected: Boolean, onClick: () -> Unit) {
     Image(
         painter = if (isSelected) getIconStartSelected() else getIconStart(),
         contentDescription = "star",
@@ -89,5 +95,9 @@ fun StartButton(isSelected: Boolean, onClick: () -> Unit) {
 @Preview (showBackground = true)
 @Composable
 fun RatePopUpPreview() {
-    RatePopUp( onDismissRequest = {}, onConfirmation = {})
+    RatePopUp(
+        token = "token",
+        userId = 1,
+        viewModel = MatchHistoryViewModel()
+    )
 }

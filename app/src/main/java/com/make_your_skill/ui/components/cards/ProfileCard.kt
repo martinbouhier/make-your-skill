@@ -3,9 +3,13 @@ package com.make_your_skill.ui.components.cards
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
@@ -18,43 +22,42 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.make_your_skill.R
 import com.make_your_skill.dataClasses.Profile
+import com.make_your_skill.ui.theme.BackgroundColor
 import com.make_your_skill.ui.theme.cardInfo
 import com.make_your_skill.ui.theme.cardRate
 import com.make_your_skill.ui.theme.cardTitle
+import java.util.Date
 
 @Composable
 fun ProfileCard(profile: Profile) {
-    val separation = 10.dp
+    val GAP = 8.dp
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = separation/2)
-            .clickable { /* Aca se incorporará algun dia la lógica para redirigir a WPP */},
-        elevation = CardDefaults.cardElevation(separation/2)
+            .padding(vertical = GAP/2)
+            .clickable { /* TODO: redirigir a connectProfile */},
+        colors = CardDefaults.cardColors(containerColor = BackgroundColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(separation),
+                .padding(GAP),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Avatar de perfil
             Icon(
-                painter = painterResource(R.drawable.user_profile_icon), // Reemplaza con tu ícono de avatar
+                painter = painterResource(R.drawable.user_profile_icon),
                 contentDescription = "Avatar",
-                modifier = Modifier
-                    .size(separation * 4)
-                    .padding(end = separation),
+                modifier = Modifier.size(40.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
-
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+            Column(modifier = Modifier.padding(start = 28.dp)) {
                 // Nombre de la persona
                 Text(
                     text = profile.name,
@@ -63,25 +66,32 @@ fun ProfileCard(profile: Profile) {
                 // info de la persona: costo x hora
                 Text(
                     text = profile.info,
-                    style = cardInfo
+                    style = cardInfo,
+                    modifier = Modifier.padding(top = 6.dp)
                 )
             }
-
+            Spacer(modifier = Modifier.weight(1f))
             // Rating
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = profile.rate,
                     style = cardRate
                 )
+                Spacer(modifier = Modifier.size(GAP))
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = "Star Icon",
                     tint = Color(0xE65451DC),
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewProfileCard() {
+    val sampleProfile = Profile("John", "$3000 x hora", "1.34", Date(1990, 1, 1))
+    ProfileCard(sampleProfile)
 }

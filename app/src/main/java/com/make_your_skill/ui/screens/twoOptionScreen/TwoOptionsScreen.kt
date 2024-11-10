@@ -57,8 +57,7 @@ fun TwoOptionsScreen(
         }else{
             Spacer(modifier = Modifier.height(screenHeight * 0.15f))
         }
-        CustomButton(onClick = firstButtonAction,
-            text = firstButtonText)
+        CustomButton(onClick = firstButtonAction, text = firstButtonText)
         Spacer(modifier = Modifier.height(separation*3))
         Text(
             text = "OR",
@@ -75,6 +74,6 @@ fun TwoOptionsScreen(
 @Composable
 fun PreviewTwoOptionsScreen() {
     val navController = rememberNavController()
-    TwoOptionsScreen(navController, "MATCH", "SEARCH FOR PAID CLASSES", { }, { }, "a")
+    TwoOptionsScreen(navController, "Option 1", "Option 2", { }, { }, "Description")
 }
 
