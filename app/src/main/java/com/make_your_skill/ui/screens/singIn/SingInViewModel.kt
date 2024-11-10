@@ -58,7 +58,7 @@ class SingInViewModel @Inject constructor(): ViewModel() {
         _signInInfo.value = null
         _loading.value = false
         _isLoggedIn.value = false
-        _error.value = ""
+        _error.value = null
         _email.value = ""
         _password.value = ""
     }
