@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BottomAppBarContent
+import com.make_your_skill.ui.components.bars.CustomTopBar
 import com.make_your_skill.ui.components.buttons.BackButton
 import com.make_your_skill.ui.screens.addSkillsAndInterests.AddSkillsAndInterestsRoutes
 import com.make_your_skill.ui.screens.birthday.BirthdayScreen
@@ -66,7 +67,8 @@ fun AppNavigation(
     Scaffold(
         topBar = {
             if(currentRoute != AppRoutes.FIRST_SCREEN && currentRoute != AppRoutes.MAIN_SCREEN ){
-                BackButton(navController, Color.Gray)
+
+                CustomTopBar(navController, currentRoute)
             }
         },
         bottomBar = {
