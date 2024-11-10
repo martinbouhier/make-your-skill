@@ -12,8 +12,8 @@ fun MainScreen( navController: NavHostController) {
     TwoOptionsScreen(navController = navController,
         firstButtonText = "MATCH",
         secondButtonText = "SEARCH FOR PAID CLASSES",
-        firstButtonAction = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
-        secondButtonAction = { navController.navigate(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) },
+        firstButtonAction = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN + "?type=match") },
+        secondButtonAction = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN + "?type=paid") },
         description = ""
     )
 }

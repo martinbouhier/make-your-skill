@@ -26,6 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.make_your_skill.R
 import com.make_your_skill.dataClasses.Profile
+import com.make_your_skill.dataClasses.users.UserDataClass
+import com.make_your_skill.helpers.functions.calculateRate
+import com.make_your_skill.helpers.functions.capitalizeFirstLetter
 import com.make_your_skill.ui.theme.BackgroundColor
 import com.make_your_skill.ui.theme.cardInfo
 import com.make_your_skill.ui.theme.cardRate
@@ -33,7 +36,7 @@ import com.make_your_skill.ui.theme.cardTitle
 import java.util.Date
 
 @Composable
-fun ProfileCard(profile: Profile) {
+fun ProfileCard(user: UserDataClass) {
     val GAP = 8.dp
 
     Card(
@@ -60,12 +63,12 @@ fun ProfileCard(profile: Profile) {
             Column(modifier = Modifier.padding(start = 28.dp)) {
                 // Nombre de la persona
                 Text(
-                    text = profile.name,
+                    text = capitalizeFirstLetter(user.firstname) + " " + capitalizeFirstLetter(user.lastname),
                     style = cardTitle
                 )
                 // info de la persona: costo x hora
                 Text(
-                    text = profile.info,
+                    text = "",
                     style = cardInfo,
                     modifier = Modifier.padding(top = 6.dp)
                 )
@@ -74,7 +77,7 @@ fun ProfileCard(profile: Profile) {
             // Rating
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = profile.rate,
+                    text = calculateRate(user.votes,user.peopleVoted).toString(),
                     style = cardRate
                 )
                 Spacer(modifier = Modifier.size(GAP))
@@ -87,11 +90,4 @@ fun ProfileCard(profile: Profile) {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewProfileCard() {
-    val sampleProfile = Profile("John", "$3000 x hora", "1.34", Date(1990, 1, 1))
-    ProfileCard(sampleProfile)
 }

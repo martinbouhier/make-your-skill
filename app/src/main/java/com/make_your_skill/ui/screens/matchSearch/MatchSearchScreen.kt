@@ -41,15 +41,14 @@ import com.make_your_skill.ui.theme.*
 fun MatchSearchScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
+    matchSearchViewModel: MatchSearchViewModel,
+    type: String
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = screenHeight * 0.02f
     val TITLE_TEXT = "Learn"
-    val LABEL = "Add skills..."
-    val BUTTON_TEXT = "MATCH"
+    val BUTTON_TEXT = "SEARCH"
     val LOADING = "Loading interests..."
-
-    val matchSearchViewModel: MatchSearchViewModel = viewModel()
 
     val listOfUserInterestedSkills by matchSearchViewModel.listOfUserInterestedSkills.collectAsState()
     val loadingInterests by matchSearchViewModel.loadingInterest.collectAsState()
@@ -115,11 +114,12 @@ fun MatchSearchScreen(
         }
         Spacer(modifier = Modifier.height(separation))
 
-        RangeSlider()
-
         Spacer(modifier = Modifier.height(separation))
         CustomButton(
-            onClick = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN) },
+            onClick = {
+                if (skillSelected != null){
+                    navController.navigate("${AppRoutes.RESULTS_SCREEN}?type=${type}")
+                } },
             text = BUTTON_TEXT,
         )
         Spacer(modifier = Modifier.height(100.dp))
