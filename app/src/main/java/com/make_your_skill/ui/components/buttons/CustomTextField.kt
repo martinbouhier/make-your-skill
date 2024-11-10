@@ -14,6 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -31,12 +35,38 @@ fun CustomTextField(
     onTextChange: (String) -> Unit,
     label: String,
     onSubmit: () -> Unit,
-    isSubmitEnabled: Boolean
+    isSubmitEnabled: Boolean,
+    isNumericOnly: Boolean = false,
+    maxLength: Int = 10
 ) {
+    var textFieldValue by remember { mutableStateOf(if (text.isEmpty()) "0.00" else text) }
+    var isPlaceholderVisible by remember { mutableStateOf(text.isEmpty()) }
     Column(modifier = Modifier.padding(8.dp)) {
         TextField(
             value = text,
-            onValueChange = { newText -> onTextChange(newText) },
+            onValueChange = { newText ->
+
+                if (isNumericOnly) {
+
+                    val isValidNumber = newText.all { it.isDigit() || it == '.' }
+
+                    if (isValidNumber && newText.length <= maxLength) {
+                        if (newText == "") {
+                            isPlaceholderVisible = true
+                        } else {
+                            isPlaceholderVisible = false
+                        }
+                        textFieldValue = newText
+                        onTextChange(newText)
+                    }
+                } else {
+
+                    if (newText.length <= maxLength) {
+                        textFieldValue = newText
+                        onTextChange(newText)
+                    }
+                }
+            },
             label = { Text(text = label) },
             textStyle = TextStyle(color = DarkPurple, fontSize = 16.sp),
             modifier = Modifier
