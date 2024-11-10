@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -56,10 +57,10 @@ fun TextInputLogin(
         trailingIcon = {
             if (isPassword) {
                 IconButton(onClick = { showPassword = !showPassword }) {
-                    Image(
-
+                    Icon(
                         painter = if (showPassword) getIconEyeOpen() else getIconEyeClosed(),
                         contentDescription = if (showPassword) "Ocultar contraseña" else "Mostrar contraseña",
+                        tint = color
                     )
                 }
             }
