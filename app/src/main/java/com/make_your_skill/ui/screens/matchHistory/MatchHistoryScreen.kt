@@ -27,17 +27,14 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.BackgroundColor2
 
 @Composable
-fun MatchHistoryScreen(navController: NavHostController, singInViewModel: SingInViewModel) {
+fun MatchHistoryScreen(
+    navController: NavHostController, // TODO: Borrar?
+    singInViewModel: SingInViewModel
+) {
     val viewModel : MatchHistoryViewModel = viewModel()
-    val loading by viewModel.loading.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val loading by viewModel.loading.collectAsState() //TODO: Que hace esto?
+    val error by viewModel.error.collectAsState() //TODO: Que hace esto?
     val userInfo by singInViewModel.signInInfo.collectAsState()
-
-    val sampleList = listOf(
-        UserDataClass(1, "John","Doe","john@gmail.com", phone = "1234 5678",true, 5,1,"01/01/2000","01/01/2024","01/01/2024"),
-        UserDataClass(1, "John","Doe","john@gmail.com", phone = "1234 5678",true, 5,1,"01/01/2000","01/01/2024","01/01/2024"),
-        UserDataClass(1, "John","Doe","john@gmail.com", phone = "1234 5678",true, 5,1,"01/01/2000","01/01/2024","01/01/2024")
-    )
 
     val paddingValues = 16.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -79,6 +76,6 @@ fun MatchHistoryScreen(navController: NavHostController, singInViewModel: SingIn
 @Composable
 fun MatchHistoryScreenPreview() {
    val navController = rememberNavController()
-    MatchHistoryScreen(navController, SingInViewModel())
+    val singInViewModel = SingInViewModel()
+    MatchHistoryScreen(navController, singInViewModel)
 }
-//

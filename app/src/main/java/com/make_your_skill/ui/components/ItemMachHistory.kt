@@ -39,7 +39,7 @@ fun ItemMatchHistory(
     val iconPainter: Painter = painterResource(id = R.drawable.user_profile_icon)
     val textPrice = 10
 
-    if (viewModel.showAddPopUp.collectAsState().value) {
+    if (viewModel.showRatePopUp.collectAsState().value) {
         RatePopUp( token, userId, viewModel )
     }
 
@@ -70,7 +70,7 @@ fun ItemMatchHistory(
             )
         }
         Button(
-            onClick = { viewModel.onClickRate() }, // MatchHistoryViewModel
+            onClick = { viewModel.setRatePopUp(true) }, // MatchHistoryViewModel
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7B61FF))
         ) {
             Text(text = "Rate", color = Color.White)

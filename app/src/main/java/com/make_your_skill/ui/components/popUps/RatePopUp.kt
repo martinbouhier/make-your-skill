@@ -59,7 +59,7 @@ fun RatePopUp(
         },
         dismissButton = {
             PopUpButton(
-                onClick = { viewModel.onDismissRequest() },
+                onClick = { viewModel.setRatePopUp(false) },
                 text = "Exit"
             )
         }

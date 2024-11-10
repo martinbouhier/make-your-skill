@@ -2,16 +2,12 @@ package com.make_your_skill.ui.screens.matchHistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.make_your_skill.dataClasses.auth.body.SignInBody
-import com.make_your_skill.dataClasses.auth.dto.SignInDto
 import com.make_your_skill.dataClasses.users.IncreaseVotesBody
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
 import com.make_your_skill.helpers.retrofit.users.UserService
 import com.make_your_skill.models.users.UsersModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
 class MatchHistoryViewModel : ViewModel() {
     val usersService: UserService = RetrofitServiceFactory.makeRetrofitService<UserService>()
@@ -29,18 +25,9 @@ class MatchHistoryViewModel : ViewModel() {
 
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
 
-    private val _showAddPopUp = MutableStateFlow<Boolean>(false)
-    val showAddPopUp: StateFlow<Boolean> get() = _showAddPopUp
-    fun setShowAddPopUp(newState: Boolean) { _showAddPopUp.value = newState }
-
-    fun onDismissRequest() {
-        setShowAddPopUp(false)
-    }
-
-    fun onClickRate(){
-        setShowAddPopUp(true)
-
-    }
+    private val _showRatePopUp = MutableStateFlow<Boolean>(false)
+    val showRatePopUp: StateFlow<Boolean> get() = _showRatePopUp
+    fun setRatePopUp(newState: Boolean) { _showRatePopUp.value = newState }
 
     val onConfirmation: (String, Int, Int) -> Unit = { token, userId, vote ->
         if (vote == 0) {
@@ -48,6 +35,7 @@ class MatchHistoryViewModel : ViewModel() {
         }
         else {
             increaseVotes(token = token, userId = userId, vote = vote)
+            setRatePopUp(false)
         }
     }
 
