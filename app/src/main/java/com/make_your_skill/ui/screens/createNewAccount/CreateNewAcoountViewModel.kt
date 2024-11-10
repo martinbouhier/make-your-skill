@@ -14,6 +14,7 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -72,6 +73,22 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     private val _phoneNumber = MutableStateFlow<String>("")
     val phoneNumber: StateFlow<String> get() = _phoneNumber
     fun setPhoneNumber(newPhoneNumber: String) { _phoneNumber.value = newPhoneNumber }
+
+    fun resetVariables(){
+        _loading.value = false
+        _registerError.value = null
+        _createNewAccountScreenLoading.value = false
+        _registerError.value = null
+        _registerInfo.value = null
+        _email.value = ""
+        _password.value = ""
+        _reWritePassword.value = ""
+        _firstname.value = ""
+        _lastname.value = ""
+        _dateOfBirth.value = ""
+        _phoneNumber.value = ""
+        _defaultDate.value = ""
+    }
 
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
@@ -137,7 +154,7 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
         return date.let { outputFormat.format(it) }
     }
 
-    fun register(){
+    fun register() {
         val registerBody = RegisterBody(
             firstname.value,
             lastname.value,

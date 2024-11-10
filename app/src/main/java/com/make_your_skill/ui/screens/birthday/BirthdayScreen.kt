@@ -72,6 +72,7 @@ fun BirthdayScreen(
             singInViewModel.setEmail(createNewAcoountViewModel.email.value)
             singInViewModel.setPassword(createNewAcoountViewModel.password.value)
             singInViewModel.onLogin()
+            createNewAcoountViewModel.resetVariables()
 
             navController.navigate(AppRoutes.SKILLS_SCREEN + "?showContinue=true")
         }

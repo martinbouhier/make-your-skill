@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -23,14 +24,17 @@ import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.text.textFileds.ClickableText
 import com.make_your_skill.ui.navigation.AppRoutes
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.BackgroundColor2
 import com.make_your_skill.ui.theme.styleTitle
 
 @Composable
-fun ProfileSettingsScreen(navController: NavHostController) {
+fun ProfileSettingsScreen(
+    navController: NavHostController,
+    singInViewModel: SingInViewModel
+) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = screenHeight * 0.02f
-
 
     Column(
         modifier = Modifier
@@ -54,7 +58,7 @@ fun ProfileSettingsScreen(navController: NavHostController) {
             fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(separation*2))
-        EditProfile(separation, navController)
+        EditProfile(separation, navController,singInViewModel)
 
     }
 }
@@ -62,7 +66,8 @@ fun ProfileSettingsScreen(navController: NavHostController) {
 @Composable
 fun EditProfile(
     separation: Dp,
-    navController: NavHostController
+    navController: NavHostController,
+    singInViewModel: SingInViewModel
 ){
     Column (
         modifier = Modifier
@@ -88,17 +93,9 @@ fun EditProfile(
         Spacer(modifier = Modifier.height(separation))
         ClickableText(text = "Match History", onClick = { navController.navigate(AppRoutes.MATCH_HISTORY_SCREEN) }, color = BackgroundColor2)
         Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Log Out", onClick = { /*TODO*/ }, color = BackgroundColor2)
+        ClickableText(text = "Log Out", onClick = { singInViewModel.signOut(navController) }, color = BackgroundColor2)
         Spacer(modifier = Modifier.height(separation))
         ClickableText(text = "Delete Account", onClick = { /*TODO*/ }, color = BackgroundColor2)
 
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileSettingsScreenPreview() {
-    val navController = rememberNavController()
-    ProfileSettingsScreen(navController)
 }
