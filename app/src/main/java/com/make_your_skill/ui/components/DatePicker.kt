@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,7 +47,7 @@ fun DatePickerDocked(datePickerState: DatePickerState, selectedDate: String) {
         OutlinedTextField(
             value = selectedDate,
             onValueChange = { },
-            label = { Text("DOB") },
+            label = { Text("DATE") },
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = !showDatePicker }) {
@@ -65,12 +66,11 @@ fun DatePickerDocked(datePickerState: DatePickerState, selectedDate: String) {
         if (showDatePicker) {
             Popup(
                 onDismissRequest = { showDatePicker = false },
-                alignment = Alignment.TopStart
+                alignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = 64.dp)
+                        .wrapContentSize()
                         .shadow(elevation = 4.dp)
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(16.dp)
