@@ -17,7 +17,11 @@ class NewPasswordViewModel: ViewModel() {
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
     private val INVALID_PASSWORD = "Password must have a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
     private val PASSWORDS_MUST_MATCH = "New passwords must match"
+
     private val PASSWORDS_MUST_BE_DIFFERENT = "New password must be different from the old password" // Nuevo mensaje de error
+
+    private val MAX_PASSWORD_LENGTH = 40
+    private val MAX_PASSWORD_LENGTH_MESSAGE = "Password can't have more than $MAX_PASSWORD_LENGTH characters"
 
 
     val authService: AuthService = RetrofitServiceFactory.makeRetrofitService<AuthService>()
@@ -52,12 +56,18 @@ class NewPasswordViewModel: ViewModel() {
 
     val onNewPasswordChange: (String) -> Unit = { password ->
         clearError()
-        setNewPassword(password)
+        if (password.length > MAX_PASSWORD_LENGTH){
+            setChangePasswordError(MAX_PASSWORD_LENGTH_MESSAGE)
+        }
+        else { setNewPassword(password) }
     }
 
     val onReWriteNewPasswordChange: (String) -> Unit = { password ->
         clearError()
-        setReWriteNewPassword(password)
+        if (password.length > MAX_PASSWORD_LENGTH){
+            setChangePasswordError(MAX_PASSWORD_LENGTH_MESSAGE)
+        }
+        else { setReWriteNewPassword(password) }
     }
 
     fun clearError() {
