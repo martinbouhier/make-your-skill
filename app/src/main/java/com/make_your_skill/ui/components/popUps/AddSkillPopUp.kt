@@ -30,7 +30,7 @@ fun addSkillPopUp(
               modifier = Modifier
           ) {
               skillsDropDown(skillsList, onSkillAddChange)
-              CustomTextField(priceText,onPriceAddChange,priceLabel, onSubmit = {}, false)
+              CustomTextField(priceText,onPriceAddChange,priceLabel, onSubmit = {}, false,true,8)
           }
         },
         onDismissRequest = {
