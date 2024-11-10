@@ -42,6 +42,7 @@ import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
 import com.make_your_skill.ui.screens.matchHistory.MatchHistoryRoutes
+import com.make_your_skill.ui.screens.matchSearch.MatchSearchViewModel
 import com.make_your_skill.ui.screens.newPassword.NewPasswordRoute
 import com.make_your_skill.ui.screens.phoneNumber.PhoneNumberRoutes
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
@@ -57,7 +58,8 @@ import com.make_your_skill.ui.screens.skill.SkillsRoutes
 fun AppNavigation(
     navController: NavHostController,
     singInViewModel: SingInViewModel = viewModel(),
-    createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel()
+    createNewAcoountViewModel: CreateNewAcoountViewModel = viewModel(),
+    matchSearchViewModel: MatchSearchViewModel = viewModel()
 ) {
     val isLoggedIn by singInViewModel.isLoggedIn.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
@@ -113,8 +115,14 @@ fun AppNavigation(
                         backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
                     ProfileRoutes(navController, singInViewModel, userId)
                 }
-                composable(AppRoutes.MATCH_SEARCH_SCREEN) {
-                    MatchSearchRoutes(navController, singInViewModel)
+                composable(
+                    //type = match / paid
+                    route = "${AppRoutes.MATCH_SEARCH_SCREEN}?type={type}",
+                    arguments = listOf(navArgument("type") { type = NavType.StringType })
+                ) {backStackEntry ->
+                    val type: String =
+                        backStackEntry.arguments?.getString("type") ?: "match"
+                    MatchSearchRoutes(navController, singInViewModel, matchSearchViewModel,type)
                 }
                 composable(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) {
                     AddSkillsAndInterestsRoutes(navController)
@@ -148,8 +156,14 @@ fun AppNavigation(
                 composable(AppRoutes.SETTINGS_SCREEN) {
                     ProfileSettingsRoutes(navController, singInViewModel)
                 }
-                composable(AppRoutes.RESULTS_SCREEN) {
-                    ResultsRoutes(navController)
+                composable(
+                    //type = match / paid
+                    route = "${AppRoutes.RESULTS_SCREEN}?type={type}",
+                    arguments = listOf(navArgument("type") { type = NavType.StringType })
+                ) {backStackEntry ->
+                    val type: String =
+                        backStackEntry.arguments?.getString("type") ?: "match"
+                    ResultsRoutes(navController, matchSearchViewModel,singInViewModel,type)
                 }
                 composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) {
                     SearchForPaidClassesScreen(navController)

@@ -6,6 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -16,24 +19,65 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.dataClasses.Profile
 import com.make_your_skill.ui.components.cards.ProfileCard
+import com.make_your_skill.ui.screens.matchSearch.MatchSearchViewModel
+import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import java.sql.Date
 
 @Composable
-fun ResultsScreen(navController: NavHostController) {
+fun ResultsScreen(
+    navController: NavHostController,
+    type: String,
+    singInViewModel: SingInViewModel,
+    matchSearchViewModel: MatchSearchViewModel
+) {
+
+    val skillSelected by matchSearchViewModel.skillSelected.collectAsState()
+    val usersSearched by matchSearchViewModel.usersSearched.collectAsState()
+    val loadingUsersSearch by matchSearchViewModel.loadingUsersSearch.collectAsState()
+    val errorUsersSearched by matchSearchViewModel.errorUsersSearched.collectAsState()
+    //val loadingSkills by matchSearchViewModel.loadingSkills.collectAsState()
+    //val errorSkills by matchSearchViewModel.errorSkills.collectAsState()
+    val listOfUserSkills by matchSearchViewModel.listOfUserSkills.collectAsState()
+
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 10.dp
+    val MATCH = "match"
+    val PAID = "paid"
 
-    val profiles = listOf(
-        Profile("John", "Doe", "1.34",
-            Date(1990, 1, 1) // TODO: Cambiar Package
-        ),
-        Profile("John", "Doe", "1.34",
-            Date(1990, 1, 1) // TODO: Cambiar Package
-        ),
-        Profile("John", "Doe", "1.34",
-            Date(1990, 1, 1) // TODO: Cambiar Package
-        )
-    )
+    LaunchedEffect(Unit) {
+        val token = singInViewModel.getToken()
+        val userId = singInViewModel!!.signInInfo.value!!.user.id
+
+        if (type == PAID){
+            matchSearchViewModel.findManyBySkillsAndInterests(
+                token,
+                skillSelected!!.id.toString()
+            )
+        }
+        else if (type == MATCH){
+            matchSearchViewModel.getUserSkillByUserId(token,userId)
+        }
+    }
+
+    LaunchedEffect(listOfUserSkills) {
+        val token = singInViewModel.getToken()
+        val mySkillsIds: List<Int> = listOfUserSkills.map { item -> item.skill.id }
+        val mySkillsIdsString: String = if (mySkillsIds.isNotEmpty()) mySkillsIds.joinToString(separator = ",") else ""
+
+        if (mySkillsIds.isNotEmpty()){
+            matchSearchViewModel.findManyBySkillsAndInterests(
+                token,
+                skillSelected!!.id.toString(),
+                mySkillsIdsString
+            )
+        }
+        else {
+            matchSearchViewModel.findManyBySkillsAndInterests(
+                token,
+                skillSelected!!.id.toString()
+            )
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -48,22 +92,22 @@ fun ResultsScreen(navController: NavHostController) {
             modifier = Modifier
                 .padding(separation)
         )
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(separation) // Espacio entre cards
-        ) {
-            items(profiles) { profile ->
-                ProfileCard(profile)
-                HorizontalDivider(modifier = Modifier.background(color = Color(0x784E40EA)))
+        if (usersSearched.isNotEmpty()){
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(separation) // Espacio entre cards
+            ) {
+                items(usersSearched) { user ->
+                    ProfileCard(user)
+                    HorizontalDivider(modifier = Modifier.background(color = Color(0x784E40EA)))
+                }
             }
         }
+        else if (loadingUsersSearch){
+            Text(text = "Loading...")
+        }
+        else if (errorUsersSearched != null){
+            Text(text = errorUsersSearched.toString())
+        }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewResultsScreen() {
-    val navController = rememberNavController()
-    ResultsScreen(navController)
 }

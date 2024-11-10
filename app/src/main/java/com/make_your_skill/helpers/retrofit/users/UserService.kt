@@ -1,7 +1,6 @@
 package com.make_your_skill.helpers.retrofit.users
 
-import com.make_your_skill.dataClasses.auth.body.ChangePasswordBody
-import com.make_your_skill.dataClasses.skills.skillDataClass
+import com.make_your_skill.dataClasses.users.FindManyBySkillsAndInterests
 import com.make_your_skill.dataClasses.users.IncreaseVotesBody
 import com.make_your_skill.dataClasses.users.UserDataClass
 import retrofit2.Response
@@ -11,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface UserService {
     @GET("users/{userId}")
@@ -30,4 +30,11 @@ interface UserService {
         @Header("Authorization") token: String,
         @Path("userId") userId: Int, // Añadimos el parámetro userId
     ): Response<Any>
+
+    @GET("users/findManyBySkillsAndInterests")
+    suspend fun findManyBySkillsAndInterests(
+        @Header("Authorization") token: String,
+        @Query("skillsIds") skillsIds: String,
+        @Query("interestsIds") interestsIds: String? // Parámetro opcional
+    ): Response<List<UserDataClass>>
 }
