@@ -118,7 +118,12 @@ fun NewPasswordScreen(
                     error = changePasswordError,
                     focusRequester = focusRequester3,
                     isPassword = true,
-                    color = BackgroundColor2
+                    color = BackgroundColor2,
+                    onImeAction = {
+                        newPasswordViewModel.onClick(
+                            singInViewModel.getToken(),
+                            userInfo!!.user.id
+                        )}
                 )
                 if (changePasswordError != null){
                     Text(
