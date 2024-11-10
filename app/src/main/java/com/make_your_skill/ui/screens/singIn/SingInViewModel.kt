@@ -49,7 +49,9 @@ class SingInViewModel @Inject constructor(): ViewModel() {
 
     fun signOut(navController: NavController){
         resetVariables()
-        navController.navigate(AppRoutes.FIRST_SCREEN)
+        navController.navigate(AppRoutes.FIRST_SCREEN){
+            popUpTo(0)
+        }
     }
 
     fun resetVariables(){

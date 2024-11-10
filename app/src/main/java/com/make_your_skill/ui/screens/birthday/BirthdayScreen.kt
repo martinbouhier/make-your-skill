@@ -74,7 +74,9 @@ fun BirthdayScreen(
             singInViewModel.onLogin()
             createNewAcoountViewModel.resetVariables()
 
-            navController.navigate(AppRoutes.SKILLS_SCREEN + "?showContinue=true")
+            navController.navigate(AppRoutes.SKILLS_SCREEN + "?showContinue=true"){
+                popUpTo(0)
+            }
         }
     }
 
