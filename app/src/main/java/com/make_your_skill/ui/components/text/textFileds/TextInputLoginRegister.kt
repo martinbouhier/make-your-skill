@@ -2,7 +2,9 @@ package com.make_your_skill.ui.components.text.textFileds
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +17,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,9 +39,14 @@ fun TextInputLogin(
     modifier: Modifier = Modifier,
     text: String,
     onChange: (String) -> Unit,
-    error: String?
+    error: String?,
+    focusRequester: FocusRequester,
+    onImeAction: () -> Unit = {},
+    nextFocusRequester: FocusRequester? = null
 ) {
     var showPassword by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
 
     OutlinedTextField(
         value = text,
@@ -62,12 +72,26 @@ fun TextInputLogin(
         keyboardOptions = KeyboardOptions(
             capitalization = if (!isPassword) KeyboardCapitalization.Words else KeyboardCapitalization.None,
             autoCorrectEnabled = !isPassword,
-            imeAction = ImeAction.Done,
+            imeAction = if (nextFocusRequester != null) ImeAction.Next else ImeAction.Done,
             keyboardType = if (!showPassword && isPassword) KeyboardType.Password else KeyboardType.Text
+        ),
+        keyboardActions = KeyboardActions(
+            onNext = {
+                if (text.isNotEmpty()) {
+                    nextFocusRequester?.requestFocus()
+                }
+            },
+            onDone = {
+                if (text.isNotEmpty()) {
+                    keyboardController?.hide()
+                    onImeAction()
+                }
+            }
         ),
         shape = RoundedCornerShape(50.dp),
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusRequester(focusRequester),
         visualTransformation = if (isPassword && !showPassword) PasswordVisualTransformation() else VisualTransformation.None,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
