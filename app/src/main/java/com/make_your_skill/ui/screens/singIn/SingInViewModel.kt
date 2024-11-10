@@ -24,6 +24,10 @@ class SingInViewModel @Inject constructor(): ViewModel() {
     private val ERROR_LOGIN_IN = "Error logging in"
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
     private val INVALID_EMAIL = "Email is not valid"
+    private val MAX_EMAIL_LENGTH = 100
+    private val MAX_EMAIL_LENGTH_MESSAGE = "Email can't have more than $MAX_EMAIL_LENGTH characters"
+    private val MAX_PASSWORD_LENGTH = 40
+    private val MAX_PASSWORD_LENGTH_MESSAGE = "Password can't have more than $MAX_PASSWORD_LENGTH characters"
 
     private val _isLoggedIn = MutableStateFlow<Boolean>(false)
     val isLoggedIn: StateFlow<Boolean> get() = _isLoggedIn
@@ -73,12 +77,18 @@ class SingInViewModel @Inject constructor(): ViewModel() {
 
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
-        setEmail(newEmail)
+        if (newEmail.length > MAX_EMAIL_LENGTH){
+            setError(MAX_EMAIL_LENGTH_MESSAGE)
+        }
+        else { setEmail(newEmail) }
     }
 
     val onPasswordChange: (String) -> Unit = { newPassword ->
         clearError()
-        setPassword(newPassword)
+        if (newPassword.length > MAX_PASSWORD_LENGTH){
+            setError(MAX_PASSWORD_LENGTH_MESSAGE)
+        }
+        else { setPassword(newPassword) }
     }
 
     fun clearError() {

@@ -25,6 +25,19 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     private val INVALID_EMAIL = "Email is not valid"
     private val INVALID_PASSWORD = "Password must have a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
     private val PASSWORDS_MUST_MATCH = "Passwords must match"
+    private val MAX_EMAIL_LENGTH = 100
+    private val MAX_EMAIL_LENGTH_MESSAGE = "Email can't have more than $MAX_EMAIL_LENGTH characters"
+    private val MAX_PASSWORD_LENGTH = 40
+    private val MAX_PASSWORD_LENGTH_MESSAGE = "Password can't have more than $MAX_PASSWORD_LENGTH characters"
+    private val FIRSTNAME_MIN_LENGTH: Int = 3
+    private val LASTNAME_MIN_LENGTH: Int = 3
+    private val FIRSTNAME_MAX_LENGTH: Int = 15
+    private val LASTNAME_MAX_LENGTH: Int = 15
+    private val FIRSTSNAME_MIN_LENGTH_ERROR = "Firstname must have at least " + FIRSTNAME_MIN_LENGTH + " characters"
+    private val LASTNAME_MIN_LENGTH_ERROR = "Lastname must have at least " + LASTNAME_MIN_LENGTH + " characters"
+    private val FIRSTSNAME_MAX_LENGTH_ERROR = "Firstname must have no more than " + FIRSTNAME_MAX_LENGTH + " characters"
+    private val LASTNAME_MAX_LENGTH_ERROR = "Lastname must have no more than " + LASTNAME_MAX_LENGTH + " characters"
+
 
     val authService: AuthService = RetrofitServiceFactory.makeRetrofitService<AuthService>()
     private val authModel = AuthModel(authService)
@@ -74,6 +87,10 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
     val phoneNumber: StateFlow<String> get() = _phoneNumber
     fun setPhoneNumber(newPhoneNumber: String) { _phoneNumber.value = newPhoneNumber }
 
+    private val _errorName = MutableStateFlow<String?>(null)
+    val errorName: StateFlow<String?> get() = _errorName
+    fun setErrorName(newError: String) { _errorName.value = newError }
+
     fun resetVariables(){
         _loading.value = false
         _registerError.value = null
@@ -92,27 +109,42 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
 
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
-        setEmail(newEmail)
+        if (newEmail.length > MAX_EMAIL_LENGTH){
+            setCreateNewAccountScreenError(MAX_EMAIL_LENGTH_MESSAGE)
+        }
+        else { setEmail(newEmail) }
     }
 
     val onPasswordChange: (String) -> Unit = { newPassword ->
         clearError()
-        setPassword(newPassword)
+        if (newPassword.length > MAX_PASSWORD_LENGTH){
+            setCreateNewAccountScreenError(MAX_PASSWORD_LENGTH_MESSAGE)
+        }
+        else { setPassword(newPassword) }
     }
 
     val onReWritePasswordChange: (String) -> Unit = { newPassword ->
         clearError()
-        setreWritepassword(newPassword)
+        if (newPassword.length > MAX_PASSWORD_LENGTH){
+            setCreateNewAccountScreenError(MAX_PASSWORD_LENGTH_MESSAGE)
+        }
+        else { setreWritepassword(newPassword) }
     }
 
     val onFirstNameChange: (String) -> Unit = { newFirstname ->
         clearError()
-        setFirstname(newFirstname)
+        if (newFirstname.length > FIRSTNAME_MAX_LENGTH){
+            setErrorName(FIRSTSNAME_MAX_LENGTH_ERROR)
+        }
+        else { setFirstname(newFirstname) }
     }
 
     val onLastNameChange: (String) -> Unit = { newLastname ->
         clearError()
-        setLastname(newLastname)
+        if (newLastname.length > LASTNAME_MAX_LENGTH){
+            setErrorName(LASTNAME_MAX_LENGTH_ERROR)
+        }
+        else { setLastname(newLastname) }
     }
 
     val onPhoneNumberChange: (String) -> Unit = { newPhoneNumber ->
@@ -144,6 +176,27 @@ class CreateNewAcoountViewModel @Inject constructor(): ViewModel() {
         }
         else {
             navController.navigate(AppRoutes.FIRST_NAME_SCREEN)
+        }
+    }
+
+    fun onClickName(firstname: String, lastname: String ,navController: NavHostController) {
+        if (firstname.isEmpty() || lastname.isEmpty()) {
+            setErrorName(MUST_COMPLETE_INPUTS)
+        }
+        else if (firstname.length < FIRSTNAME_MIN_LENGTH){
+            setErrorName(FIRSTSNAME_MIN_LENGTH_ERROR)
+        }
+        else if (firstname.length > FIRSTNAME_MAX_LENGTH){
+            setErrorName(FIRSTSNAME_MAX_LENGTH_ERROR)
+        }
+        else if (lastname.length < LASTNAME_MIN_LENGTH){
+            setErrorName(LASTNAME_MIN_LENGTH_ERROR)
+        }
+        else if (lastname.length > LASTNAME_MAX_LENGTH){
+            setErrorName(LASTNAME_MAX_LENGTH_ERROR)
+        }
+        else {
+            navController.navigate(AppRoutes.CELL_PHONE_SCREEN)
         }
     }
 
