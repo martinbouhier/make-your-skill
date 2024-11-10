@@ -26,7 +26,7 @@ fun CircularText(
     Box(
         modifier = Modifier
             .background(
-                color = if (selected) Color(0xFF4E40EA).copy(alpha = 0.8f) else Color.White, // Cambiar color según `selected`,
+                color = if (selected) Color(0xFF4E40EA).copy(alpha = 0.8f) else Color.Transparent, // Cambiar color según `selected`,
                 shape = CircleShape
             )
             .border(

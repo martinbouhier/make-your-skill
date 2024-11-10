@@ -2,6 +2,7 @@ package com.make_your_skill.ui.screens.matchSearch
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -35,6 +36,7 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.*
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MatchSearchScreen(
     navController: NavHostController,
@@ -87,22 +89,26 @@ fun MatchSearchScreen(
                     .height(180.dp)
                     .padding(8.dp)
             ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 120.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(listOfUserInterestedSkills) { item ->
-                        val finalItem = InterestAddedDataClass(item.skill.id,true,item.skill.name)
-                        val selected: Boolean = skillSelected?.id == item.skill.id
-                        CircularText(
-                            item.skill.name,
-                            {matchSearchViewModel.setSkillSelected(finalItem) },
-                            selected
-                        )
+                LazyColumn {
+                    item {
+                        FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            listOfUserInterestedSkills.forEach { item ->
+                                val finalItem = InterestAddedDataClass(item.skill.id,true,item.skill.name)
+                                val selected: Boolean = skillSelected?.id == item.skill.id
+                                CircularText(
+                                    item.skill.name,
+                                    {matchSearchViewModel.setSkillSelected(finalItem) },
+                                    selected
+                                )
+                            }
+                            
+                        }
                     }
                 }
             }
