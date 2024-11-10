@@ -156,7 +156,7 @@ fun AppNavigation(
                     PhoneNumberRoutes(navController, createNewAcoountViewModel)
                 }
                 composable(AppRoutes.MATCH_HISTORY_SCREEN){
-                    MatchHistoryRoutes(navController)
+                    MatchHistoryRoutes(navController, singInViewModel)
                 }
                 composable(AppRoutes.CHANGE_PASSWORD_SCREEN){
                     NewPasswordRoute(navController, singInViewModel)
