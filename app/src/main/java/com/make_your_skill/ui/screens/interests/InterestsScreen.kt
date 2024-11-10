@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +31,7 @@ import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.interest
 import com.make_your_skill.ui.components.popUps.addInterestsPopUp
+import com.make_your_skill.ui.components.skill
 import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple
@@ -42,7 +45,7 @@ fun InterestedSkillsScreen(
     val interestsViewModel: InterestsViewModel = viewModel()
     val listOfSkills by interestsViewModel.listOfSkills.collectAsState()
     val showAddPopUp by interestsViewModel.showAddPopUp.collectAsState()
-    val skills by interestsViewModel.skills.collectAsState()//Lista de skills que va a agregar el usuario
+    val skills by interestsViewModel.skills.collectAsState()
     val error by interestsViewModel.error.collectAsState()
     val loading by interestsViewModel.loading.collectAsState()
     val loadingAddSkill by interestsViewModel.loadingAddSkill.collectAsState()
@@ -102,16 +105,23 @@ fun InterestedSkillsScreen(
         ) {
             Column(
                 modifier = Modifier
+                    .weight(1f)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+
                 ScreenTitleText(FIRST_TEXT)
-                Column {
-                    for (skillItem in skills) {
-                        interest(skillItem, interestsViewModel.onSkillChange) // Llama al composable SkillItem para cada habilidad
+                LazyColumn(
+                    modifier = Modifier .weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(skills) { skillItem ->
+                        interest(skillItem, interestsViewModel.onSkillChange)
                     }
                 }
+
                 if (listOfSkills.isNotEmpty()){
                     Row (
                         modifier = Modifier

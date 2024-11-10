@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -108,14 +110,19 @@ fun SkillsScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 ScreenTitleText(FIRST_TEXT)
-                Column {
-                    for (skillItem in skills) {
-                        skill(skillItem, skillsViewModel.onSkillChange) // Llama al composable SkillItem para cada habilidad
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    items(skills) { skillItem ->
+                        skill(skillItem, skillsViewModel.onSkillChange)
                     }
                 }
                 if (listOfSkills.isNotEmpty()){
@@ -144,7 +151,8 @@ fun SkillsScreen(
                                 .clickable {
                                     skillsViewModel.onDelete(
                                         userInfo!!.tokens.token,
-                                        userInfo!!.user.id)
+                                        userInfo!!.user.id
+                                    )
                                 },
                             fontWeight = FontWeight.Bold,
                             fontSize = 17.sp,
