@@ -42,7 +42,8 @@ fun TextInputLogin(
     error: String?,
     focusRequester: FocusRequester,
     onImeAction: () -> Unit = {},
-    nextFocusRequester: FocusRequester? = null
+    nextFocusRequester: FocusRequester? = null,
+    color: Color = Color.White
 ) {
     var showPassword by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -51,11 +52,12 @@ fun TextInputLogin(
     OutlinedTextField(
         value = text,
         onValueChange = { newText -> onChange(newText) },
-        label = { Text(text = label, fontSize = 16.sp, color = Color.White) },
+        label = { Text(text = label, fontSize = 16.sp, color = color) },
         trailingIcon = {
             if (isPassword) {
                 IconButton(onClick = { showPassword = !showPassword }) {
                     Image(
+
                         painter = if (showPassword) getIconEyeOpen() else getIconEyeClosed(),
                         contentDescription = if (showPassword) "Ocultar contraseña" else "Mostrar contraseña",
                     )
@@ -96,11 +98,11 @@ fun TextInputLogin(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
-            focusedIndicatorColor = if (error != null) Color.Red else Color.White,
-            unfocusedIndicatorColor = if (error != null) Color.Red else Color.White,
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White,
-            cursorColor = Color.White
+            focusedIndicatorColor = if (error != null) Color.Red else color,
+            unfocusedIndicatorColor = if (error != null) Color.Red else color,
+            focusedTextColor = color,
+            unfocusedTextColor = color,
+            cursorColor = color
         )
     )
 }

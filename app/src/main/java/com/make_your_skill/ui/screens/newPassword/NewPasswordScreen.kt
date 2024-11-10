@@ -4,17 +4,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,8 +27,10 @@ import androidx.navigation.NavHostController
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.text.ScreenTitleText
+import com.make_your_skill.ui.components.text.textFileds.TextInputLogin
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
+import com.make_your_skill.ui.theme.BackgroundColor2
 
 @Composable
 fun NewPasswordScreen(
@@ -50,6 +56,10 @@ fun NewPasswordScreen(
     val NEW_PASSWORD_LABEL = "New password..."
     val RE_WIRTE_NEW_PASSWORD_LABEL = "Re write new password..."
     val LOADING = "Loading..."
+
+    val focusRequester1 = remember { FocusRequester() }
+    val focusRequester2 = remember { FocusRequester() }
+    val focusRequester3 = remember { FocusRequester() }
 
     LaunchedEffect(changePasswordInfo) {
         if (changePasswordError == null && changePasswordLoading.not() && changePasswordInfo != null) {
@@ -80,26 +90,36 @@ fun NewPasswordScreen(
             ) {
                 ScreenTitleText(FIRST_TEXT)
                 ScreenTitleText(SECOND_TEXT)
-                CustomTextField(
-                    oldPassword,
-                    newPasswordViewModel.onOldPasswordChange,
-                    OLD_PASSWORD_LABEL,
-                    onSubmit = {},
-                    false
+                TextInputLogin(
+                    label = OLD_PASSWORD_LABEL,
+                    text = oldPassword,
+                    onChange = newPasswordViewModel.onOldPasswordChange,
+                    error = changePasswordError,
+                    focusRequester = focusRequester1,
+                    nextFocusRequester = focusRequester2,
+                    isPassword = true,
+                    color = BackgroundColor2
                 )
-                CustomTextField(
-                    newPassword,
-                    newPasswordViewModel.onNewPasswordChange,
-                    NEW_PASSWORD_LABEL,
-                    onSubmit = {},
-                    false
+                Spacer(modifier = Modifier.height(10.dp))
+                TextInputLogin(
+                    label = NEW_PASSWORD_LABEL,
+                    text = newPassword,
+                    onChange = newPasswordViewModel.onNewPasswordChange,
+                    error = changePasswordError,
+                    focusRequester = focusRequester2,
+                    nextFocusRequester = focusRequester3,
+                    isPassword = true,
+                    color = BackgroundColor2
                 )
-                CustomTextField(
-                    reWriteNewPassword,
-                    newPasswordViewModel.onReWriteNewPasswordChange,
-                    RE_WIRTE_NEW_PASSWORD_LABEL,
-                    onSubmit = {},
-                    false
+                Spacer(modifier = Modifier.height(10.dp))
+                TextInputLogin(
+                    label = RE_WIRTE_NEW_PASSWORD_LABEL,
+                    text = reWriteNewPassword,
+                    onChange = newPasswordViewModel.onReWriteNewPasswordChange,
+                    error = changePasswordError,
+                    focusRequester = focusRequester3,
+                    isPassword = true,
+                    color = BackgroundColor2
                 )
                 if (changePasswordError != null){
                     Text(
