@@ -21,6 +21,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.sp
 import com.make_your_skill.ui.theme.DarkPurple
 
@@ -49,7 +50,10 @@ fun CustomTextField(
                         false
                     }
                 },
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done), // Establecer la acción del teclado
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                capitalization = KeyboardCapitalization.Words
+            ), // Establecer la acción del teclado
             keyboardActions = KeyboardActions(
                 onDone = {
                     if (text.isNotBlank()) {
