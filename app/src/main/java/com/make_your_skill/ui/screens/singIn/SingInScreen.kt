@@ -57,7 +57,9 @@ fun SignInScreen(
     LaunchedEffect(signInInfo) {
         if (signInInfo != null) {
             singInViewModel.setIsLoggedIn(true)
-            navController.navigate(AppRoutes.MAIN_SCREEN)
+            navController.navigate(AppRoutes.MAIN_SCREEN){
+                popUpTo(0)
+            }
         }
     }
 
