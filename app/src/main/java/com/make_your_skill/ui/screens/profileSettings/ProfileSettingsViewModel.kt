@@ -13,6 +13,10 @@ class ProfileSettingsViewModel : ViewModel(){
     val usersService: UserService = RetrofitServiceFactory.makeRetrofitService<UserService>()
     private val usersModel = UsersModel(usersService)
 
+    private val _showDeleteAccountPopUp = MutableStateFlow<Boolean>(false)
+    val showDeleteAccountPopUp: StateFlow<Boolean> get() = _showDeleteAccountPopUp
+    fun setShowDeleteAccountPopUp(newState: Boolean) { _showDeleteAccountPopUp.value = newState }
+
     private val _loadingDelete = MutableStateFlow<Boolean>(false)
     val loadingDelete: StateFlow<Boolean> get() = _loadingDelete
 

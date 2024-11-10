@@ -25,7 +25,7 @@ interface AuthService {
     @POST("auth/changePassword/{userId}")
     suspend fun changePassword(
         @Header("Authorization") token: String,
-        @Path("userId") userId: String, // Parámetro de ruta
+        @Path("userId") userId: Int, // Parámetro de ruta
         @Body changePasswordBody: ChangePasswordBody
     ): Response<Any>
 }

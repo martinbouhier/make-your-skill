@@ -24,6 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
+import com.make_your_skill.ui.components.popUps.ActionConfirmationDialogPopUp
 import com.make_your_skill.ui.components.text.textFileds.ClickableText
 import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
@@ -75,38 +76,55 @@ fun EditProfile(
     profileSettingsViewModel: ProfileSettingsViewModel
 ){
     val userInfo by singInViewModel.signInInfo.collectAsState()
+    val showDeleteAccountPopUp by profileSettingsViewModel.showDeleteAccountPopUp.collectAsState()
+
+    val TEXT = "Are you sure you want to delete your account?"
+    val TITLE = "Delete account"
 
     Column (
         modifier = Modifier
         .fillMaxSize(),
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Top){
-        Text(
-            text = "Edit Profile",
-            style = styleTitle,
-            fontSize = 18.sp
-        )
-        Spacer(modifier = Modifier.height(separation))
-
-        ClickableText(text = "Reset password", onClick = { /*TODO*/ }, color = BackgroundColor2)
-        Spacer(modifier = Modifier.height(separation*10))
-        Text(
-            text = "OTHERS",
-            style = styleTitle,
-            fontSize = 18.sp
-        )
-        Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Add skills/interests", onClick = { navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) }, color = BackgroundColor2)
-        Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Match History", onClick = { navController.navigate(AppRoutes.MATCH_HISTORY_SCREEN) }, color = BackgroundColor2)
-        Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Log Out", onClick = { singInViewModel.signOut(navController) }, color = BackgroundColor2)
-        Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Delete Account", onClick = {
-            profileSettingsViewModel.deleteUser(
-                singInViewModel.getToken(),
-                userInfo!!.user.id
+        verticalArrangement = Arrangement.Top)
+    {
+        if (!showDeleteAccountPopUp){
+            Text(
+                text = "Edit Profile",
+                style = styleTitle,
+                fontSize = 18.sp
             )
-            singInViewModel.signOut(navController)}, color = BackgroundColor2)
+            Spacer(modifier = Modifier.height(separation))
+
+            ClickableText(text = "Change password", onClick = { navController.navigate(AppRoutes.CHANGE_PASSWORD_SCREEN) }, color = BackgroundColor2)
+            Spacer(modifier = Modifier.height(separation*10))
+            Text(
+                text = "OTHERS",
+                style = styleTitle,
+                fontSize = 18.sp
+            )
+            Spacer(modifier = Modifier.height(separation))
+            ClickableText(text = "Add skills/interests", onClick = { navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) }, color = BackgroundColor2)
+            Spacer(modifier = Modifier.height(separation))
+            ClickableText(text = "Match History", onClick = { navController.navigate(AppRoutes.MATCH_HISTORY_SCREEN) }, color = BackgroundColor2)
+            Spacer(modifier = Modifier.height(separation))
+            ClickableText(text = "Log Out", onClick = { singInViewModel.signOut(navController) }, color = BackgroundColor2)
+            Spacer(modifier = Modifier.height(separation))
+            ClickableText(text = "Delete Account", onClick = { profileSettingsViewModel.setShowDeleteAccountPopUp(true) }, color = BackgroundColor2)
+        }
+        else {
+            ActionConfirmationDialogPopUp(
+                { profileSettingsViewModel.setShowDeleteAccountPopUp(false) },
+                { },
+                { profileSettingsViewModel.deleteUser(
+                        singInViewModel.getToken(),
+                        userInfo!!.user.id
+                    )
+                    singInViewModel.signOut(navController)
+                },
+                { profileSettingsViewModel.setShowDeleteAccountPopUp(false) },
+                TEXT,
+                TITLE
+            )
+        }
     }
 }
