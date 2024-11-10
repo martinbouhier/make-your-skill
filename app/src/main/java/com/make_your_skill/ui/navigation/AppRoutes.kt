@@ -22,4 +22,5 @@ object AppRoutes {
     val ADD_SKILLS_INTEREST_SCREEN = "AddSkillsInterestsScreen"
     val CELL_PHONE_SCREEN = "cell_phone_screen"
     val MATCH_HISTORY_SCREEN = "match_history_screen"
+    val CHANGE_PASSWORD_SCREEN = "change_password_screen"
 }

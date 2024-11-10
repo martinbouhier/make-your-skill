@@ -89,7 +89,7 @@ class AuthModel(private val authService: AuthService) {
         scope: CoroutineScope,
         token: String,
         changePasswordBody: ChangePasswordBody,
-        userId: String,
+        userId: Int,
         loading: MutableStateFlow<Boolean>,
         error: MutableStateFlow<String?>,
         changePasswordInfo: MutableStateFlow<Any?>
