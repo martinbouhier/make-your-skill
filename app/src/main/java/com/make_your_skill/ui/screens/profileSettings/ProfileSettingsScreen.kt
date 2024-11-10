@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -19,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
@@ -33,6 +35,8 @@ fun ProfileSettingsScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel
 ) {
+    val profileSettingsViewModel: ProfileSettingsViewModel = viewModel()
+
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = screenHeight * 0.02f
 
@@ -58,7 +62,7 @@ fun ProfileSettingsScreen(
             fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(separation*2))
-        EditProfile(separation, navController,singInViewModel)
+        EditProfile(separation, navController,singInViewModel, profileSettingsViewModel)
 
     }
 }
@@ -67,8 +71,11 @@ fun ProfileSettingsScreen(
 fun EditProfile(
     separation: Dp,
     navController: NavHostController,
-    singInViewModel: SingInViewModel
+    singInViewModel: SingInViewModel,
+    profileSettingsViewModel: ProfileSettingsViewModel
 ){
+    val userInfo by singInViewModel.signInInfo.collectAsState()
+
     Column (
         modifier = Modifier
         .fillMaxSize(),
@@ -95,7 +102,11 @@ fun EditProfile(
         Spacer(modifier = Modifier.height(separation))
         ClickableText(text = "Log Out", onClick = { singInViewModel.signOut(navController) }, color = BackgroundColor2)
         Spacer(modifier = Modifier.height(separation))
-        ClickableText(text = "Delete Account", onClick = { /*TODO*/ }, color = BackgroundColor2)
-
+        ClickableText(text = "Delete Account", onClick = {
+            profileSettingsViewModel.deleteUser(
+                singInViewModel.getToken(),
+                userInfo!!.user.id
+            )
+            singInViewModel.signOut(navController)}, color = BackgroundColor2)
     }
 }

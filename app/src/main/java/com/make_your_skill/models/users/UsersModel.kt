@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 class UsersModel(private val usersService: UserService){
     private val ERROR_GETTING_USER_BY_ID = "Error getting user"
     private val ERROR_INCREASING_VOTES = "Error increasing votes"
+    private val ERROR_DELETING_USER = "Error deleting user"
 
     fun getUserByUserId(
         scope: CoroutineScope,
@@ -35,11 +36,11 @@ class UsersModel(private val usersService: UserService){
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = errorBody?.let {
                         Gson().fromJson(it, ErrorResponse::class.java).message
-                    } ?: ERROR_GETTING_USER_BY_ID
+                    } ?: ERROR_DELETING_USER
                     error.value = errorMessage
                 }
             } catch (e: Exception) {
-                error.value = ERROR_GETTING_USER_BY_ID
+                error.value = ERROR_DELETING_USER
             } finally {
                 loading.value = false
             }
@@ -71,6 +72,37 @@ class UsersModel(private val usersService: UserService){
                 }
             } catch (e: Exception) {
                 error.value = ERROR_INCREASING_VOTES
+            } finally {
+                loading.value = false
+            }
+        }
+    }
+
+    fun deleteUser(
+        scope: CoroutineScope,
+        loading: MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        userDelete: MutableStateFlow<Any?>,
+        userId: Int,
+        token: String
+    ) {
+        scope.launch {
+            loading.value = true
+            try {
+                val finalToken: String = "Bearer $token"
+                val response = usersService.deleteUser(finalToken, userId)
+                if (response.isSuccessful) {
+                    userDelete.value = response.body()
+                    error.value = null
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java).message
+                    } ?: ERROR_GETTING_USER_BY_ID
+                    error.value = errorMessage
+                }
+            } catch (e: Exception) {
+                error.value = ERROR_GETTING_USER_BY_ID
             } finally {
                 loading.value = false
             }
