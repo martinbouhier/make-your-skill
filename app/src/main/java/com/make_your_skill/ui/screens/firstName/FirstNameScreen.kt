@@ -32,7 +32,7 @@ fun FirstNameScreen(
     val viewModel: FirstNameViewModel = viewModel()
     val firstname by createNewAcoountViewModel.firstname.collectAsState()
     val lastname by createNewAcoountViewModel.lastname.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val error by createNewAcoountViewModel.errorName.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE"
@@ -83,7 +83,7 @@ fun FirstNameScreen(
             }
         }
         Row {
-            CustomButton({viewModel.onClick(firstname,lastname,navController)},BUTTON_TEXT)
+            CustomButton({createNewAcoountViewModel.onClickName(firstname,lastname,navController)},BUTTON_TEXT)
         }
     }
 }
