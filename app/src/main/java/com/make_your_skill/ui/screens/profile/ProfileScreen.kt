@@ -3,13 +3,10 @@ package com.make_your_skill.ui.screens.profile
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,27 +14,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
-import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.helpers.functions.calculateAge
+import com.make_your_skill.helpers.functions.calculateRate
 import com.make_your_skill.helpers.functions.capitalizeFirstLetter
+import com.make_your_skill.ui.components.icons.starts.getIconStart
+import com.make_your_skill.ui.components.icons.starts.getIconStartSelected
 import com.make_your_skill.ui.components.text.CircularText
-import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.*
 
@@ -105,6 +99,18 @@ fun ProfileScreen(
                             .height(79.dp)
                             .width(78.dp),
                     )
+                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Column (
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        var selectedStars = if (userSearched != null)
+                        calculateRate(userSearched!!.votes,userSearched!!.peopleVoted).toInt()
+                        else 0
+                        StarsRow(selectedStars) { selected ->
+                            selectedStars = selected
+                        }
+                    }
                     Spacer(modifier = Modifier.height(spacerSeparation))
                     Text(
                         text = capitalizeFirstLetter(userSearched!!.firstname) +
@@ -232,4 +238,23 @@ fun ContentProfile(
             }
         }
     }
+}
+@Composable
+fun StarsRow(selectedStars: Int, onStarSelected: (Int) -> Unit) {
+    Row(
+
+    ) {
+        for (i in 1..5) {
+            StarButton(isSelected = i <= selectedStars)
+            if (i < 5) Spacer(modifier = Modifier.width(24.dp))
+        }
+    }
+}
+@Composable
+fun StarButton(isSelected: Boolean) {
+    Image(
+        painter = if (isSelected) getIconStartSelected() else getIconStart(),
+        contentDescription = "star",
+        modifier = Modifier.size(24.dp)
+    )
 }

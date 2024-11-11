@@ -38,7 +38,7 @@ import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
 import com.make_your_skill.ui.screens.matchHistory.MatchHistoryRoutes
-import com.make_your_skill.ui.screens.matchSearch.MatchSearchViewModel
+import com.make_your_skill.ui.screens.search.MatchSearchViewModel
 import com.make_your_skill.ui.screens.newPassword.NewPasswordRoute
 import com.make_your_skill.ui.screens.phoneNumber.PhoneNumberRoutes
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
