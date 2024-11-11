@@ -39,7 +39,7 @@ fun CustomTextField(
     isNumericOnly: Boolean = false,
     maxLength: Int = 10
 ) {
-    var textFieldValue by remember { mutableStateOf(if (text.isEmpty()) "0.00" else text) }
+    var textFieldValue by remember { mutableStateOf(if (text.isEmpty()) "" else text) }
     var isPlaceholderVisible by remember { mutableStateOf(text.isEmpty()) }
     Column(modifier = Modifier.padding(8.dp)) {
         TextField(
