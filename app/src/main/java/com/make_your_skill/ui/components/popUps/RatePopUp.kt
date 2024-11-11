@@ -26,7 +26,7 @@ import com.make_your_skill.ui.screens.matchHistory.MatchHistoryViewModel
 @Composable
 fun RatePopUp(
     token: String,
-    userId: Int,
+    matchedUserId: Int,
     viewModel: MatchHistoryViewModel
 ) {
     var selectedStars by remember { mutableStateOf(0) }
@@ -46,12 +46,13 @@ fun RatePopUp(
             }
         },
         onDismissRequest = {
+            viewModel.onDismissRequest()
         },
         confirmButton = {
             PopUpButton(
-                onClick = { viewModel.onConfirmation(
+                onClick = { viewModel.onConfirmationRequest(
                     token,
-                    userId,
+                    matchedUserId,
                     selectedStars
                 ) },
                 text = "Add"
@@ -59,7 +60,7 @@ fun RatePopUp(
         },
         dismissButton = {
             PopUpButton(
-                onClick = { viewModel.setRatePopUp(false) },
+                onClick = { viewModel.onDismissRequest() },
                 text = "Exit"
             )
         }
@@ -97,7 +98,7 @@ fun StarButton(isSelected: Boolean, onClick: () -> Unit) {
 fun RatePopUpPreview() {
     RatePopUp(
         token = "token",
-        userId = 1,
+        matchedUserId = 1,
         viewModel = MatchHistoryViewModel()
     )
 }

@@ -6,10 +6,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBar
@@ -17,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,15 +25,13 @@ import com.make_your_skill.ui.navigation.AppRoutes
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.BottomAppBarContent
 import com.make_your_skill.ui.components.bars.CustomTopBar
-import com.make_your_skill.ui.components.buttons.BackButton
 import com.make_your_skill.ui.screens.addSkillsAndInterests.AddSkillsAndInterestsRoutes
 import com.make_your_skill.ui.screens.birthday.BirthdayScreen
 import com.make_your_skill.ui.screens.firstScreen.FirstScreenRoutes
 import com.make_your_skill.ui.screens.mainScreen.MainScreenRoutes
-import com.make_your_skill.ui.screens.matchSearch.MatchSearchRoutes
+import com.make_your_skill.ui.screens.search.MatchSearchRoutes
 import com.make_your_skill.ui.screens.profile.ProfileRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
@@ -48,7 +43,6 @@ import com.make_your_skill.ui.screens.newPassword.NewPasswordRoute
 import com.make_your_skill.ui.screens.phoneNumber.PhoneNumberRoutes
 import com.make_your_skill.ui.screens.profileSettings.ProfileSettingsRoutes
 import com.make_your_skill.ui.screens.results.ResultsRoutes
-import com.make_your_skill.ui.screens.searchForPaidClasses.SearchForPaidClassesScreen
 import com.make_your_skill.ui.screens.singIn.SingInRoutes
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.screens.skill.SkillsRoutes
@@ -167,9 +161,6 @@ fun AppNavigation(
                     val type: String =
                         backStackEntry.arguments?.getString("type") ?: "match"
                     ResultsRoutes(navController, matchSearchViewModel,singInViewModel,type)
-                }
-                composable(AppRoutes.SEARCH_FOR_PAID_CLASSES_SCREEN) {
-                    SearchForPaidClassesScreen(navController)
                 }
                 composable(AppRoutes.CELL_PHONE_SCREEN){
                     PhoneNumberRoutes(navController, createNewAcoountViewModel)

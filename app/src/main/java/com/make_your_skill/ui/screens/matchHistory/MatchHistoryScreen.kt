@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,40 +36,60 @@ fun MatchHistoryScreen(
     val loading by viewModel.loading.collectAsState() //TODO: Que hace esto?
     val error by viewModel.error.collectAsState() //TODO: Que hace esto?
     val userInfo by singInViewModel.signInInfo.collectAsState()
+    val listOfUserMatches by viewModel.listOfUserMatches.collectAsState()
 
-    val paddingValues = 16.dp
+    LaunchedEffect(userInfo) {
+        val token = userInfo!!.tokens.token
+
+        // Obtenemos
+        viewModel.findMatchesByUserId(token, userInfo!!.user.id)
+    }
+
+    val padding = 16.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
-            .padding(16.dp)
+            .padding(padding)
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
+        Spacer(modifier = Modifier.height(padding))
         Text(
             text = "Match history",
             fontSize = 20.sp,
             color = BackgroundColor2,
-            modifier = Modifier.padding(bottom = paddingValues)
+            modifier = Modifier.padding(bottom = padding)
         )
         LazyColumn {
-            items(sampleList) { user ->
-                ItemMatchHistory(
-                    user,
-                    userInfo!!.tokens.token,
-                    userInfo!!.user.id,
-                    viewModel
-                )
-                HorizontalDivider(
-                    color = Color.LightGray,
-                    thickness = 2.dp,
-                    modifier = Modifier.padding(horizontal = 1.dp)
-                )
-                Spacer(modifier = Modifier.height(paddingValues))
-            }
+            if (loading) {
+                item { Text(text = "Loading...") }
+            } else if (error != null) {
+                item { Text(text = error!!) }
+            } else if (listOfUserMatches == null) {
+                item { Text(text = "No matches found") }
+            } else {
+                    items(listOfUserMatches!!) { item ->
+                        var matchedUser : UserDataClass = item.userB
 
-        }
+                        if( item.userB.id == userInfo!!.user.id){
+                            matchedUser = item.userA
+                        }
+
+                        ItemMatchHistory(
+                            user = matchedUser,
+                            token =userInfo!!.tokens.token,
+                            matchedUserId = matchedUser.id,
+                            viewModel = viewModel
+                        )
+                        HorizontalDivider(
+                            color = Color.LightGray,
+                            thickness = 2.dp,
+                            modifier = Modifier.padding(horizontal = 1.dp)
+                        )
+                        Spacer(modifier = Modifier.height(padding))
+                    }
+                }
+            }
     }
 }
 

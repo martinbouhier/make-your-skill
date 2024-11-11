@@ -1,4 +1,4 @@
-package com.make_your_skill.ui.screens.matchSearch
+package com.make_your_skill.ui.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -33,14 +33,14 @@ import com.make_your_skill.ui.screens.matchHistory.MatchHistoryViewModel
 fun ItemMatchHistory(
     user: UserDataClass,
     token: String,
-    userId: Int,
+    matchedUserId: Int,
     viewModel: MatchHistoryViewModel
 ) {
     val iconPainter: Painter = painterResource(id = R.drawable.user_profile_icon)
     val textPrice = 10
 
     if (viewModel.showRatePopUp.collectAsState().value) {
-        RatePopUp( token, userId, viewModel )
+        RatePopUp( token, matchedUserId, viewModel )
     }
 
     Row(
@@ -84,8 +84,8 @@ fun ItemMatchHistoryPreview() {
     ItemMatchHistory(
         user = UserDataClass(
             id = 1,
-            firstname = "John",
-            lastname = "Doe",
+            firstname = "john",
+            lastname = "doe",
             email = "john@gmail.com",
             phone = "1234 5678",
             isActive = true,
@@ -96,7 +96,7 @@ fun ItemMatchHistoryPreview() {
             updatedAt = "01/01/2024"
         ),
         token = "token",
-        userId = 0,
+        matchedUserId = 0,
         viewModel = MatchHistoryViewModel()
     )
 }
