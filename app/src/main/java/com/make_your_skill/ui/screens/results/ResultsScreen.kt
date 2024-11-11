@@ -14,14 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.make_your_skill.ui.theme.*
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.make_your_skill.dataClasses.Profile
 import com.make_your_skill.ui.components.cards.ProfileCard
-import com.make_your_skill.ui.screens.matchSearch.MatchSearchViewModel
+import com.make_your_skill.ui.screens.search.MatchSearchViewModel
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
-import java.sql.Date
 
 @Composable
 fun ResultsScreen(
@@ -30,13 +26,10 @@ fun ResultsScreen(
     singInViewModel: SingInViewModel,
     matchSearchViewModel: MatchSearchViewModel
 ) {
-
     val skillSelected by matchSearchViewModel.skillSelected.collectAsState()
     val usersSearched by matchSearchViewModel.usersSearched.collectAsState()
     val loadingUsersSearch by matchSearchViewModel.loadingUsersSearch.collectAsState()
     val errorUsersSearched by matchSearchViewModel.errorUsersSearched.collectAsState()
-    //val loadingSkills by matchSearchViewModel.loadingSkills.collectAsState()
-    //val errorSkills by matchSearchViewModel.errorSkills.collectAsState()
     val listOfUserSkills by matchSearchViewModel.listOfUserSkills.collectAsState()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -87,7 +80,7 @@ fun ResultsScreen(
     ) {
         Spacer(modifier = Modifier.height(screenHeight * 0.1f))
         Text(
-            text = "Matches",
+            text = if (type == MATCH) "Matches" else "Paid Clases",
             style = styleSubtitle,
             modifier = Modifier
                 .padding(separation)
@@ -98,7 +91,7 @@ fun ResultsScreen(
                 verticalArrangement = Arrangement.spacedBy(separation) // Espacio entre cards
             ) {
                 items(usersSearched) { user ->
-                    ProfileCard(user)
+                    ProfileCard(user = user, skillSelected!!, type, MATCH, navController = navController)
                     HorizontalDivider(modifier = Modifier.background(color = Color(0x784E40EA)))
                 }
             }

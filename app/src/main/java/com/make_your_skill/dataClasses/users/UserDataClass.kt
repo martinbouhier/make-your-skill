@@ -1,6 +1,7 @@
 package com.make_your_skill.dataClasses.users
 
-import com.make_your_skill.dataClasses.skills.skillDataClass
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
+import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 
 data class UserDataClass(
     val id: Int,
@@ -14,6 +15,6 @@ data class UserDataClass(
     val dateOfBirth: String,
     val createdAt:String,
     val updatedAt:String,
-    val user_skills: List<skillDataClass>? = emptyList(),
-    val user_interested_skills: List<skillDataClass>? = emptyList()
+    val user_skills: List<GetUserSkillByUserId>? = emptyList(),
+    val user_interested_skills: List<GetUserInterestedSkillsById>? = emptyList()
 )

@@ -24,11 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.make_your_skill.R
 import com.make_your_skill.dataClasses.Profile
 import com.make_your_skill.dataClasses.users.UserDataClass
+import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.helpers.functions.calculateRate
 import com.make_your_skill.helpers.functions.capitalizeFirstLetter
+import com.make_your_skill.ui.navigation.AppRoutes
 import com.make_your_skill.ui.theme.BackgroundColor
 import com.make_your_skill.ui.theme.cardInfo
 import com.make_your_skill.ui.theme.cardRate
@@ -36,14 +40,15 @@ import com.make_your_skill.ui.theme.cardTitle
 import java.util.Date
 
 @Composable
-fun ProfileCard(user: UserDataClass) {
+fun ProfileCard(user: UserDataClass, skillSelected : InterestAddedDataClass, type : String, MATCH : String, navController: NavHostController) {
     val GAP = 8.dp
+    val userSkill = user.user_skills!!.filter { item -> item.skill.id == skillSelected.id }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = GAP/2)
-            .clickable { /* TODO: redirigir a connectProfile */},
+            .clickable { navController.navigate("${AppRoutes.PROFILE_SCREEN}/${user.id}") },
         colors = CardDefaults.cardColors(containerColor = BackgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -61,19 +66,23 @@ fun ProfileCard(user: UserDataClass) {
                 tint = MaterialTheme.colorScheme.primary
             )
             Column(modifier = Modifier.padding(start = 28.dp)) {
+
                 // Nombre de la persona
                 Text(
                     text = capitalizeFirstLetter(user.firstname) + " " + capitalizeFirstLetter(user.lastname),
                     style = cardTitle
                 )
+
                 // info de la persona: costo x hora
                 Text(
-                    text = "",
+                    text = "$" + if (type != MATCH && userSkill.isNotEmpty())
+                        userSkill[0].pricePerHour.toString() + "/hr" else "",
                     style = cardInfo,
                     modifier = Modifier.padding(top = 6.dp)
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
+
             // Rating
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
