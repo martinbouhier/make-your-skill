@@ -1,5 +1,7 @@
 package com.make_your_skill.ui.screens.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -16,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -29,6 +32,7 @@ import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.functions.calculateAge
 import com.make_your_skill.helpers.functions.calculateRate
 import com.make_your_skill.helpers.functions.capitalizeFirstLetter
+import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.icons.starts.getIconStart
 import com.make_your_skill.ui.components.icons.starts.getIconStartSelected
 import com.make_your_skill.ui.components.text.CircularText
@@ -71,6 +75,7 @@ fun ProfileScreen(
 
         //hay que cambiar el id que esta tomando por el de userSearched (implementar endpoints)
         profileViewModel.getUserInterestedSkillByUserId(token,userId)
+
     }
         Box(
             modifier = Modifier
@@ -139,6 +144,12 @@ fun ProfileScreen(
                         loadingInterests,
                         errorInterests
                     )
+
+                    if (userInfo!!.user.id != userId){
+                        ContactButton(userSearched!!.phone)
+                    }
+
+
                 }
             }
 
@@ -257,4 +268,18 @@ fun StarButton(isSelected: Boolean) {
         contentDescription = "star",
         modifier = Modifier.size(24.dp)
     )
+}
+
+@Composable
+fun ContactButton(userInfoPhone: String) {
+    val context = LocalContext.current
+    val whatsappApiUrl = "https://wa.me/$userInfoPhone"
+
+    CustomButton(onClick = {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(whatsappApiUrl)
+        }
+        context.startActivity(intent)
+
+    }, text = "Contact")
 }
