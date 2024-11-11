@@ -15,13 +15,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.ui.components.ItemMatchHistory
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
@@ -46,7 +46,6 @@ fun MatchHistoryScreen(
     }
 
     val padding = 16.dp
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     Column(
         modifier = Modifier
@@ -70,16 +69,20 @@ fun MatchHistoryScreen(
             } else {
                     items(listOfUserMatches!!) { item ->
                         var matchedUser : UserDataClass = item.userB
+                        var matchedSkill : String = item.skillB.name
 
                         if( item.userB.id == userInfo!!.user.id){
                             matchedUser = item.userA
+                            matchedSkill = item.skillA.name
                         }
 
                         ItemMatchHistory(
+                            navController = navController,
                             user = matchedUser,
                             token =userInfo!!.tokens.token,
                             matchedUserId = matchedUser.id,
-                            viewModel = viewModel
+                            viewModel = viewModel,
+                            matchedSkill = matchedSkill
                         )
                         HorizontalDivider(
                             color = Color.LightGray,

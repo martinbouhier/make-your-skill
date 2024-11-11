@@ -7,6 +7,6 @@ data class getMatch(
     val id:Int,
     val userA : UserDataClass,
     val userB : UserDataClass,
-    val skillUserA : skillDataClass,
-    val skillUserB : skillDataClass
+    val skillA : skillDataClass,
+    val skillB : skillDataClass
 )
