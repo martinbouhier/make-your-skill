@@ -6,6 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.dropDowns.skillsDropDown
@@ -19,7 +21,8 @@ fun addSkillPopUp(
     priceLabel: String,//Label del precio
     priceText: String,
     skillsList: List<skillDataClass>,
-    onSkillAddChange: (Int) -> Unit
+    onSkillAddChange: (Int) -> Unit,
+    errorMessage: String?
 ) {
     AlertDialog(
         title = {
@@ -30,7 +33,22 @@ fun addSkillPopUp(
               modifier = Modifier
           ) {
               skillsDropDown(skillsList, onSkillAddChange)
-              CustomTextField(priceText,onPriceAddChange,priceLabel, onSubmit = {}, false,true,8)
+              CustomTextField(
+                  priceText,
+                  onPriceAddChange,
+                  priceLabel,
+                  onSubmit = {},
+                  false,
+                  true,
+                  8)
+
+              if (errorMessage != null) {
+                  Text(
+                      text = errorMessage,
+                      color = Color.Red,
+                      fontWeight = FontWeight.Bold,
+                  )
+              }
           }
         },
         onDismissRequest = {

@@ -100,7 +100,8 @@ fun SkillsScreen(
                 PRICE_LABEL,
                 addedPrice.toString(),
                 listOfSkills,
-                skillsViewModel.onSkillAddChange
+                skillsViewModel.onSkillAddChange,
+                error
             )
         }
         Row (

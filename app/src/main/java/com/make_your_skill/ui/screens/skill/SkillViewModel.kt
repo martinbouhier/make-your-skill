@@ -21,6 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SkillsViewModel @Inject constructor() : ViewModel() {
+    private val MAX_PRICE_LIMIT = 99999.99f
+    private val PRICE_MAX_LIMIT_ERROR = "The maximum allowed value is $MAX_PRICE_LIMIT"
+
+
     val skillsService: SkillsService = RetrofitServiceFactory.makeRetrofitService<SkillsService>()
     private val skillsModel = SkillsModel(skillsService)
 
@@ -71,9 +75,9 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     val addedSkill: StateFlow<skillDataClass?> get() = _addedSkill
     fun setAddedSkill(skill: skillDataClass) { _addedSkill.value = skill }
 
-    private val _addedPrice = MutableStateFlow<Float>(0.0f)
-    val addedPrice: StateFlow<Float> get() = _addedPrice
-    fun setAddedPrice(newPrice: Float) { _addedPrice.value = newPrice }
+    private val _addedPrice = MutableStateFlow<String>("")
+    val addedPrice: StateFlow<String> get() = _addedPrice
+    fun setAddedPrice(newPrice: String) { _addedPrice.value = newPrice }
 
     private val _listOfUserSkills = MutableStateFlow<List<GetUserSkillByUserId>>(emptyList())
     val listOfUserSkills: StateFlow<List<GetUserSkillByUserId>> get() = _listOfUserSkills
@@ -108,6 +112,7 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     //Cuando click en add skill
     val onAdd = {
         setAddedSkill(listOfSkills.value[0])
+        setAddedPrice("")
         setShowAddPopUp(true)
     }
 
@@ -118,8 +123,25 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
 
     //Cuando cambia de precio el skill que voy a agregar
     val onPriceAddChange: (String) -> Unit = { price ->
-        setAddedPrice(price.toFloat())
+        val filteredPrice = price.filter { it.isDigit() || it == '.' }
+        val decimalIndex = filteredPrice.indexOf('.')
+
+        val validatedPrice = if (decimalIndex != -1) {
+            filteredPrice.substring(0, decimalIndex + 1) +
+                    filteredPrice.substring(decimalIndex + 1).take(2)
+        } else {
+            filteredPrice
+        }
+        val finalPrice = validatedPrice.toFloatOrNull() ?: 0f
+        if (finalPrice <= MAX_PRICE_LIMIT) {
+            setAddedPrice(validatedPrice)
+            setError("")
+        } else {
+            setAddedPrice(price)
+            setError(PRICE_MAX_LIMIT_ERROR)
+        }
     }
+
 
     // Cuando cambia el skill que voy a agregar
     val onSkillAddChange: (Int) -> Unit = { skillId ->
@@ -134,13 +156,14 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
 
     //Confirmo que agrego skill en el popup
     val onConfirmation: (String, Int) -> Unit = { token, userId ->
-        if (addedSkill.value != null){
+        val finalPrice = addedPrice.value.toFloatOrNull() ?: 0f
+        if (finalPrice <= MAX_PRICE_LIMIT && addedSkill.value != null){
 
             val newSkill: skillAddedDataClass = skillAddedDataClass(
                 id = addedSkill.value!!.id,
                 skill = addedSkill.value!!.name,
                 selected = true,
-                price = addedPrice.value
+                price = addedPrice.value.toFloat()
             )
             //agrego el skill en el back
             addSkillBack(newSkill,token,userId)
