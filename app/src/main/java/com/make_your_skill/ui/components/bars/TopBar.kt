@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -42,11 +44,16 @@ fun CustomTopBar(navController: NavController, currentRoute: String) {
 
 
 
-        if (currentRoute == AppRoutes.PROFILE_SCREEN) {
+        if (currentRoute.startsWith(AppRoutes.PROFILE_SCREEN)) {
             IconButton(onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) }) {
                 Image(
                     painter = getIconSettings(),
                     contentDescription = "Settings",
+                    modifier = Modifier
+                        .size(90.dp)
+                        .scale(1.5f)
+
+
                 )
             }
         }else{
