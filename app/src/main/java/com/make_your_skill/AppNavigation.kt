@@ -2,6 +2,7 @@ package com.make_your_skill
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -65,6 +66,8 @@ fun AppNavigation(
     val userInfo by singInViewModel.signInInfo.collectAsState()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route ?: AppRoutes.MAIN_SCREEN
+
+    Log.d("AppNavigation", "Current Route: $currentRoute")
 
     Scaffold(
         topBar = {

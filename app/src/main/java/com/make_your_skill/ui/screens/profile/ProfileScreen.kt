@@ -135,22 +135,7 @@ fun ProfileScreen(
                     )
                 }
             }
-            IconButton(
-                onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-            ) {
 
-                val iconPainter: Painter = painterResource(id = R.drawable.settings_icon)
-
-                Image(
-                    painter = iconPainter,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(64.dp)
-                        .scale(2f),
-                )
-            }
         }
 }
 @Composable
