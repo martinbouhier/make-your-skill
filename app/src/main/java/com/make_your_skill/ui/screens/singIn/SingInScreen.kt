@@ -126,6 +126,8 @@ fun SignInScreen(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White,
+                modifier = Modifier
+                    .clickable { navController.navigate(AppRoutes.FORGOT_PASSWORD_SCREEN) }
             )
             Spacer(modifier = Modifier.height(16.dp))
 
