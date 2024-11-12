@@ -107,19 +107,16 @@ fun InterestedSkillsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){
-                Spacer(modifier = Modifier.padding(GAP))
+                Spacer(modifier = Modifier.padding(GAP ))
                 ScreenTitleText(FIRST_TEXT)
                 LazyColumn(
-                    modifier = Modifier.padding(top = GAP),
+                    modifier = Modifier
+                        .padding(top = GAP * 3)
+                        .padding(horizontal = GAP),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    val sampleSkills = listOf(
-                        InterestAddedDataClass(1, true, "Kotlin"),
-                        InterestAddedDataClass(1, true, "Kotlin"),
-                        InterestAddedDataClass(1, true, "Kotlin"),
-                    )
-                    items(sampleSkills) { skillItem ->
+                    items(skills) { skillItem ->
                         interest(skillItem, interestsViewModel.onSkillChange)
                     }
                 }
@@ -127,16 +124,16 @@ fun InterestedSkillsScreen(
 
             if (listOfSkills.isNotEmpty()){
                 Row (
-                    modifier = Modifier.fillMaxWidth(0.7f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(GAP),
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
                         text = "Add",
                         modifier = Modifier
                             .padding(16.dp)
-                            .clickable {
-                                interestsViewModel.onAdd()
-                            }, // Aplica un margen de 16dp
+                            .clickable { interestsViewModel.onAdd() },
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
                         color = DarkPurple
@@ -145,7 +142,7 @@ fun InterestedSkillsScreen(
                     Text(
                         text = "Delete",
                         modifier = Modifier
-                            .padding(16.dp) // Aplica un margen de 16dp
+                            .padding(16.dp)
                             .clickable {
                                 interestsViewModel.onDelete(
                                     userInfo!!.tokens.token,
@@ -187,7 +184,6 @@ fun InterestedSkillsScreen(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
