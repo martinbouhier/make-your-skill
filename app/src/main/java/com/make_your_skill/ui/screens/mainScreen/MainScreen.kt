@@ -30,12 +30,16 @@ fun MainScreen(
 
     TwoOptionsScreen(navController = navController,
         firstButtonText = if (loadingUsersSearch) "Loading..."
-                            else if (listOfUserSkills.isNotEmpty()) "MATCH (add some skills...)"
+                            else if (listOfUserSkills.isEmpty()) "MATCH (add some skills...)"
                             else "MATCH",
         secondButtonText = "SEARCH FOR PAID CLASSES",
-        firstButtonAction = { if (listOfUserSkills.isNotEmpty()){
+        firstButtonAction = {
+            if (listOfUserSkills.isNotEmpty()){
             navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN + "?type=match")
-        } },
+        } else {
+                navController.navigate(AppRoutes.SKILLS_SCREEN + "?showContinue=${false}")
+        }
+                            },
         secondButtonAction = { navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN + "?type=paid") },
         description = ""
     )
