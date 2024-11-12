@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,13 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.make_your_skill.dataClasses.skills.skillAddedDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
-import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.interest
 import com.make_your_skill.ui.components.popUps.addInterestsPopUp
-import com.make_your_skill.ui.components.skill
 import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple

@@ -107,4 +107,33 @@ class UsersSkillsModel(private val usersSkillsService: UsersSkillsService) {
             }
         }
     }
+
+    fun updateUserSkill(
+        scope: CoroutineScope,
+        loading: MutableStateFlow<Boolean>,
+        error: MutableStateFlow<String?>,
+        editUserSkill: AddUserSkill,
+        token: String,
+    ) {
+        scope.launch {
+            loading.value = true
+            try {
+                val finalToken: String = "Bearer $token"
+                val response = usersSkillsService.updateUserSkill(finalToken, editUserSkill)
+                if (response.isSuccessful) {
+                    error.value = null
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java).message
+                    } ?: "Error updating user skill"
+                    error.value = errorMessage
+                }
+            } catch (e: Exception) {
+                error.value = "Error updating user skill"
+            } finally {
+                loading.value = false
+            }
+        }
+    }
 }
