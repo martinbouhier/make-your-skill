@@ -20,7 +20,8 @@ import com.make_your_skill.ui.theme.DarkPurple
 @Composable
 fun interest(
     skill: InterestAddedDataClass,
-    onSkillChange: (InterestAddedDataClass) -> Unit){
+    onSkillChange: (InterestAddedDataClass) -> Unit)
+{
     Column (modifier = Modifier.fillMaxWidth()) {
         Row (
             verticalAlignment = Alignment.CenterVertically,
@@ -33,9 +34,7 @@ fun interest(
                     onSkillChange(skill.copy(selected = isChecked))
                 }
             )
-            Text(
-                skill.skill
-            )
+            Text(skill.skill)
         }
         HorizontalDivider(
             modifier = Modifier

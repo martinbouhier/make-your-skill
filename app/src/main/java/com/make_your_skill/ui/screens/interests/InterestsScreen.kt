@@ -107,7 +107,6 @@ fun InterestedSkillsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){
-                Spacer(modifier = Modifier.padding(GAP ))
                 ScreenTitleText(FIRST_TEXT)
                 LazyColumn(
                     modifier = Modifier
@@ -116,7 +115,14 @@ fun InterestedSkillsScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    items(skills) { skillItem ->
+
+                    val sampleSkills = listOf(
+                        InterestAddedDataClass(1, true, "Kotlin"),
+                        InterestAddedDataClass(2, true, "Java"),
+                        InterestAddedDataClass(3, true, "Python"),
+                        InterestAddedDataClass(4, true, "C++"),
+                    )
+                    items(sampleSkills) { skillItem ->
                         interest(skillItem, interestsViewModel.onSkillChange)
                     }
                 }
@@ -174,10 +180,13 @@ fun InterestedSkillsScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             if (showContinue){
-                CustomButton({interestsViewModel.onClick(
-                    navController,
-                    userInfo!!.user.id
-                )},
+                CustomButton(
+                    {
+                        interestsViewModel.onClick(
+                            navController,
+                            userInfo!!.user.id
+                        )
+                    },
                     if (loadingAddSkill) LOADING_ADD_INTEREST else BUTTON_TEXT
                 )
             }
