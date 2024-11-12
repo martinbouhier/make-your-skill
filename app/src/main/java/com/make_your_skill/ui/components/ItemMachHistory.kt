@@ -1,6 +1,8 @@
 package com.make_your_skill.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -53,13 +55,11 @@ fun ItemMatchHistory(
         RatePopUp(token, matchedUserId, viewModel)
     }
 
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = GAP / 2)
             .clickable { navController.navigate("${AppRoutes.PROFILE_SCREEN}/$matchedUserId??interestedSkillId=0&generateMatch=false") },
-        colors = CardDefaults.cardColors(containerColor = BackgroundColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier
