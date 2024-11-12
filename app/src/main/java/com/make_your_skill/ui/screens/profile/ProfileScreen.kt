@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -82,9 +83,7 @@ fun ProfileScreen(
 
     }
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 modifier = Modifier
@@ -109,35 +108,45 @@ fun ProfileScreen(
                             .width(78.dp),
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
-                    Column (
-                        Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-                        var selectedStars = if (userSearched != null)
-                        calculateRate(userSearched!!.votes,userSearched!!.peopleVoted).toInt()
-                        else 0
-                        StarsRow(selectedStars) { selected ->
-                            selectedStars = selected
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // NOMBRE DEL USUARIO
                     Text(
                         text = capitalizeFirstLetter(userSearched!!.firstname) +
                                 " " +
                                 capitalizeFirstLetter(userSearched!!.lastname),
                         style = styleTitle
                     )
+
+                    // MAIL DEL USUARIO
                     Text(
                         text = userSearched!!.email,
                         fontSize = 12.sp
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // ICONO DE PERFIL
                     Image(
                         painter = painterResource(id = R.drawable.user_profile_icon),
                         contentDescription = "User Profile Foto",
                         modifier = Modifier.size(100.dp),
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // FILA DE ESTRELLAS
+                    Column (
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        var selectedStars = if (userSearched != null)
+                            calculateRate(userSearched!!.votes,userSearched!!.peopleVoted).toInt()
+                        else 0
+                        StarsRow(selectedStars) { selected ->
+                            selectedStars = selected
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // CONTENIDO DEL PERFIL
                     ContentProfile(
                         spacerSeparation,
                         calculateAge(userSearched!!.dateOfBirth),
@@ -149,6 +158,7 @@ fun ProfileScreen(
                         errorInterests
                     )
 
+                    // BOTON DE CONTACTO - EN CASO DE ESTAR HABILITADO
                     if (userInfo!!.user.id != userId){
                         ContactButton(
                             userSearched!!,
@@ -187,7 +197,7 @@ fun ContentProfile(
             Text(
                 text = "Age: ",
                 style = styleSubtitle,
-                modifier = Modifier.weight(1f) 
+                modifier = Modifier.weight(1f)
             )
             Text(
                 text = age.toString(),
