@@ -3,12 +3,16 @@ package com.make_your_skill.ui.screens.interests
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -20,10 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.InterestAddedDataClass
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.interest
@@ -48,10 +54,10 @@ fun InterestedSkillsScreen(
     val userInfo by singInViewModel.signInInfo.collectAsState()
     val listOfUserSkills by interestsViewModel.listOfUserSkills.collectAsState()
 
-    val separation = 25.dp
+    val GAP = 16.dp
     val BUTTON_TEXT = "CONTINUE"
     val FIRST_TEXT = "Interests"
-    val DIALOG_TITLE = "Add interet"
+    val DIALOG_TITLE = "Add interests"
     val LOADING_SKILLS = "Loading skills..."
     val LOADING_ADD_INTEREST = "Adding interest"
 
@@ -77,8 +83,7 @@ fun InterestedSkillsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .padding(separation),
+            .padding(GAP),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -94,83 +99,84 @@ fun InterestedSkillsScreen(
                 interestsViewModel.onSkillAddChange
             )
         }
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.7f),
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ) {
-
+            ){
+                Spacer(modifier = Modifier.padding(GAP))
                 ScreenTitleText(FIRST_TEXT)
                 LazyColumn(
-                    modifier = Modifier .weight(1f),
+                    modifier = Modifier.padding(top = GAP),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    items(skills) { skillItem ->
+                    val sampleSkills = listOf(
+                        InterestAddedDataClass(1, true, "Kotlin"),
+                        InterestAddedDataClass(1, true, "Kotlin"),
+                        InterestAddedDataClass(1, true, "Kotlin"),
+                    )
+                    items(sampleSkills) { skillItem ->
                         interest(skillItem, interestsViewModel.onSkillChange)
                     }
                 }
+            }
 
-                if (listOfSkills.isNotEmpty()){
-                    Row (
-                        modifier = Modifier
-                            .fillMaxWidth(0.7f),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-
-                        Text(
-                            text = "Add",
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .clickable {
-                                    interestsViewModel.onAdd()
-                                }, // Aplica un margen de 16dp
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp,
-                            color = DarkPurple
-                        )
-
-                        Text(
-                            text = "Delete",
-                            modifier = Modifier
-                                .padding(16.dp) // Aplica un margen de 16dp
-                                .clickable {
-                                    interestsViewModel.onDelete(
-                                        userInfo!!.tokens.token,
-                                        userInfo!!.user.id
-                                    )
-                                },
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp,
-                            color = DarkPurple
-                        )
-                    }
-                }
-                else if (loading){
-                    Text(text = LOADING_SKILLS)
-                }
-                if (error != null){
+            if (listOfSkills.isNotEmpty()){
+                Row (
+                    modifier = Modifier.fillMaxWidth(0.7f),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Text(
-                        text = error.toString(),
-                        color = Color.Red,
-                        fontWeight = FontWeight.Bold
+                        text = "Add",
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable {
+                                interestsViewModel.onAdd()
+                            }, // Aplica un margen de 16dp
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 17.sp,
+                        color = DarkPurple
+                    )
+
+                    Text(
+                        text = "Delete",
+                        modifier = Modifier
+                            .padding(16.dp) // Aplica un margen de 16dp
+                            .clickable {
+                                interestsViewModel.onDelete(
+                                    userInfo!!.tokens.token,
+                                    userInfo!!.user.id
+                                )
+                            },
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 17.sp,
+                        color = DarkPurple
                     )
                 }
             }
+            else if (loading){
+                Text(text = LOADING_SKILLS)
+            }
+            if (error != null){
+                Text(
+                    text = error.toString(),
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Spacer(modifier = Modifier.height(75.dp))
         }
 
-        if (showContinue){
-            Row (
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
+        Column(
+            modifier = Modifier.padding(bottom = 50.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            if (showContinue){
                 CustomButton({interestsViewModel.onClick(
                     navController,
                     userInfo!!.user.id
@@ -180,5 +186,16 @@ fun InterestedSkillsScreen(
             }
         }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun InterestedSkillsScreenPreview() {
+    InterestedSkillsScreen(
+        navController = rememberNavController(),
+        singInViewModel = SingInViewModel(),
+        showContinue = true
+    )
 }
 
