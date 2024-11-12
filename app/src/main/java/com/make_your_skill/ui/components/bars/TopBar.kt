@@ -16,6 +16,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -46,18 +48,19 @@ fun CustomTopBar(navController: NavController, currentRoute: String) {
 
         if (currentRoute.startsWith(AppRoutes.PROFILE_SCREEN)) {
             IconButton(onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) }) {
-                Image(
-                    painter = getIconSettings(),
-                    contentDescription = "Settings",
-                    modifier = Modifier
-                        .size(90.dp)
-                        .scale(1.5f)
-
-
-                )
+                    Image(
+                        painter = getIconSettings(),
+                        contentDescription = "Settings",
+                    )
             }
         }else{
             Box{}
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCustomTopBar() {
+    CustomTopBar(navController = NavController(LocalContext.current), currentRoute = AppRoutes.PROFILE_SCREEN)
 }
