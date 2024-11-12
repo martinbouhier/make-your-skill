@@ -25,14 +25,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.dataClasses.skills.skillAddedDataClass
-import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.popUps.addSkillPopUp
-import com.make_your_skill.ui.components.skill
+import com.make_your_skill.ui.components.SkillCard
 import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.DarkPurple
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -51,6 +49,7 @@ fun SkillsScreen(
     val loadingAddSkill by skillsViewModel.loadingAddSkill.collectAsState()
     val userInfo by singInViewModel.signInInfo.collectAsState()
     val listOfUserSkills by skillsViewModel.listOfUserSkills.collectAsState()
+    val priceEdit by skillsViewModel.priceEdit.collectAsState()
 
     val separation = 25.dp
     val BUTTON_TEXT = "CONTINUE"
@@ -101,7 +100,8 @@ fun SkillsScreen(
                 addedPrice.toString(),
                 listOfSkills,
                 skillsViewModel.onSkillAddChange,
-                error
+                error,
+                priceEdit
             )
         }
         Row (
@@ -123,7 +123,7 @@ fun SkillsScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     items(skills) { skillItem ->
-                        skill(skillItem, skillsViewModel.onSkillChange)
+                        SkillCard(skillItem, skillsViewModel.onSkillChange,skillsViewModel.onEdit)
                     }
                 }
                 if (listOfSkills.isNotEmpty()){

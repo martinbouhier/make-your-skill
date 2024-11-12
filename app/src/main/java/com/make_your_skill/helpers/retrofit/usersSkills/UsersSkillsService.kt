@@ -9,7 +9,9 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,6 +27,12 @@ interface UsersSkillsService {
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
     ): Response<List<GetUserSkillByUserId>>
+
+    @PATCH("users-skills/{userId}")
+    suspend fun updateUserSkill(
+        @Header("Authorization") token: String,
+        @Body editUserSkill: AddUserSkill
+    ): Response<Any>
 
     @DELETE("users-skills/byUserSkill")
     suspend fun deleteUserSkill(

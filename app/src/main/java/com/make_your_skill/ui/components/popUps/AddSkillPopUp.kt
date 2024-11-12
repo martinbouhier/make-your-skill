@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.dropDowns.skillsDropDown
@@ -22,7 +23,9 @@ fun addSkillPopUp(
     priceText: String,
     skillsList: List<skillDataClass>,
     onSkillAddChange: (Int) -> Unit,
-    errorMessage: String?
+    errorMessage: String?,
+    priceEdit: Boolean = false,
+
 ) {
     AlertDialog(
         title = {
@@ -32,7 +35,11 @@ fun addSkillPopUp(
           Column (
               modifier = Modifier
           ) {
-              skillsDropDown(skillsList, onSkillAddChange)
+              if(!priceEdit){
+                  skillsDropDown(skillsList, onSkillAddChange)
+              }
+
+
               CustomTextField(
                   priceText,
                   onPriceAddChange,
@@ -72,5 +79,22 @@ fun addSkillPopUp(
                 Text("Dismiss")
             }
         }
+    )
+}
+
+@Preview (showBackground = true)
+@Composable
+fun addSkillPopUpPreview(){
+    addSkillPopUp(
+        onDismissRequest = {},
+        onConfirmation = {},
+        dialogTitle = "Skill",
+        onPriceAddChange = {},
+        priceLabel = "",
+        priceText = "",
+        skillsList = listOf(),
+        onSkillAddChange = {},
+        errorMessage = null,
+        priceEdit = false,
     )
 }

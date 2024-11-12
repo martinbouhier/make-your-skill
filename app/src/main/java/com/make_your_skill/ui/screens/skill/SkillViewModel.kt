@@ -43,6 +43,13 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     private val _loadingDeleteSkill = MutableStateFlow<Boolean>(false)
     val loadingDeleteSkill: StateFlow<Boolean> get() = _loadingDeleteSkill
 
+    private val _loadingUpdateSkill = MutableStateFlow<Boolean>(false)
+    val loadingUpdateSkill: StateFlow<Boolean> get() = _loadingUpdateSkill
+
+    private val _priceEdit = MutableStateFlow<Boolean>(false)
+    val priceEdit: StateFlow<Boolean> get() = _priceEdit
+    fun setPriceEdit(newState: Boolean) { _priceEdit.value = newState }
+
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
     fun setError(newError: String) { _error.value = newError }
@@ -54,6 +61,10 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     private val _errorDeleteSkill = MutableStateFlow<String?>(null)
     val errorDeleteSkill: StateFlow<String?> get() = _errorDeleteSkill
     fun setErrorDeleteSkill(newError: String) { _errorDeleteSkill.value = newError }
+
+    private val _errorUpdateSkill = MutableStateFlow<String?>(null)
+    val errorUpdateSkill: StateFlow<String?> get() = _errorUpdateSkill
+    fun setErrorUpdateSkill(newError: String) { _errorUpdateSkill.value = newError }
 
     private val _showAddPopUp = MutableStateFlow<Boolean>(false)
     val showAddPopUp: StateFlow<Boolean> get() = _showAddPopUp
@@ -116,9 +127,16 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
         setShowAddPopUp(true)
     }
 
+    val onEdit = {
+        setPriceEdit(true)
+        setAddedPrice(addedPrice.value) // Poner precio actual en lugar de ""
+        setShowAddPopUp(true)
+    }
+
     //Cerramos popup
     val onDismissRequest = {
         setShowAddPopUp(false)
+        setPriceEdit(false)
     }
 
     //Cuando cambia de precio el skill que voy a agregar
@@ -158,19 +176,29 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     val onConfirmation: (String, Int) -> Unit = { token, userId ->
         val finalPrice = addedPrice.value.toFloatOrNull() ?: 0f
         if (finalPrice <= MAX_PRICE_LIMIT && addedSkill.value != null){
+            if(!priceEdit.value){
+                val newSkill: skillAddedDataClass = skillAddedDataClass(
+                    id = addedSkill.value!!.id,
+                    skill = addedSkill.value!!.name,
+                    selected = true,
+                    price = addedPrice.value.toFloat()
+                )
+                //agrego el skill en el back
+                addSkillBack(newSkill,token,userId)
 
-            val newSkill: skillAddedDataClass = skillAddedDataClass(
-                id = addedSkill.value!!.id,
-                skill = addedSkill.value!!.name,
-                selected = true,
-                price = addedPrice.value.toFloat()
-            )
-            //agrego el skill en el back
-            addSkillBack(newSkill,token,userId)
-
-            //Agrego el skill en el front
-            addSkill(newSkill)
-
+                //Agrego el skill en el front
+                addSkill(newSkill)
+            }else{
+                val editSkill: skillAddedDataClass = skillAddedDataClass(
+                    id = addedSkill.value!!.id,
+                    skill = addedSkill.value!!.name,
+                    selected = true,
+                    price = addedPrice.value.toFloat()
+                )
+                updateSkillBack(editSkill, token, userId)
+                onSkillChange(editSkill)
+            }
+            setPriceEdit(false)
             setShowAddPopUp(false)
         }
     }
@@ -209,6 +237,25 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
             token = token
         )
     }
+
+    fun updateSkillBack(
+        skill: skillAddedDataClass,
+        token: String,
+        userId: Int
+    ) {
+        usersSkillModel.updateUserSkill(
+            scope = viewModelScope,
+            loading = _loadingUpdateSkill,
+            error = _errorUpdateSkill,
+            editUserSkill = AddUserSkill(
+                userId = userId,
+                skillId = skill.id,
+                pricePerHour = skill.price!!
+            ),
+            token = token,
+        )
+    }
+
 
     val getAllSkills: (String) -> Unit = { token ->
         skillsModel.getAllSkills(
