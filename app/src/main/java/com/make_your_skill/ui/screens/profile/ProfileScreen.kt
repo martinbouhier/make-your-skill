@@ -149,7 +149,6 @@ fun ProfileScreen(
                         ContactButton(userSearched!!.phone)
                     }
 
-
                 }
             }
 
