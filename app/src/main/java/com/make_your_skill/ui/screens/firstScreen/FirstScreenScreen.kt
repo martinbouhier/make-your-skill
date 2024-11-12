@@ -17,9 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.buttons.CustomButtonTransparent
 import com.make_your_skill.ui.navigation.AppRoutes
@@ -52,7 +54,7 @@ fun FirstScreenScreen(navController: NavHostController) {
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(96.dp))
+        Spacer(modifier = Modifier.height(100.dp))
 
         Text(
             text = "By tapping Create Account or Sign In, you agree to our Terms...",
@@ -60,18 +62,10 @@ fun FirstScreenScreen(navController: NavHostController) {
             fontWeight = FontWeight.Medium,
             color = Color.White,
             modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 75.dp)
         )
 
-        Spacer(modifier = Modifier.height(27.dp))
-
-        CustomButtonTransparent(
-            text = "Create account",
-            onClick = { navController.navigate(AppRoutes.REGISTER_SCREEN) },
-            modifier = Modifier,
-            color = Color.White
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         CustomButtonTransparent(
             text = "Sign in",
@@ -80,6 +74,21 @@ fun FirstScreenScreen(navController: NavHostController) {
             color = Color.White
         )
 
+        Spacer(modifier = Modifier.height(30.dp))
+
+        CustomButtonTransparent(
+            text = "Create account",
+            onClick = { navController.navigate(AppRoutes.REGISTER_SCREEN) },
+            modifier = Modifier,
+            color = Color.White
+        )
+
         Spacer(modifier = Modifier.height(20.dp))
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FirstScreenScreenPreview() {
+    FirstScreenScreen(navController = rememberNavController())
 }
