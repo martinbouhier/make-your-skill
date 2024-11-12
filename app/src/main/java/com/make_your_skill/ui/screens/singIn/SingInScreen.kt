@@ -91,60 +91,65 @@ fun SignInScreen(
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.height(100.dp))
-                TextInputLogin(
-                    label = "Email",
-                    text = email,
-                    onChange = singInViewModel.onEmailChange,
-                    error = error,
-                    focusRequester = focusRequester1,
-                    nextFocusRequester = focusRequester2
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-
-                TextInputLogin(
-                    label = "Password",
-                    isPassword = true,
-                    text = password,
-                    onChange = singInViewModel.onPasswordChange,
-                    error = error,
-                    focusRequester = focusRequester2,
-                    onImeAction = {singInViewModel.onLogin()}
-                )
-
-                if (error != null){
-                    Text(
-                        text = error.toString(),
-                        color = Color.Red,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(25.dp))
-                Text(
-                    text = "Forgot password",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.White,
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Create new account",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.White,
-                    modifier = Modifier
-                        .clickable { navController.navigate(AppRoutes.REGISTER_SCREEN) }
-                )
-            }
         }
 
+        // INPUTS
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(20.dp))
+
+            TextInputLogin(
+                label = "Email",
+                text = email,
+                onChange = singInViewModel.onEmailChange,
+                error = error,
+                focusRequester = focusRequester1,
+                nextFocusRequester = focusRequester2
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextInputLogin(
+                label = "Password",
+                isPassword = true,
+                text = password,
+                onChange = singInViewModel.onPasswordChange,
+                error = error,
+                focusRequester = focusRequester2,
+                onImeAction = { singInViewModel.onLogin() }
+            )
+
+            if (error != null) {
+                Text(
+                    text = error.toString(),
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+            Text(
+                text = "Forgot password",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Create new account",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier
+                    .clickable { navController.navigate(AppRoutes.REGISTER_SCREEN) }
+            )
+
+            Spacer(modifier = Modifier.height(75.dp))
+        }
+
+        // BOTON
         Column(
             modifier = Modifier.padding(bottom = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
