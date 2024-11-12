@@ -32,7 +32,7 @@ fun MainScreen(
         firstButtonText = if (loadingUsersSearch) "Loading..."
                             else if (listOfUserSkills.isEmpty()) "MATCH (add some skills...)"
                             else "MATCH",
-        secondButtonText = "SEARCH FOR PAID CLASSES",
+        secondButtonText = "PAID CLASSES",
         firstButtonAction = {
             if (listOfUserSkills.isNotEmpty()){
             navController.navigate(AppRoutes.MATCH_SEARCH_SCREEN + "?type=match")

@@ -29,10 +29,13 @@ fun MatchSearchScreen(
     matchSearchViewModel: MatchSearchViewModel,
     type: String
 ) {
+
+
+
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = screenHeight * 0.02f
     val TITLE_TEXT = "Learn"
-    val BUTTON_TEXT = "SEARCH"
+    val BUTTON_TEXT = if(type == "match") ("SEARCH POSIBLE MATCHES") else ("SEARCH PAID CLASSES")
     val LOADING = "Loading interests..."
 
     val listOfUserInterestedSkills by matchSearchViewModel.listOfUserInterestedSkills.collectAsState()
