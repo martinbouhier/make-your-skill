@@ -329,18 +329,3 @@ fun ContactButton(userSearched: UserDataClass,
 
     }, text = "Contact")
 }
-
-
-
-@RequiresApi(value = 26)
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview() {
-    ProfileScreen(
-        navController = rememberNavController(),
-        singInViewModel = SingInViewModel(),
-        userId = 1,
-        interestedSkillId = 1,
-        generateMatch = false
-    )
-}
