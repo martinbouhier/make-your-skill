@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -27,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.dataClasses.auth.dto.SignInDto
+import com.make_your_skill.dataClasses.skills.skillDataClass
 import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
@@ -67,7 +70,7 @@ fun ProfileScreen(
     val errorInterests by profileViewModel.errorInterest.collectAsState()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val spacerSeparation =screenHeight * 0.04f
+    val spacerSeparation = screenHeight * 0.04f
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
@@ -86,9 +89,7 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(screenHeight * 0.01f),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
@@ -144,7 +145,7 @@ fun ProfileScreen(
                             selectedStars = selected
                         }
                     }
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(25.dp))
 
                     // CONTENIDO DEL PERFIL
                     ContentProfile(
@@ -156,7 +157,8 @@ fun ProfileScreen(
                         listOfUserInterestedSkills,
                         loadingInterests,
                         errorInterests
-                    )
+                     )
+
 
                     // BOTON DE CONTACTO - EN CASO DE ESTAR HABILITADO
                     if (userInfo!!.user.id != userId){
@@ -169,7 +171,6 @@ fun ProfileScreen(
                             generateMatch
                         )
                     }
-
                 }
             }
 
@@ -186,32 +187,43 @@ fun ContentProfile(
     loadingInterests: Boolean,
     errorInterests: String?
 ) {
-    Column(
-        modifier = Modifier.padding(16.dp) 
-    ) {
-        
+    val horizontalPadding = 35.dp
+    val verticalPadding = 15.dp
+
+    Column (modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = verticalPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Age: ",
                 style = styleSubtitle,
-                modifier = Modifier.weight(1f)
+                fontSize = 26.sp,
+                textAlign = TextAlign.Center
             )
             Text(
                 text = age.toString(),
-                style = styleSubtitle,
-                fontSize = 30.sp,
-                modifier = Modifier.weight(1f), 
-                textAlign = TextAlign.Center 
+                style = styleTitle,
+                fontSize = 32.sp,
+                textAlign = TextAlign.Center
             )
         }
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = Purple,
+            modifier = Modifier.padding(horizontal = horizontalPadding - verticalPadding)
+        )
         Spacer(modifier = Modifier.height(spacerSeparation))
    
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = horizontalPadding)
+                .padding(vertical = verticalPadding),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -241,8 +253,8 @@ fun ContentProfile(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 15.dp)
-            ,
+                .padding(start = horizontalPadding)
+                .padding(vertical = 25.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -316,4 +328,19 @@ fun ContactButton(userSearched: UserDataClass,
         context.startActivity(intent)
 
     }, text = "Contact")
+}
+
+
+
+@RequiresApi(value = 26)
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    ProfileScreen(
+        navController = rememberNavController(),
+        singInViewModel = SingInViewModel(),
+        userId = 1,
+        interestedSkillId = 1,
+        generateMatch = false
+    )
 }
