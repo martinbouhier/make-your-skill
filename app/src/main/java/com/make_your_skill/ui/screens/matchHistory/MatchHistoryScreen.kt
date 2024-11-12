@@ -26,6 +26,8 @@ import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.ui.components.ItemMatchHistory
 import com.make_your_skill.ui.screens.singIn.SingInViewModel
 import com.make_your_skill.ui.theme.BackgroundColor2
+import com.make_your_skill.ui.theme.DarkBlue
+import com.make_your_skill.ui.theme.Purple
 
 @Composable
 fun MatchHistoryScreen(
@@ -45,19 +47,19 @@ fun MatchHistoryScreen(
         viewModel.findMatchesByUserId(token, userInfo!!.user.id)
     }
 
-    val padding = 16.dp
+    val GAP = 16.dp
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(padding)
+            .padding(GAP)
     ) {
-        Spacer(modifier = Modifier.height(padding))
+        Spacer(modifier = Modifier.height(GAP))
         Text(
             text = "Match history",
             fontSize = 20.sp,
             color = BackgroundColor2,
-            modifier = Modifier.padding(bottom = padding)
+            modifier = Modifier.padding(bottom = GAP)
         )
         LazyColumn {
             if (loading) {
@@ -79,17 +81,16 @@ fun MatchHistoryScreen(
                         ItemMatchHistory(
                             navController = navController,
                             user = matchedUser,
-                            token =userInfo!!.tokens.token,
+                            token = userInfo!!.tokens.token,
                             matchedUserId = matchedUser.id,
                             viewModel = viewModel,
                             matchedSkill = matchedSkill
                         )
                         HorizontalDivider(
-                            color = Color.LightGray,
-                            thickness = 2.dp,
+                            color = Color(0x784E40EA),
+                            thickness = 1.dp,
                             modifier = Modifier.padding(horizontal = 1.dp)
                         )
-                        Spacer(modifier = Modifier.height(padding))
                     }
                 }
             }
