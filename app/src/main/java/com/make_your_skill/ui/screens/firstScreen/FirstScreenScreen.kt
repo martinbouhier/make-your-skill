@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +30,9 @@ import com.make_your_skill.ui.theme.BackgroundColor2
 
 @Composable
 fun FirstScreenScreen(navController: NavHostController) {
+
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +40,7 @@ fun FirstScreenScreen(navController: NavHostController) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(141.dp))
+        Spacer(modifier = Modifier.height(150.dp))
 
         Image(
             painter = painterResource(id = R.drawable.logo_purple),
@@ -61,8 +65,7 @@ fun FirstScreenScreen(navController: NavHostController) {
             fontSize = 12.43.sp,
             fontWeight = FontWeight.Medium,
             color = Color.White,
-            modifier = Modifier.fillMaxWidth()
-            .padding(horizontal = 75.dp)
+            modifier = Modifier.padding(horizontal = 75.dp)
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -85,4 +88,10 @@ fun FirstScreenScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(20.dp))
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FirstScreenScreenPreview() {
+    FirstScreenScreen(navController = rememberNavController())
 }
