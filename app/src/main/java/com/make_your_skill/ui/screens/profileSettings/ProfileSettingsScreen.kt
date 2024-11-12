@@ -39,16 +39,17 @@ fun ProfileSettingsScreen(
     val profileSettingsViewModel: ProfileSettingsViewModel = viewModel()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val separation = screenHeight * 0.02f
+    val GAP_SCREEN = screenHeight * 0.04f
+    val GAP_ELEMENT = screenHeight * 0.03f
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(separation),
+            .padding(GAP_SCREEN),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.01f))
+        Spacer(modifier = Modifier.height(GAP_SCREEN))
         Image(
             painter = painterResource(id = R.drawable.logo_purple),
             contentDescription = "App Logo",
@@ -56,21 +57,21 @@ fun ProfileSettingsScreen(
                 .width(78.dp)
                 .height(79.dp)
         )
-        Spacer(modifier = Modifier.height(separation))
+        Spacer(modifier = Modifier.height(GAP_SCREEN))
         Text(
             text = "CONFIGURATION",
             style = styleTitle,
             fontSize = 20.sp
         )
-        Spacer(modifier = Modifier.height(separation*2))
-        EditProfile(separation, navController,singInViewModel, profileSettingsViewModel)
+        Spacer(modifier = Modifier.height(GAP_SCREEN * 2))
+        EditProfile(GAP_ELEMENT, navController,singInViewModel, profileSettingsViewModel)
 
     }
 }
 
 @Composable
 fun EditProfile(
-    separation: Dp,
+    GAP_ELEMENT: Dp,
     navController: NavHostController,
     singInViewModel: SingInViewModel,
     profileSettingsViewModel: ProfileSettingsViewModel
@@ -82,33 +83,37 @@ fun EditProfile(
     val TITLE = "Delete account"
 
     Column (
-        modifier = Modifier
-        .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top)
     {
         if (!showDeleteAccountPopUp){
+            // EDIT PROFILE
             Text(
                 text = "Edit Profile",
                 style = styleTitle,
                 fontSize = 18.sp
             )
-            Spacer(modifier = Modifier.height(separation))
-
+            Spacer(modifier = Modifier.height(GAP_ELEMENT))
             ClickableText(text = "Change password", onClick = { navController.navigate(AppRoutes.CHANGE_PASSWORD_SCREEN) }, color = BackgroundColor2)
-            Spacer(modifier = Modifier.height(separation*10))
+
+
+
+            Spacer(modifier = Modifier.height(GAP_ELEMENT * 3))
+
+            // OTHERS
             Text(
                 text = "OTHERS",
                 style = styleTitle,
                 fontSize = 18.sp
             )
-            Spacer(modifier = Modifier.height(separation))
-            ClickableText(text = "Add skills/interests", onClick = { navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) }, color = BackgroundColor2)
-            Spacer(modifier = Modifier.height(separation))
+            Spacer(modifier = Modifier.height(GAP_ELEMENT))
+            ClickableText(text = "Skills & Interests", onClick = { navController.navigate(AppRoutes.ADD_SKILLS_INTEREST_SCREEN) }, color = BackgroundColor2)
+            Spacer(modifier = Modifier.height(GAP_ELEMENT))
             ClickableText(text = "Match History", onClick = { navController.navigate(AppRoutes.MATCH_HISTORY_SCREEN) }, color = BackgroundColor2)
-            Spacer(modifier = Modifier.height(separation))
+            Spacer(modifier = Modifier.height(GAP_ELEMENT))
             ClickableText(text = "Log Out", onClick = { singInViewModel.signOut(navController) }, color = BackgroundColor2)
-            Spacer(modifier = Modifier.height(separation))
+            Spacer(modifier = Modifier.height(GAP_ELEMENT))
             ClickableText(text = "Delete Account", onClick = { profileSettingsViewModel.setShowDeleteAccountPopUp(true) }, color = BackgroundColor2)
         }
         else {
@@ -127,4 +132,10 @@ fun EditProfile(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileSettingsScreenPreview() {
+    ProfileSettingsScreen(rememberNavController(), SingInViewModel())
 }
