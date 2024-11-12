@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.make_your_skill.R
+import com.make_your_skill.dataClasses.auth.dto.SignInDto
+import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.functions.calculateAge
@@ -44,7 +46,9 @@ import com.make_your_skill.ui.theme.*
 fun ProfileScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    userId: Int
+    userId: Int,
+    interestedSkillId: Int?,
+    generateMatch: Boolean
 ) {
     val profileViewModel: ProfileViewModel = viewModel()
     val userInfo by singInViewModel.signInInfo.collectAsState()
@@ -146,7 +150,14 @@ fun ProfileScreen(
                     )
 
                     if (userInfo!!.user.id != userId){
-                        ContactButton(userSearched!!.phone)
+                        ContactButton(
+                            userSearched!!,
+                            singInViewModel,
+                            profileViewModel,
+                            userInfo!!,
+                            interestedSkillId!!,
+                            generateMatch
+                        )
                     }
 
                 }
@@ -270,11 +281,25 @@ fun StarButton(isSelected: Boolean) {
 }
 
 @Composable
-fun ContactButton(userInfoPhone: String) {
+fun ContactButton(userSearched: UserDataClass,
+                  singInViewModel: SingInViewModel,
+                  profileViewModel: ProfileViewModel,
+                  userInfo: SignInDto,
+                  interestedSkillId: Int,
+                  generateMatch: Boolean
+) {
     val context = LocalContext.current
-    val whatsappApiUrl = "https://wa.me/$userInfoPhone"
+    val whatsappApiUrl = "https://wa.me/${userSearched.phone}"
 
     CustomButton(onClick = {
+        if (generateMatch){
+            profileViewModel.createMatch(
+                token = singInViewModel.getToken(),
+                userAid = userInfo.user.id,
+                userBid = userSearched.id,
+                skillBid = interestedSkillId
+            )
+        }
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(whatsappApiUrl)
         }

@@ -176,18 +176,19 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
     val onConfirmation: (String, Int) -> Unit = { token, userId ->
         val finalPrice = addedPrice.value.toFloatOrNull() ?: 0f
         if (finalPrice <= MAX_PRICE_LIMIT && addedSkill.value != null){
-            if(!priceEdit.value){
-                val newSkill: skillAddedDataClass = skillAddedDataClass(
-                    id = addedSkill.value!!.id,
-                    skill = addedSkill.value!!.name,
-                    selected = true,
-                    price = addedPrice.value.toFloat()
-                )
-                //agrego el skill en el back
-                addSkillBack(newSkill,token,userId)
 
-                //Agrego el skill en el front
-                addSkill(newSkill)
+            if(!priceEdit.value){
+               val newSkill: skillAddedDataClass = skillAddedDataClass(
+                id = addedSkill.value!!.id,
+                skill = addedSkill.value!!.name,
+                selected = true,
+                price = finalPrice
+            )
+            //agrego el skill en el back
+            addSkillBack(newSkill,token,userId)
+
+            //Agrego el skill en el front
+            addSkill(newSkill)
             }else{
                 val editSkill: skillAddedDataClass = skillAddedDataClass(
                     id = addedSkill.value!!.id,
@@ -198,7 +199,7 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
                 updateSkillBack(editSkill, token, userId)
                 onSkillChange(editSkill)
             }
-            setPriceEdit(false)
+            setPriceEdit(false)      
             setShowAddPopUp(false)
         }
     }

@@ -13,11 +13,15 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 fun ProfileRoutes(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    userId: Int
+    userId: Int,
+    interestedSkillId: Int?,
+    generateMatch: Boolean
 ) {
     ProfileScreen(
         navController = navController,
         singInViewModel = singInViewModel,
-        userId = userId
+        userId = userId,
+        interestedSkillId = interestedSkillId,
+        generateMatch = generateMatch
     )
 }

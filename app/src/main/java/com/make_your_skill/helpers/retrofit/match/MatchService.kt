@@ -1,5 +1,6 @@
 package com.make_your_skill.helpers.retrofit.match
 
+import com.make_your_skill.dataClasses.matches.CreateMatchDto
 import com.make_your_skill.dataClasses.matches.MatchDataClass
 import com.make_your_skill.dataClasses.matches.getMatch
 import retrofit2.Response
@@ -13,8 +14,8 @@ interface MatchService {
     @POST("matches")
     suspend fun createMatch(
         @Header("Authorization") token: String,
-        @Body match: MatchDataClass
-    ): Response<List<Any>>
+        @Body createMatchDto: CreateMatchDto
+    ): Response<Any?>
 
     @GET("matches/findAllOfUser/{userId}")
     suspend fun findMatchByUserId(
