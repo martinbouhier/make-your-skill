@@ -133,9 +133,3 @@ fun EditProfile(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileSettingsScreenPreview() {
-    ProfileSettingsScreen(rememberNavController(), SingInViewModel())
-}
