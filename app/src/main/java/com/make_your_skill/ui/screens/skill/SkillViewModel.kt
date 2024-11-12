@@ -163,7 +163,7 @@ class SkillsViewModel @Inject constructor() : ViewModel() {
                 id = addedSkill.value!!.id,
                 skill = addedSkill.value!!.name,
                 selected = true,
-                price = addedPrice.value.toFloat()
+                price = finalPrice
             )
             //agrego el skill en el back
             addSkillBack(newSkill,token,userId)

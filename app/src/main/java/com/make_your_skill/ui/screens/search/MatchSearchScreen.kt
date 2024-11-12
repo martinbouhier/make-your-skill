@@ -47,6 +47,10 @@ fun MatchSearchScreen(
         matchSearchViewModel.getUserInterestedSkillByUserId(token,userInfo!!.user.id)
     }
 
+    LaunchedEffect(Unit) {
+        matchSearchViewModel.resetVariables()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

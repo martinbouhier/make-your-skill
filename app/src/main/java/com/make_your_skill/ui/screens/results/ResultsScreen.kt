@@ -64,12 +64,6 @@ fun ResultsScreen(
                 mySkillsIdsString
             )
         }
-        else {
-            matchSearchViewModel.findManyBySkillsAndInterests(
-                token,
-                skillSelected!!.id.toString()
-            )
-        }
     }
 
     Column(
