@@ -55,6 +55,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.8")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.googlecode.libphonenumber:libphonenumber:8.13.12")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
