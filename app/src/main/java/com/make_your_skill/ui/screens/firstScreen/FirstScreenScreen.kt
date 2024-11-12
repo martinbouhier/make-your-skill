@@ -86,9 +86,3 @@ fun FirstScreenScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun FirstScreenScreenPreview() {
-    FirstScreenScreen(navController = rememberNavController())
-}
