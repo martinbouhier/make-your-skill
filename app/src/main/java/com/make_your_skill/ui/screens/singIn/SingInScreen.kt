@@ -25,10 +25,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.helpers.cookies.InMemoryCookieJar
 import com.make_your_skill.ui.components.buttons.CustomButton
@@ -47,9 +49,6 @@ fun SignInScreen(
     val password by singInViewModel.password.collectAsState()
     val error by singInViewModel.error.collectAsState()
 
-    val separation = 25.dp
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-
     val focusRequester1 = remember { FocusRequester() }
     val focusRequester2 = remember { FocusRequester() }
 
@@ -63,19 +62,21 @@ fun SignInScreen(
         }
     }
 
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val GAP = 25.dp
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(BackgroundColor2)
-            .padding(separation),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(80.dp))
             Image(
                 painter = painterResource(id = R.drawable.logo_purple),
                 contentDescription = null,
@@ -90,20 +91,25 @@ fun SignInScreen(
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-
-            Spacer(modifier = Modifier.height(60.dp))
         }
+
+        // INPUTS
         Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(20.dp))
+
             TextInputLogin(
                 label = "Email",
                 text = email,
                 onChange = singInViewModel.onEmailChange,
                 error = error,
                 focusRequester = focusRequester1,
-                nextFocusRequester = focusRequester2)
-            Spacer(modifier = Modifier.height(11.dp))
+                nextFocusRequester = focusRequester2
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
             TextInputLogin(
                 label = "Password",
                 isPassword = true,
@@ -111,9 +117,10 @@ fun SignInScreen(
                 onChange = singInViewModel.onPasswordChange,
                 error = error,
                 focusRequester = focusRequester2,
-                onImeAction = {singInViewModel.onLogin()})
-            Spacer(modifier = Modifier.height(16.dp))
-            if (error != null){
+                onImeAction = { singInViewModel.onLogin() }
+            )
+
+            if (error != null) {
                 Text(
                     text = error.toString(),
                     color = Color.Red,
@@ -121,9 +128,10 @@ fun SignInScreen(
                 )
             }
 
+            Spacer(modifier = Modifier.height(25.dp))
             Text(
                 text = "Forgot password",
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White,
             )
@@ -131,16 +139,19 @@ fun SignInScreen(
 
             Text(
                 text = "Create new account",
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White,
                 modifier = Modifier
                     .clickable { navController.navigate(AppRoutes.REGISTER_SCREEN) }
             )
+
+            Spacer(modifier = Modifier.height(75.dp))
         }
 
+        // BOTON
         Column(
-            modifier = Modifier.padding(bottom = 60.dp),
+            modifier = Modifier.padding(bottom = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomButton(
@@ -150,3 +161,10 @@ fun SignInScreen(
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun SignInScreenPreview() {
+    SignInScreen(rememberNavController(), hiltViewModel())
+}
+//

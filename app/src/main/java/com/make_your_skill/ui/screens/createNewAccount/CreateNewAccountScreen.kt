@@ -33,9 +33,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.text.textFileds.TextInputLogin
@@ -56,7 +59,6 @@ fun CreateNewAccountScreen(
     val separation = 25.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
-
     val focusRequester1 = remember { FocusRequester() }
     val focusRequester2 = remember { FocusRequester() }
     val focusRequester3 = remember { FocusRequester() }
@@ -66,16 +68,15 @@ fun CreateNewAccountScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(BackgroundColor2)
-            .padding(separation)
+            .padding(16.dp)
         ,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.height(screenHeight * 0.1f))
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(80.dp))
             Image(
                 painter = painterResource(id = R.drawable.logo_purple),
                 contentDescription = null,
@@ -90,21 +91,25 @@ fun CreateNewAccountScreen(
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-
-            Spacer(modifier = Modifier.height(60.dp))
         }
 
+        // INPUTS
         Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(20.dp))
             TextInputLogin(
                 label = "Email",
                 text = email,
                 onChange = createNewAcoountViewModel.onEmailChange,
                 error = createNewAccountScreenError,
                 focusRequester = focusRequester1,
-                nextFocusRequester = focusRequester2,)
+                nextFocusRequester = focusRequester2,
+                )
+
             Spacer(modifier = Modifier.height(10.dp))
+
             TextInputLogin(
                 label = "Password",
                 isPassword = true,
@@ -112,8 +117,11 @@ fun CreateNewAccountScreen(
                 onChange = createNewAcoountViewModel.onPasswordChange,
                 error = createNewAccountScreenError,
                 focusRequester = focusRequester2,
-                nextFocusRequester = focusRequester3)
+                nextFocusRequester = focusRequester3
+            )
+
             Spacer(modifier = Modifier.height(10.dp))
+
             TextInputLogin(
                 label = "Re-Write password",
                 isPassword = true,
@@ -121,8 +129,9 @@ fun CreateNewAccountScreen(
                 onChange = createNewAcoountViewModel.onReWritePasswordChange,
                 error = createNewAccountScreenError,
                 focusRequester = focusRequester3,
-                onImeAction = {createNewAcoountViewModel.onClick(navController)})
-            Spacer(modifier = Modifier.height(10.dp))
+                onImeAction = {createNewAcoountViewModel.onClick(navController)}
+            )
+            Spacer(modifier = Modifier.height(75.dp))
 
             if (createNewAccountScreenError != null){
                 Text(
@@ -131,18 +140,25 @@ fun CreateNewAccountScreen(
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
 
-            Column(
-                modifier = Modifier.padding(bottom = 50.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CustomButton(
-                    onClick = {
-                        createNewAcoountViewModel.onClick(navController)},
-                    text = if (isLoading) "Loading..." else "CONTINUE",
-                )
-            }
+        // BOTON DE CONTINUE
+        Column(
+            modifier = Modifier.padding(bottom = 50.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CustomButton(
+                onClick = {
+                    createNewAcoountViewModel.onClick(navController)},
+                text = if (isLoading) "Loading..." else "CREATE NEW ACCOUNT",
+            )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreateNewAccountScreenPreview() {
+    CreateNewAccountScreen(rememberNavController(), hiltViewModel())
 }
 
