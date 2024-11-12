@@ -57,7 +57,7 @@ fun ItemMatchHistory(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = GAP / 2)
-            .clickable { navController.navigate("${AppRoutes.PROFILE_SCREEN}/$matchedUserId") },
+            .clickable { navController.navigate("${AppRoutes.PROFILE_SCREEN}/$matchedUserId??interestedSkillId=0&generateMatch=false") },
         colors = CardDefaults.cardColors(containerColor = BackgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {

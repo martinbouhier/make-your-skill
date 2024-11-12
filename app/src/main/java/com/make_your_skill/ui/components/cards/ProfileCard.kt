@@ -48,7 +48,7 @@ fun ProfileCard(user: UserDataClass, skillSelected : InterestAddedDataClass, typ
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = GAP/2)
-            .clickable { navController.navigate("${AppRoutes.PROFILE_SCREEN}/${user.id}") },
+            .clickable { navController.navigate("${AppRoutes.PROFILE_SCREEN}/${user.id}?interestedSkillId=${skillSelected.id}&generateMatch=true") },
         colors = CardDefaults.cardColors(containerColor = BackgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
