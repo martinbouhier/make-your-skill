@@ -20,13 +20,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.make_your_skill.R
+import com.make_your_skill.dataClasses.auth.dto.SignInDto
+import com.make_your_skill.dataClasses.skills.skillDataClass
+import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.functions.calculateAge
@@ -44,7 +50,9 @@ import com.make_your_skill.ui.theme.*
 fun ProfileScreen(
     navController: NavHostController,
     singInViewModel: SingInViewModel,
-    userId: Int
+    userId: Int,
+    interestedSkillId: Int?,
+    generateMatch: Boolean
 ) {
     val profileViewModel: ProfileViewModel = viewModel()
     val userInfo by singInViewModel.signInInfo.collectAsState()
@@ -62,7 +70,7 @@ fun ProfileScreen(
     val errorInterests by profileViewModel.errorInterest.collectAsState()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val spacerSeparation =screenHeight * 0.04f
+    val spacerSeparation = screenHeight * 0.04f
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
@@ -78,14 +86,10 @@ fun ProfileScreen(
 
     }
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(screenHeight * 0.01f),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
@@ -105,35 +109,45 @@ fun ProfileScreen(
                             .width(78.dp),
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
-                    Column (
-                        Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-                        var selectedStars = if (userSearched != null)
-                        calculateRate(userSearched!!.votes,userSearched!!.peopleVoted).toInt()
-                        else 0
-                        StarsRow(selectedStars) { selected ->
-                            selectedStars = selected
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // NOMBRE DEL USUARIO
                     Text(
                         text = capitalizeFirstLetter(userSearched!!.firstname) +
                                 " " +
                                 capitalizeFirstLetter(userSearched!!.lastname),
                         style = styleTitle
                     )
+
+                    // MAIL DEL USUARIO
                     Text(
                         text = userSearched!!.email,
                         fontSize = 12.sp
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // ICONO DE PERFIL
                     Image(
                         painter = painterResource(id = R.drawable.user_profile_icon),
                         contentDescription = "User Profile Foto",
                         modifier = Modifier.size(100.dp),
                     )
                     Spacer(modifier = Modifier.height(spacerSeparation))
+
+                    // FILA DE ESTRELLAS
+                    Column (
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        var selectedStars = if (userSearched != null)
+                            calculateRate(userSearched!!.votes,userSearched!!.peopleVoted).toInt()
+                        else 0
+                        StarsRow(selectedStars) { selected ->
+                            selectedStars = selected
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    // CONTENIDO DEL PERFIL
                     ContentProfile(
                         spacerSeparation,
                         calculateAge(userSearched!!.dateOfBirth),
@@ -143,13 +157,20 @@ fun ProfileScreen(
                         listOfUserInterestedSkills,
                         loadingInterests,
                         errorInterests
-                    )
+                     )
 
+
+                    // BOTON DE CONTACTO - EN CASO DE ESTAR HABILITADO
                     if (userInfo!!.user.id != userId){
-                        ContactButton(userSearched!!.phone)
+                        ContactButton(
+                            userSearched!!,
+                            singInViewModel,
+                            profileViewModel,
+                            userInfo!!,
+                            interestedSkillId!!,
+                            generateMatch
+                        )
                     }
-
-
                 }
             }
 
@@ -166,32 +187,43 @@ fun ContentProfile(
     loadingInterests: Boolean,
     errorInterests: String?
 ) {
-    Column(
-        modifier = Modifier.padding(16.dp) 
-    ) {
-        
+    val horizontalPadding = 35.dp
+    val verticalPadding = 15.dp
+
+    Column (modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = verticalPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Age: ",
                 style = styleSubtitle,
-                modifier = Modifier.weight(1f) 
+                fontSize = 26.sp,
+                textAlign = TextAlign.Center
             )
             Text(
                 text = age.toString(),
-                style = styleSubtitle,
-                fontSize = 30.sp,
-                modifier = Modifier.weight(1f), 
-                textAlign = TextAlign.Center 
+                style = styleTitle,
+                fontSize = 32.sp,
+                textAlign = TextAlign.Center
             )
         }
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = Purple,
+            modifier = Modifier.padding(horizontal = horizontalPadding - verticalPadding)
+        )
         Spacer(modifier = Modifier.height(spacerSeparation))
    
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = horizontalPadding)
+                .padding(vertical = verticalPadding),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -221,8 +253,8 @@ fun ContentProfile(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 15.dp)
-            ,
+                .padding(start = horizontalPadding)
+                .padding(vertical = 25.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -271,11 +303,25 @@ fun StarButton(isSelected: Boolean) {
 }
 
 @Composable
-fun ContactButton(userInfoPhone: String) {
+fun ContactButton(userSearched: UserDataClass,
+                  singInViewModel: SingInViewModel,
+                  profileViewModel: ProfileViewModel,
+                  userInfo: SignInDto,
+                  interestedSkillId: Int,
+                  generateMatch: Boolean
+) {
     val context = LocalContext.current
-    val whatsappApiUrl = "https://wa.me/$userInfoPhone"
+    val whatsappApiUrl = "https://wa.me/${userSearched.phone}"
 
     CustomButton(onClick = {
+        if (generateMatch){
+            profileViewModel.createMatch(
+                token = singInViewModel.getToken(),
+                userAid = userInfo.user.id,
+                userBid = userSearched.id,
+                skillBid = interestedSkillId
+            )
+        }
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(whatsappApiUrl)
         }

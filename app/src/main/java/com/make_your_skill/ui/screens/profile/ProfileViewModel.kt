@@ -2,19 +2,23 @@ package com.make_your_skill.ui.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.make_your_skill.dataClasses.matches.CreateMatchDto
 import com.make_your_skill.dataClasses.users.UserDataClass
 import com.make_your_skill.dataClasses.usersInterestedSkills.body.GetUserInterestedSkillsById
 import com.make_your_skill.dataClasses.usersSkills.body.GetUserSkillByUserId
 import com.make_your_skill.helpers.retrofit.RetrofitServiceFactory
+import com.make_your_skill.helpers.retrofit.match.MatchService
 import com.make_your_skill.helpers.retrofit.users.UserService
 import com.make_your_skill.helpers.retrofit.usersInterestedSkills.UserInterestedSkillsService
 import com.make_your_skill.helpers.retrofit.usersSkills.UsersSkillsService
+import com.make_your_skill.models.matches.MatchModel
 import com.make_your_skill.models.users.UsersModel
 import com.make_your_skill.models.usersSkills.UsersSkillsModel
 import com.make_your_skill.models.usersinterestedSkills.UsersInterestedSkillsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.text.Bidi
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +31,9 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     val usersService: UserService = RetrofitServiceFactory.makeRetrofitService<UserService>()
     private val usersModel = UsersModel(usersService)
+
+    val matchService: MatchService = RetrofitServiceFactory.makeRetrofitService<MatchService>()
+    private val matchModel = MatchModel(matchService)
 
     private val _userSearched = MutableStateFlow<UserDataClass?>(null)
     val userSearched: StateFlow<UserDataClass?> get() = _userSearched
@@ -57,6 +64,16 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private val _errorInterest = MutableStateFlow<String?>(null)
     val errorInterest: StateFlow<String?> get() = _errorInterest
     fun setErrorInterest(newError: String) { _errorInterest.value = newError }
+
+    private val _matchoInfo = MutableStateFlow<Any?>(null)
+    val matchoInfo: StateFlow<Any?> get() = _matchoInfo
+
+    private val _loadingMatch = MutableStateFlow<Boolean>(false)
+    val loadingMatch: StateFlow<Boolean> get() = _loadingMatch
+
+    private val _errorMatch = MutableStateFlow<String?>(null)
+    val errorMatch: StateFlow<String?> get() = _errorMatch
+    fun setErrorMatch(newError: String) { _errorMatch.value = newError }
 
 
     fun getUserById(
@@ -97,6 +114,23 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             error = _errorInterest,
             listOfUserInterestedSkills = _listOfUserInterestedSkills,
             userId = userId,
+            token = token
+        )
+    }
+
+    fun createMatch(
+        token: String,
+        userAid: Int,
+        userBid: Int,
+        skillAid: Int? = null,
+        skillBid: Int
+    ){
+        matchModel.createMatch(
+            scope = viewModelScope,
+            loading = _loadingMatch,
+            error = _errorMatch,
+            createMatchDto = CreateMatchDto(userAid,userBid,skillAid,skillBid),
+            info = _matchoInfo,
             token = token
         )
     }

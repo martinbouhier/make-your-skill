@@ -9,11 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class PhoneNumberViewModel : ViewModel() {
     private val MUST_COMPLETE_INPUTS = "Must complete inputs"
-    private val INVALID_PHONE_FORMAT = "Invalid phone format. Please use one of these formats:\n" +
-            "• +54 9 1234567890\n" +
-            "• 9 1234567890\n" +
-            "• +54 1234567890\n" +
-            "• 1234567890."
+    private val INVALID_PHONE_FORMAT = "That phone is not valid in Argentina"
 
 
     private val _error = MutableStateFlow<String?>(null)

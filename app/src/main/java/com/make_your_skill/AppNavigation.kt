@@ -103,15 +103,30 @@ fun AppNavigation(
                     CreateNewAccountRoutes(navController, createNewAcoountViewModel)
                 }
                 composable(AppRoutes.MAIN_SCREEN) {
-                    MainScreenRoutes(navController)
+                    MainScreenRoutes(navController, singInViewModel,matchSearchViewModel)
                 }
                 composable(
-                    route = AppRoutes.PROFILE_SCREEN + "/{userId}",
-                    arguments = listOf(navArgument("userId") { type = NavType.StringType })
+                    route = AppRoutes.PROFILE_SCREEN + "/{userId}?interestedSkillId={interestedSkillId}&generateMatch={generateMatch}",
+                    arguments = listOf(
+                        navArgument("userId") { type = NavType.StringType },
+                        navArgument("interestedSkillId") {
+                            type = NavType.StringType
+                            nullable = true
+                            defaultValue = null
+                        },
+                        navArgument("generateMatch") {
+                            type = NavType.StringType
+                            nullable = true
+                            defaultValue = null
+                        }
+                    )
                 ) { backStackEntry ->
-                    val userId: Int =
-                        backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
-                    ProfileRoutes(navController, singInViewModel, userId)
+                    val userId: Int = backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
+                    val interestedSkillId: Int? =
+                        backStackEntry.arguments?.getString("interestedSkillId")?.toIntOrNull() ?: 0
+                    val generateMatch: Boolean = backStackEntry.arguments?.getString("generateMatch")?.toBoolean() ?: false
+
+                    ProfileRoutes(navController, singInViewModel, userId, interestedSkillId,generateMatch)
                 }
                 composable(
                     //type = match / paid

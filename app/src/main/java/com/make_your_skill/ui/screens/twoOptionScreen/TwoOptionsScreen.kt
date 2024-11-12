@@ -30,7 +30,8 @@ fun TwoOptionsScreen(
     secondButtonText: String,
     firstButtonAction: () -> Unit,
     secondButtonAction: () -> Unit,
-    description: String = "") {
+    description: String = "",
+    ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val separation = 16.dp
 
