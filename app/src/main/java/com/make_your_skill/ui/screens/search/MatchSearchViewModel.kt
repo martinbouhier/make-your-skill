@@ -63,6 +63,16 @@ class MatchSearchViewModel @Inject constructor() : ViewModel() {
     val errorSkills: StateFlow<String?> get() = _errorSkills
     fun setErrorSkills(newError: String) { _errorSkills.value = newError }
 
+    fun resetVariables(){
+        _listOfUserSkills.value = emptyList()
+        _errorUsersSearched.value = null
+        _loadingUsersSearch.value = false
+        _usersSearched.value = emptyList()
+        _errorInterest.value = null
+        _loadingInterest.value = false
+        _listOfUserInterestedSkills.value = emptyList()
+    }
+
     fun getUserInterestedSkillByUserId(
         token: String,
         userId: Int

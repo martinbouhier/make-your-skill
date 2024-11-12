@@ -102,7 +102,7 @@ fun AppNavigation(
                     CreateNewAccountRoutes(navController, createNewAcoountViewModel)
                 }
                 composable(AppRoutes.MAIN_SCREEN) {
-                    MainScreenRoutes(navController)
+                    MainScreenRoutes(navController, singInViewModel,matchSearchViewModel)
                 }
                 composable(
                     route = AppRoutes.PROFILE_SCREEN + "/{userId}",
