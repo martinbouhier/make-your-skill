@@ -104,7 +104,6 @@ fun ProfileScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Spacer(modifier = Modifier.height(GAP))
                     Image(
                         painter = painterResource(id = R.drawable.logo_purple),
                         contentDescription = "App Logo",
@@ -133,7 +132,7 @@ fun ProfileScreen(
                     Image(
                         painter = painterResource(id = R.drawable.user_profile_icon),
                         contentDescription = "User Profile Foto",
-                        modifier = Modifier.size(100.dp),
+                        modifier = Modifier.size(80.dp),
                     )
                     Spacer(modifier = Modifier.height(GAP))
 
@@ -149,7 +148,7 @@ fun ProfileScreen(
                             selectedStars = selected
                         }
                     }
-                    Spacer(modifier = Modifier.height(25.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     // CONTENIDO DEL PERFIL
                     ContentProfile(
@@ -165,7 +164,7 @@ fun ProfileScreen(
                 }
 
                 Column (
-                    modifier = Modifier.padding(bottom = 50.dp),
+                    modifier = Modifier.padding(bottom = 25.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
@@ -196,7 +195,7 @@ fun ContentProfile(
     errorInterests: String?
 ) {
     val horizontalPadding = 35.dp
-    val verticalPadding = 15.dp
+    val verticalPadding = 8.dp
 
     Column {
         Row(
@@ -209,13 +208,13 @@ fun ContentProfile(
             Text(
                 text = "Age: ",
                 style = styleSubtitle,
-                fontSize = 26.sp,
+                fontSize = 24.sp,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = age.toString(),
                 style = styleTitle,
-                fontSize = 32.sp,
+                fontSize = 30.sp,
                 textAlign = TextAlign.Center
             )
         }
@@ -262,7 +261,7 @@ fun ContentProfile(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = horizontalPadding)
-                .padding(vertical = 25.dp),
+                .padding(vertical = verticalPadding * 2),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
