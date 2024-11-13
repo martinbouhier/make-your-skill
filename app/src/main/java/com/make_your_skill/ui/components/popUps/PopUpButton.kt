@@ -33,7 +33,7 @@ fun PopUpButton(
             .background(BackgroundColor2)//TODO: color
             .wrapContentSize(Alignment.Center)
             .height(42.dp)
-            .width(52.dp),
+            .width(60.dp),
         onClick = onClick,
         contentPadding = PaddingValues(0.dp)
 
@@ -50,5 +50,5 @@ fun PopUpButton(
 @Preview(showBackground = true)
 @Composable
 fun PopUpButtonPreview() {
-    PopUpButton({}, "texto")
+    PopUpButton({}, "asasdasdasdasdasd")
 }
