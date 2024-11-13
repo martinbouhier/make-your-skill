@@ -70,7 +70,8 @@ fun ProfileScreen(
     val errorInterests by profileViewModel.errorInterest.collectAsState()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val spacerSeparation = screenHeight * 0.04f
+    val SCREEN_HEIGHT_GAP = screenHeight * 0.04f
+    val GAP = 16.dp
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
@@ -85,22 +86,24 @@ fun ProfileScreen(
         profileViewModel.getUserInterestedSkillByUserId(token,userId)
 
     }
-        Box(
-            modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GAP),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                if (loadingUserSearched || loading || loadingInterests){
-                    Text(text = "Loading...")
-                }
-                else if (userSearched == null) {
-                    Text(text = errorUserSearched.toString())
-                }
-                else {
-                    Spacer(modifier = Modifier.height(screenHeight * 0.01f))
+            if (loadingUserSearched || loading || loadingInterests){
+                Text(text = "Loading...")
+            }
+            else if (userSearched == null) {
+                Text(text = errorUserSearched.toString())
+            }
+            else {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.logo_purple),
                         contentDescription = "App Logo",
@@ -108,7 +111,7 @@ fun ProfileScreen(
                             .height(79.dp)
                             .width(78.dp),
                     )
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(GAP))
 
                     // NOMBRE DEL USUARIO
                     Text(
@@ -123,15 +126,15 @@ fun ProfileScreen(
                         text = userSearched!!.email,
                         fontSize = 12.sp
                     )
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(GAP))
 
                     // ICONO DE PERFIL
                     Image(
                         painter = painterResource(id = R.drawable.user_profile_icon),
                         contentDescription = "User Profile Foto",
-                        modifier = Modifier.size(100.dp),
+                        modifier = Modifier.size(80.dp),
                     )
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(GAP))
 
                     // FILA DE ESTRELLAS
                     Column (
@@ -145,11 +148,11 @@ fun ProfileScreen(
                             selectedStars = selected
                         }
                     }
-                    Spacer(modifier = Modifier.height(25.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     // CONTENIDO DEL PERFIL
                     ContentProfile(
-                        spacerSeparation,
+                        SCREEN_HEIGHT_GAP,
                         calculateAge(userSearched!!.dateOfBirth),
                         listOfUserSkills,
                         loading,
@@ -157,9 +160,14 @@ fun ProfileScreen(
                         listOfUserInterestedSkills,
                         loadingInterests,
                         errorInterests
-                     )
+                    )
+                }
 
-
+                Column (
+                    modifier = Modifier.padding(bottom = 25.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
                     // BOTON DE CONTACTO - EN CASO DE ESTAR HABILITADO
                     if (userInfo!!.user.id != userId){
                         ContactButton(
@@ -173,7 +181,6 @@ fun ProfileScreen(
                     }
                 }
             }
-
         }
 }
 @Composable
@@ -188,9 +195,9 @@ fun ContentProfile(
     errorInterests: String?
 ) {
     val horizontalPadding = 35.dp
-    val verticalPadding = 15.dp
+    val verticalPadding = 8.dp
 
-    Column (modifier = Modifier.fillMaxSize()) {
+    Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -201,13 +208,13 @@ fun ContentProfile(
             Text(
                 text = "Age: ",
                 style = styleSubtitle,
-                fontSize = 26.sp,
+                fontSize = 24.sp,
                 textAlign = TextAlign.Center
             )
             Text(
                 text = age.toString(),
                 style = styleTitle,
-                fontSize = 32.sp,
+                fontSize = 30.sp,
                 textAlign = TextAlign.Center
             )
         }
@@ -254,7 +261,7 @@ fun ContentProfile(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = horizontalPadding)
-                .padding(vertical = 25.dp),
+                .padding(vertical = verticalPadding * 2),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
