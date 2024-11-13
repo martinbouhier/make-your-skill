@@ -3,6 +3,7 @@ package com.make_your_skill.ui.screens.skill
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -119,21 +120,27 @@ fun SkillsScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 ScreenTitleText(FIRST_TEXT)
-                LazyColumn(
+                Box(
                     modifier = Modifier
-                        .padding(top = GAP * 3)
-                        .padding(horizontal = GAP),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    /*val sampleSkills = listOf(
-                        skillAddedDataClass(1, true, "Kotlin", 500f),
-                        skillAddedDataClass(2, true, "Java", 15000f),
-                        skillAddedDataClass(3, true, "Python", 25000f),
-                        skillAddedDataClass(4, true, "C++", 35000f),
-                    )*/
-                    items(skills) { skillItem ->
-                        SkillCard(skillItem, skillsViewModel.onSkillChange)
+                        .fillMaxWidth()
+                        .height(300.dp)
+                ){
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(top = GAP * 3)
+                            .padding(horizontal = GAP),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        /*val sampleSkills = listOf(
+                            skillAddedDataClass(1, true, "Kotlin", 500f),
+                            skillAddedDataClass(2, true, "Java", 15000f),
+                            skillAddedDataClass(3, true, "Python", 25000f),
+                            skillAddedDataClass(4, true, "C++", 35000f),
+                        )*/
+                        items(skills) { skillItem ->
+                            SkillCard(skillItem, skillsViewModel.onSkillChange)
+                        }
                     }
                 }
             }
