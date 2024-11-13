@@ -70,7 +70,8 @@ fun ProfileScreen(
     val errorInterests by profileViewModel.errorInterest.collectAsState()
 
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val spacerSeparation = screenHeight * 0.04f
+    val SCREEN_HEIGHT_GAP = screenHeight * 0.04f
+    val GAP = 16.dp
 
     LaunchedEffect(userInfo) {
         val token = userInfo!!.tokens.token
@@ -104,7 +105,7 @@ fun ProfileScreen(
                     Text(text = errorUserSearched.toString())
                 }
                 else {
-                    Spacer(modifier = Modifier.height(screenHeight * 0.01f))
+                    Spacer(modifier = Modifier.height(GAP))
                     Image(
                         painter = painterResource(id = R.drawable.logo_purple),
                         contentDescription = "App Logo",
@@ -112,7 +113,7 @@ fun ProfileScreen(
                             .height(79.dp)
                             .width(78.dp),
                     )
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(GAP))
 
                     // NOMBRE DEL USUARIO
                     Text(
@@ -127,7 +128,7 @@ fun ProfileScreen(
                         text = userSearched!!.email,
                         fontSize = 12.sp
                     )
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(GAP))
 
                     // ICONO DE PERFIL
                     Image(
@@ -135,7 +136,7 @@ fun ProfileScreen(
                         contentDescription = "User Profile Foto",
                         modifier = Modifier.size(100.dp),
                     )
-                    Spacer(modifier = Modifier.height(spacerSeparation))
+                    Spacer(modifier = Modifier.height(GAP))
 
                     // FILA DE ESTRELLAS
                     Column (
@@ -153,7 +154,7 @@ fun ProfileScreen(
 
                     // CONTENIDO DEL PERFIL
                     ContentProfile(
-                        spacerSeparation,
+                        SCREEN_HEIGHT_GAP,
                         calculateAge(userSearched!!.dateOfBirth),
                         listOfUserSkills,
                         loading,
