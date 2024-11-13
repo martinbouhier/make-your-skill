@@ -83,7 +83,7 @@ fun ItemMatchHistory(
                 )
                 // Info de la persona: Skill matcheada
                 Text(
-                    text = "Interested Skill: " + matchedSkill,
+                    "Interested Skill:\n$matchedSkill",
                     style = cardInfo,
                     modifier = Modifier.padding(top = 6.dp)
                 )
