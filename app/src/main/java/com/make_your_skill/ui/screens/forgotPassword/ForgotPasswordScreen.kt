@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,8 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.make_your_skill.dataClasses.forgotPassword.ForgotPasswordDataClass
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.text.ScreenTitleText
@@ -29,11 +32,12 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 
 @Composable
 fun ForgotPasswordScreen(
-    navController: NavHostController,
-    singInViewModel: SingInViewModel
+    navController: NavHostController
 ){
+    val forgotPasswordViewModel: ForgotPasswordViewModel = viewModel()
     val separation = 25.dp
-    val email by singInViewModel.email.collectAsState()
+    val email by forgotPasswordViewModel.emailForgotPassword.collectAsState()
+
 
     Column(
         modifier = Modifier
@@ -60,31 +64,33 @@ fun ForgotPasswordScreen(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 CustomTextField(
-                    text = email,
+                    text = email ?: "",
                     label = "Email...",
                     isNumericOnly = false,
                     maxLength = 50,
                     onSubmit = {},
                     isSubmitEnabled = true,
-                    onTextChange={""}
+                    onTextChange= { newValue ->
+                        forgotPasswordViewModel.onEmailChange(newValue)
+                    }
                 )
 
             }
         }
         Row {
-            CustomButton({sendEmail(email)}, "Send")
+            CustomButton({
+                val forgotPasswordDataClass = ForgotPasswordDataClass(to = email!!)
+                forgotPasswordViewModel.sendEmailPassword(forgotPasswordDataClass)
+            }, "Send")
         }
     }
 }
 
-fun sendEmail(email: String) {
-    val email = email
-}
 
 @Preview
 @Composable
 fun ForgotPasswordScreenPreview() {
     val navController = rememberNavController()
 
-    ForgotPasswordScreen(navController = navController, SingInViewModel())
+    ForgotPasswordScreen(navController = navController)
 }

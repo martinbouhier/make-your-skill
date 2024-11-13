@@ -7,10 +7,8 @@ import com.make_your_skill.ui.screens.singIn.SingInViewModel
 @Composable
 fun ForgotPasswordRoute(
     navController: NavHostController,
-    singInViewModel: SingInViewModel
 ){
     ForgotPasswordScreen(
-        navController = navController,
-        singInViewModel = singInViewModel
+        navController = navController
     )
 }

@@ -188,7 +188,7 @@ fun AppNavigation(
                     NewPasswordRoute(navController, singInViewModel)
                 }
                 composable(AppRoutes.FORGOT_PASSWORD_SCREEN){
-                    ForgotPasswordRoute(navController, singInViewModel)
+                    ForgotPasswordRoute(navController)
                 }
             }
         }
