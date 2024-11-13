@@ -93,18 +93,17 @@ fun ProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                if (loadingUserSearched || loading || loadingInterests){
-                    Text(text = "Loading...")
-                }
-                else if (userSearched == null) {
-                    Text(text = errorUserSearched.toString())
-                }
-                else {
+            if (loadingUserSearched || loading || loadingInterests){
+                Text(text = "Loading...")
+            }
+            else if (userSearched == null) {
+                Text(text = errorUserSearched.toString())
+            }
+            else {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Spacer(modifier = Modifier.height(GAP))
                     Image(
                         painter = painterResource(id = R.drawable.logo_purple),
@@ -162,9 +161,14 @@ fun ProfileScreen(
                         listOfUserInterestedSkills,
                         loadingInterests,
                         errorInterests
-                     )
+                    )
+                }
 
-
+                Column (
+                    modifier = Modifier.padding(bottom = 50.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
                     // BOTON DE CONTACTO - EN CASO DE ESTAR HABILITADO
                     if (userInfo!!.user.id != userId){
                         ContactButton(
@@ -178,7 +182,6 @@ fun ProfileScreen(
                     }
                 }
             }
-
         }
 }
 @Composable
@@ -195,7 +198,7 @@ fun ContentProfile(
     val horizontalPadding = 35.dp
     val verticalPadding = 15.dp
 
-    Column (modifier = Modifier.fillMaxSize()) {
+    Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
