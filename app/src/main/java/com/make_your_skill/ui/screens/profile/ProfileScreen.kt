@@ -85,8 +85,12 @@ fun ProfileScreen(
         profileViewModel.getUserInterestedSkillByUserId(token,userId)
 
     }
-        Box(
-            modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GAP),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
