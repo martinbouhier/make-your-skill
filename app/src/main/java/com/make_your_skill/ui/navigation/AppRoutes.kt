@@ -23,4 +23,5 @@ object AppRoutes {
     val CELL_PHONE_SCREEN = "cell_phone_screen"
     val MATCH_HISTORY_SCREEN = "match_history_screen"
     val CHANGE_PASSWORD_SCREEN = "change_password_screen"
+    val FORGOT_PASSWORD_SCREEN = "forgot_password_screen"
 }

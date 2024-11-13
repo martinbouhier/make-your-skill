@@ -36,6 +36,7 @@ import com.make_your_skill.ui.screens.profile.ProfileRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAccountRoutes
 import com.make_your_skill.ui.screens.createNewAccount.CreateNewAcoountViewModel
 import com.make_your_skill.ui.screens.firstName.FirstNameScreen
+import com.make_your_skill.ui.screens.forgotPassword.ForgotPasswordRoute
 import com.make_your_skill.ui.screens.interests.InterestedSkillsScreen
 import com.make_your_skill.ui.screens.matchHistory.MatchHistoryRoutes
 import com.make_your_skill.ui.screens.search.MatchSearchViewModel
@@ -189,6 +190,9 @@ fun AppNavigation(
                 }
                 composable(AppRoutes.CHANGE_PASSWORD_SCREEN){
                     NewPasswordRoute(navController, singInViewModel)
+                }
+                composable(AppRoutes.FORGOT_PASSWORD_SCREEN){
+                    ForgotPasswordRoute(navController)
                 }
             }
         }
