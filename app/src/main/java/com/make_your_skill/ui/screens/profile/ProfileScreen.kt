@@ -318,7 +318,14 @@ fun ContactButton(userSearched: UserDataClass,
                   generateMatch: Boolean
 ) {
     val context = LocalContext.current
-    val whatsappApiUrl = "https://wa.me/${userSearched.phone}"
+
+    val phoneNumber = if (userSearched.phone.startsWith("549")) {
+        userSearched.phone
+    } else {
+        "549${userSearched.phone}"
+    }
+
+    val whatsappApiUrl = "https://wa.me/${phoneNumber}"
 
     CustomButton(onClick = {
         if (generateMatch){
