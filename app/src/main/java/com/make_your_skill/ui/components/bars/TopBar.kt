@@ -26,7 +26,7 @@ import com.make_your_skill.ui.components.icons.navigation.getIconSettings
 import com.make_your_skill.ui.navigation.AppRoutes
 
 @Composable
-fun CustomTopBar(navController: NavController, currentRoute: String) {
+fun CustomTopBar(navController: NavController, currentRoute: String, userId: Int?, loggedUserId: Int?) {
 
 
     Row(
@@ -46,7 +46,7 @@ fun CustomTopBar(navController: NavController, currentRoute: String) {
 
 
 
-        if (currentRoute.startsWith(AppRoutes.PROFILE_SCREEN)) {
+        if (currentRoute.startsWith(AppRoutes.PROFILE_SCREEN) && userId == loggedUserId && userId != null) {
             IconButton(onClick = { navController.navigate(AppRoutes.SETTINGS_SCREEN) }) {
                     Image(
                         painter = getIconSettings(),
@@ -59,8 +59,8 @@ fun CustomTopBar(navController: NavController, currentRoute: String) {
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun PreviewCustomTopBar() {
     CustomTopBar(navController = NavController(LocalContext.current), currentRoute = AppRoutes.PROFILE_SCREEN)
-}
+}*/
