@@ -327,5 +327,5 @@ fun ContactButton(userSearched: UserDataClass,
         }
         context.startActivity(intent)
 
-    }, text = "Contact")
+    }, text = "MATCH")
 }
