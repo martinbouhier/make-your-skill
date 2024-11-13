@@ -1,5 +1,7 @@
 package com.make_your_skill.ui.screens.forgotPassword
 
+import androidx.compose.ui.platform.LocalContext
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +30,9 @@ import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.text.ScreenTitleText
 import com.make_your_skill.ui.navigation.AppRoutes
+import android.widget.Toast
+import android.content.Context
+
 
 @Composable
 fun ForgotPasswordScreen(
@@ -77,13 +82,15 @@ fun ForgotPasswordScreen(
             }
         }
         Row {
+            val context = LocalContext.current // Get the context here
+
             CustomButton({
                 val forgotPasswordDataClass = ForgotPasswordDataClass(to = email!!)
                 forgotPasswordViewModel.sendEmailPassword(forgotPasswordDataClass) { success ->
                     if (success) {
                         navController.navigate(AppRoutes.LOGIN_SCREEN)
                     } else {
-                        // Handle failure (e.g., show an error message)
+                        Toast.makeText(context, "We couldn't find the user", Toast.LENGTH_SHORT).show()
                     }
                 }
             }, "Send")
