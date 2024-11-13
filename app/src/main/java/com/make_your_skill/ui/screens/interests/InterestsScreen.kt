@@ -108,22 +108,28 @@ fun InterestedSkillsScreen(
                 verticalArrangement = Arrangement.Center
             ){
                 ScreenTitleText(FIRST_TEXT)
-                LazyColumn(
+                Box(
                     modifier = Modifier
-                        .padding(top = GAP * 3)
-                        .padding(horizontal = GAP),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                        .fillMaxWidth()
+                        .height(300.dp)
                 ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(top = GAP * 3)
+                            .padding(horizontal = GAP),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
 
-                    /*val sampleSkills = listOf(
+                        /*val sampleSkills = listOf(
                         InterestAddedDataClass(1, true, "Kotlin"),
                         InterestAddedDataClass(2, true, "Java"),
                         InterestAddedDataClass(3, true, "Python"),
                         InterestAddedDataClass(4, true, "C++"),
                     )*/
-                    items(skills) { skillItem ->
-                        interest(skillItem, interestsViewModel.onSkillChange)
+                        items(skills) { skillItem ->
+                            interest(skillItem, interestsViewModel.onSkillChange)
+                        }
                     }
                 }
             }
