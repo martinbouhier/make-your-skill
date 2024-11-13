@@ -2,6 +2,7 @@ package com.make_your_skill
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -61,12 +62,16 @@ fun AppNavigation(
     val currentRoute = currentBackStackEntry?.destination?.route ?: AppRoutes.MAIN_SCREEN
 
 
+    Log.d("currentRoute", currentRoute)
+
 
     Scaffold(
         topBar = {
             if(currentRoute != AppRoutes.FIRST_SCREEN && currentRoute != AppRoutes.MAIN_SCREEN ){
-
-                CustomTopBar(navController, currentRoute)
+                val userId = if (currentRoute.startsWith(AppRoutes.PROFILE_SCREEN)) {
+                    currentBackStackEntry?.arguments?.getString("userId")?.toIntOrNull() ?: 0
+                } else null
+                CustomTopBar(navController, currentRoute, (if(isLoggedIn){userInfo!!.user.id}else null),userId)
             }
         },
         bottomBar = {
