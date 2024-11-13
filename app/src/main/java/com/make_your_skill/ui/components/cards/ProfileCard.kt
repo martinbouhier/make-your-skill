@@ -74,12 +74,13 @@ fun ProfileCard(user: UserDataClass, skillSelected : InterestAddedDataClass, typ
                 )
 
                 // info de la persona: costo x hora
-                Text(
-                    text = "$" + if (type != MATCH && userSkill.isNotEmpty())
-                        userSkill[0].pricePerHour.toString() + "/hr" else "",
-                    style = cardInfo,
-                    modifier = Modifier.padding(top = 6.dp)
-                )
+                if (type != MATCH && userSkill.isNotEmpty()){
+                    Text(
+                        text = "$" + userSkill[0].pricePerHour.toString() + "/hr" ,
+                        style = cardInfo,
+                        modifier = Modifier.padding(top = 6.dp)
+                    )
+                }
             }
             Spacer(modifier = Modifier.weight(1f))
 
