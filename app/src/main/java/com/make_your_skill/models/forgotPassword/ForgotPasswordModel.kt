@@ -7,34 +7,31 @@ import com.make_your_skill.dataClasses.forgotPassword.ForgotPasswordDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 
 const val ERROR_SENDING_EMAIL = "Error sending email"
 
 class ForgotPasswordModel( private val forgotPasswordService: ForgotPasswordService) {
 
-    fun sendEmail(scope: CoroutineScope,
-                  error: MutableStateFlow<String?>,
-                  forgotPasswordBody: ForgotPasswordDataClass
-    ) {
-        scope.launch {
-            try {
-                val response = forgotPasswordService.emailSendPassword(forgotPasswordBody)
-                if (response.isSuccessful) {
-                    error.value = null
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    val errorMessage = errorBody?.let {
-                        Gson().fromJson(it, ErrorResponse::class.java).message
-                    } ?: ERROR_SENDING_EMAIL
-                    error.value = errorMessage
-                }
-            } catch (e: Exception) {
-                error.value = ERROR_SENDING_EMAIL}
+    suspend fun sendEmail(
+        scope: CoroutineScope,
+        error: MutableStateFlow<String?>,
+        forgotPasswordBody: ForgotPasswordDataClass
+    ): Response<Void> {
+        return try {
+            val response = forgotPasswordService.emailSendPassword(forgotPasswordBody)
+            if (response.isSuccessful) {
+                error.value = null
+            } else {
+                error.value = ERROR_SENDING_EMAIL
+            }
+            response
+        } catch (e: Exception) {
+            error.value = ERROR_SENDING_EMAIL
+            Response.error(500, ResponseBody.create(null, ""))
         }
-
-
-
     }
 }
 

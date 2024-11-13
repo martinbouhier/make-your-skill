@@ -7,5 +7,5 @@ interface ForgotPasswordService {
     @POST("email/sendPassword")
     suspend fun emailSendPassword(
         @Body forgotPasswordBody: ForgotPasswordDataClass
-    ): Response<Any>
+    ): Response<Void>
 }

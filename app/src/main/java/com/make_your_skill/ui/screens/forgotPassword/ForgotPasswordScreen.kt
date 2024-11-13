@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,7 +27,7 @@ import com.make_your_skill.dataClasses.forgotPassword.ForgotPasswordDataClass
 import com.make_your_skill.ui.components.buttons.CustomButton
 import com.make_your_skill.ui.components.buttons.CustomTextField
 import com.make_your_skill.ui.components.text.ScreenTitleText
-import com.make_your_skill.ui.screens.singIn.SingInViewModel
+import com.make_your_skill.ui.navigation.AppRoutes
 
 @Composable
 fun ForgotPasswordScreen(
@@ -80,7 +79,13 @@ fun ForgotPasswordScreen(
         Row {
             CustomButton({
                 val forgotPasswordDataClass = ForgotPasswordDataClass(to = email!!)
-                forgotPasswordViewModel.sendEmailPassword(forgotPasswordDataClass)
+                forgotPasswordViewModel.sendEmailPassword(forgotPasswordDataClass) { success ->
+                    if (success) {
+                        navController.navigate(AppRoutes.LOGIN_SCREEN)
+                    } else {
+                        // Handle failure (e.g., show an error message)
+                    }
+                }
             }, "Send")
         }
     }

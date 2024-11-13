@@ -8,7 +8,8 @@ import com.make_your_skill.models.forgotPassword.ForgotPasswordModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.StateFlow
-
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
 
 class ForgotPasswordViewModel: ViewModel() {
@@ -37,12 +38,20 @@ class ForgotPasswordViewModel: ViewModel() {
 
     fun sendEmailPassword(
         email: ForgotPasswordDataClass,
+        onComplete: (Boolean) -> Unit
     ){
-        forgotPasswordModel.sendEmail(
-            scope = viewModelScope,
-            error = _errorAddSkill,
-            forgotPasswordBody = email
-        )
+        viewModelScope.launch {
+            val response: Response<Void> = forgotPasswordModel.sendEmail(
+                scope = viewModelScope,
+                error = _errorAddSkill,
+                forgotPasswordBody = email
+            )
+            if (response.isSuccessful) {
+                onComplete(true)
+            } else {
+                onComplete(false)
+            }
+        }
     }
     val onEmailChange: (String) -> Unit = { newEmail ->
         clearError()
