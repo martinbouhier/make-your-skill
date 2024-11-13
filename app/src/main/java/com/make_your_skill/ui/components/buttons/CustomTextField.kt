@@ -37,7 +37,7 @@ fun CustomTextField(
     onSubmit: () -> Unit,
     isSubmitEnabled: Boolean,
     isNumericOnly: Boolean = false,
-    maxLength: Int = 10
+    maxLength: Int = 20
 ) {
     var textFieldValue by remember { mutableStateOf(if (text.isEmpty()) "" else text) }
     var isPlaceholderVisible by remember { mutableStateOf(text.isEmpty()) }

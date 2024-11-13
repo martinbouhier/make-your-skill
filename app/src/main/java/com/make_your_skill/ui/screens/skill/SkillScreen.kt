@@ -126,13 +126,13 @@ fun SkillsScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    val sampleSkills = listOf(
+                    /*val sampleSkills = listOf(
                         skillAddedDataClass(1, true, "Kotlin", 500f),
                         skillAddedDataClass(2, true, "Java", 15000f),
                         skillAddedDataClass(3, true, "Python", 25000f),
                         skillAddedDataClass(4, true, "C++", 35000f),
-                    )
-                    items(sampleSkills) { skillItem ->
+                    )*/
+                    items(skills) { skillItem ->
                         SkillCard(skillItem, skillsViewModel.onSkillChange)
                     }
                 }
