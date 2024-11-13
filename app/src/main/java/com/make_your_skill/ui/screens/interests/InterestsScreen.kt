@@ -116,13 +116,13 @@ fun InterestedSkillsScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
 
-                    val sampleSkills = listOf(
+                    /*val sampleSkills = listOf(
                         InterestAddedDataClass(1, true, "Kotlin"),
                         InterestAddedDataClass(2, true, "Java"),
                         InterestAddedDataClass(3, true, "Python"),
                         InterestAddedDataClass(4, true, "C++"),
-                    )
-                    items(sampleSkills) { skillItem ->
+                    )*/
+                    items(skills) { skillItem ->
                         interest(skillItem, interestsViewModel.onSkillChange)
                     }
                 }
